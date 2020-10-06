@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.iwyu.dao.ComplainRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.iwyu.domain.ComplainRecord" >
+    <id column="id_complain_record" property="idComplainRecord" jdbcType="INTEGER" />
+    <result column="is_processed" property="isProcessed" jdbcType="TINYINT" />
+    <result column="id_restaurant" property="idRestaurant" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="id_user" property="idUser" jdbcType="INTEGER" />
+    <result column="id_admin" property="idAdmin" jdbcType="INTEGER" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from complain_record
+    where id_complain_record = #{idComplainRecord,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.iwyu.domain.ComplainRecord" >
+    insert into complain_record (id_complain_record, is_processed, id_restaurant, 
+      reason, id_user, id_admin, 
+      result)
+    values (#{idComplainRecord,jdbcType=INTEGER}, #{isProcessed,jdbcType=TINYINT}, #{idRestaurant,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR}, #{idUser,jdbcType=INTEGER}, #{idAdmin,jdbcType=INTEGER}, 
+      #{result,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.ComplainRecord" >
+    update complain_record
+    set is_processed = #{isProcessed,jdbcType=TINYINT},
+      id_restaurant = #{idRestaurant,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR},
+      id_user = #{idUser,jdbcType=INTEGER},
+      id_admin = #{idAdmin,jdbcType=INTEGER},
+      result = #{result,jdbcType=VARCHAR}
+    where id_complain_record = #{idComplainRecord,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id_complain_record, is_processed, id_restaurant, reason, id_user, id_admin, 
+    result
+    from complain_record
+    where id_complain_record = #{idComplainRecord,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id_complain_record, is_processed, id_restaurant, reason, id_user, id_admin, 
+    result
+    from complain_record
+  </select>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启注解扫描-->
+    <context:component-scan base-package="cn.iwyu">
+        <!--扫描controller的注解，别的不扫描-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--JSP文件所在的目录-->
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <!--文件的后缀-->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!-- 设置freeMarker的配置文件路径 ,主要是配置乱码问题-->
+    <bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:freemarker.properties"></property>
+    </bean>
+
+    <!-- html视图解析器 必须先配置freemarkerConfig,注意html是没有prefix前缀属性的 -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="freemarkerSettings" ref="freemarkerConfiguration" />
+            <property name="templateLoaderPath">
+            <value>/WEB-INF/pages/admin/view</value>
+        </property>
+    </bean>
+
+    <bean id="htmlviewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="suffix" value=".html" />
+        <property name="order" value="0"></property>
+        <property name="contentType" value="text/html;charset=UTF-8"></property>
+    </bean>
+    <!--设置哪些静态资源不过滤-->
+    <mvc:resources mapping="/css/**" location="css"></mvc:resources>
+<!--    <mvc:resources mapping="/images/**" location="img"></mvc:resources>-->
+    <mvc:resources mapping="/js/**" location="js"></mvc:resources>
+    <mvc:resources mapping="/html/**" location="admin"></mvc:resources>
+    <!--启用默认Servlet-->
+    <mvc:default-servlet-handler/>
+    <!--开启对SpringMVC注解的支持-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+</beans>

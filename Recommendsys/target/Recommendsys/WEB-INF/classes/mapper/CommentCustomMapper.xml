@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.iwyu.dao.CommentCustomMapper">
+    <resultMap id="BaseResultMap" type="cn.iwyu.domain.CommentCustom" >
+        <id column="id_comment" jdbcType="INTEGER" property="idComment" />
+        <result column="id_restaurant" jdbcType="INTEGER" property="idRestaurant" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+        <result column="id_user" jdbcType="INTEGER" property="idUser" />
+        <result column="id_comment_reply" jdbcType="INTEGER" property="idCommentReply" />
+        <result column="num_like" jdbcType="INTEGER" property="numLike" />
+        <result column="context" jdbcType="VARCHAR" property="context" />
+        <association property="user" javaType="cn.iwyu.domain.User">
+            <id column="id_user" property="idUser"></id>
+            <result column="user_name" property="userName" jdbcType="VARCHAR" />
+            <result column="experience" property="experience" jdbcType="INTEGER" />
+            <result column="password" property="password" jdbcType="VARCHAR" />
+            <result column="email" property="email" jdbcType="VARCHAR" />
+            <result column="identity" property="identity" jdbcType="INTEGER" />
+            <result column="integral" property="integral" jdbcType="INTEGER" />
+        </association>
+        <association property="restaurant" javaType="cn.iwyu.domain.Restaurant">
+            <id column="id_restaurant" property="idRestaurant"></id>
+            <result column="name" property="name" jdbcType="VARCHAR" />
+            <result column="intro" property="intro" jdbcType="VARCHAR" />
+            <result column="type_of_cuisine" property="typeOfCuisine" jdbcType="VARCHAR" />
+            <result column="address" property="address" jdbcType="VARCHAR" />
+            <result column="id_recommanded_user" property="idRecommandedUser" jdbcType="INTEGER" />
+            <result column="recommand_reason" property="recommandReason" jdbcType="VARCHAR" />
+            <result column="is_audit_passed" property="isAuditPassed" jdbcType="TINYINT" />
+            <result column="comment" property="comment" jdbcType="VARCHAR" />
+            <result column="resturant_image" property="resturantImage" jdbcType="VARCHAR" />
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+	      u.*,
+	      c.*,
+	      r.*
+        FROM
+            ( COMMENT c LEFT JOIN USER u ON c.id_user = u.id_user )
+            LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+	      u.*,
+	      c.*,
+	      r.*
+        FROM
+            ( COMMENT c LEFT JOIN USER u ON c.id_user = u.id_user )
+            LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        WHERE c.id_user = #{userId}
+    </select>
+
+    <select id="findByResId" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        u.*,
+        c.*,
+        r.*
+        FROM
+        ( COMMENT c LEFT JOIN USER u ON c.id_user = u.id_user )
+        LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        WHERE c.id_restaurant = #{resId}
+    </select>
+</mapper>

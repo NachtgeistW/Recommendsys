@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="schadmin@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="schadmin">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="dormitory"/>
+    <schema id="4" parent="1" name="hibernate"/>
+    <schema id="5" parent="1" name="hrdb"/>
+    <schema id="6" parent="1" name="information_schema"/>
+    <schema id="7" parent="1" name="jdbcstudy"/>
+    <schema id="8" parent="1" name="jdbctest"/>
+    <schema id="9" parent="1" name="mybatis"/>
+    <schema id="10" parent="1" name="mysql"/>
+    <schema id="11" parent="1" name="performance_schema"/>
+    <schema id="12" parent="1" name="personal"/>
+    <schema id="13" parent="1" name="recommendsys"/>
+    <schema id="14" parent="1" name="restaurant_review_system"/>
+    <schema id="15" parent="1" name="servlet_db"/>
+    <schema id="16" parent="1" name="sys"/>
+    <schema id="17" parent="1" name="teaching"/>
+    <schema id="18" parent="1" name="webstore"/>
+    <table id="19" parent="2" name="stu_grade"/>
+    <table id="20" parent="2" name="student"/>
+    <column id="21" parent="19" name="STUID">
+      <Position>1</Position>
+      <DataType>varchar(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="22" parent="19" name="g_electron">
+      <Position>2</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="23" parent="19" name="g_software">
+      <Position>3</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="24" parent="19" name="g_security">
+      <Position>4</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="25" parent="19" name="g_java">
+      <Position>5</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="26" parent="19" name="g_db">
+      <Position>6</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="27" parent="19" name="g_image">
+      <Position>7</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="28" parent="19" name="g_distributed">
+      <Position>8</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="29" parent="19" name="g_test">
+      <Position>9</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="30" parent="19" name="lastmodifiedtime">
+      <Position>10</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <key id="31" parent="19" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>STUID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="32" parent="20" name="STUID">
+      <Position>1</Position>
+      <DataType>varchar(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="20" name="username">
+      <Position>2</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="20" name="gender">
+      <Position>3</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="20" name="city">
+      <Position>4</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="36" parent="20" name="PID">
+      <Position>5</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="37" parent="20" name="phone">
+      <Position>6</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="38" parent="20" name="email">
+      <Position>7</Position>
+      <DataType>varchar(128)|0</DataType>
+    </column>
+    <column id="39" parent="20" name="postID">
+      <Position>8</Position>
+      <DataType>varchar(64)|0</DataType>
+    </column>
+    <column id="40" parent="20" name="address">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="41" parent="20" name="refnum1">
+      <Position>10</Position>
+      <DataType>int(10)|0</DataType>
+    </column>
+    <column id="42" parent="20" name="refnum2">
+      <Position>11</Position>
+      <DataType>int(10)|0</DataType>
+    </column>
+    <column id="43" parent="20" name="refstr1">
+      <Position>12</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="44" parent="20" name="refstr2">
+      <Position>13</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="45" parent="20" name="refdate1">
+      <Position>14</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="46" parent="20" name="refdate2">
+      <Position>15</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="47" parent="20" name="lastmodifiedtime">
+      <Position>16</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <key id="48" parent="20" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>STUID</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

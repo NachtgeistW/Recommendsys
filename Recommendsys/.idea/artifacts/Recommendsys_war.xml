@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Recommendsys:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Recommendsys.war">
+      <element id="artifact" artifact-name="Recommendsys:war exploded" />
+    </root>
+  </artifact>
+</component>
