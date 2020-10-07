@@ -2,6 +2,7 @@ package cn.iwyu.dao;/**
  * Created by Chester on 30/9/2020.
  */
 
+import cn.iwyu.domain.ComplainExample;
 import cn.iwyu.domain.ComplainRecordCustom;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ComplainRecordCustomMapper {
     List<ComplainRecordCustom> findByResId(Integer resId);
     //通过用户id查询举报信息，应该返回一个集合
     List<ComplainRecordCustom> findByUserId(Integer userId);
+    //通过条件模糊查询
+    List<ComplainRecordCustom> findByExample(ComplainExample example);
 }

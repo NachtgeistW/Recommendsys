@@ -4,6 +4,7 @@ package cn.iwyu.service.impl;/**
 
 import cn.iwyu.dao.ComplainRecordCustomMapper;
 import cn.iwyu.dao.ComplainRecordMapper;
+import cn.iwyu.domain.ComplainExample;
 import cn.iwyu.domain.ComplainRecord;
 import cn.iwyu.domain.ComplainRecordCustom;
 import cn.iwyu.service.ComplainRecordService;
@@ -66,6 +67,26 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
     @Override
     public List<ComplainRecordCustom> checkRecord() {
         List<ComplainRecordCustom> complainRecordCustoms = complainRecordCustomMapper.findAll();
+        for (ComplainRecordCustom c:complainRecordCustoms
+        ) {
+            c.setUserName(c.getUser().getUserName());
+            c.setRestaurantName(c.getRestaurant().getName());
+        }
+        return complainRecordCustoms;
+    }
+
+    @Override
+    public Integer batchDelete(List<ComplainRecord> complainRecords) {
+        Integer flag = 0;
+        for (ComplainRecord complainRecord :complainRecords) {
+            flag += complainRecordMapper.deleteByPrimaryKey(complainRecord.getIdComplainRecord());
+        }
+        return flag;
+    }
+
+    @Override
+    public List<ComplainRecordCustom> findByExample(ComplainExample example) {
+        List<ComplainRecordCustom> complainRecordCustoms = complainRecordCustomMapper.findByExample(example);
         for (ComplainRecordCustom c:complainRecordCustoms
         ) {
             c.setUserName(c.getUser().getUserName());

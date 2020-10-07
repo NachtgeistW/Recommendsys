@@ -31,6 +31,12 @@ public class Msg {
         msg.setMsg("succeed");
         return msg;
     }
+    public static Msg succeed(String text){
+        Msg msg = new Msg();
+        msg.setCode("0");
+        msg.setMsg(text);
+        return msg;
+    }
     public static Msg fail(){
         Msg msg = new Msg();
         msg.setCode("0");

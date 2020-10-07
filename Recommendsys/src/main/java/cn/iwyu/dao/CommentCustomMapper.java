@@ -4,6 +4,7 @@ package cn.iwyu.dao;/**
 
 import cn.iwyu.domain.Comment;
 import cn.iwyu.domain.CommentCustom;
+import cn.iwyu.domain.CommentExample;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface CommentCustomMapper {
     List<CommentCustom> findByResId(Integer resId);
     //通过用户id查询评论，应该返回一个集合
     List<CommentCustom> findByUserId(Integer userId);
+    //条件模糊查询
+    List<CommentCustom> findByExample(CommentExample example);
 }

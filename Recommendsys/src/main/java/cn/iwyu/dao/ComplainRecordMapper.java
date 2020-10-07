@@ -17,5 +17,5 @@ public interface ComplainRecordMapper {
 
     int updateByPrimaryKey(ComplainRecord record);
     //查询未处理的举报信息
-    public List<ComplainRecordCustom> checkRecord();
+    List<ComplainRecordCustom> checkRecord();
 }

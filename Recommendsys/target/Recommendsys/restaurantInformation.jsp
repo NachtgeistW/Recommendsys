@@ -280,7 +280,7 @@
                       } */
                     success: function (index) {
                         $('#dataFrm')[0].reset();
-                        url = "${pageContext.request.contextPath}/restaurant/update";
+                        url = "user/addUser.action";
                     }
                 });
             }

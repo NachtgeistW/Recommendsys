@@ -4,6 +4,7 @@ package cn.iwyu.service;/**
 
 import cn.iwyu.domain.Comment;
 import cn.iwyu.domain.CommentCustom;
+import cn.iwyu.domain.CommentExample;
 
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface CommentService {
     public int update(Comment comment);
     //删除评论
     public int delete(Integer commId);
+    //条件模糊查询
+    public List<CommentCustom> findByExample(CommentExample example);
+    //批量删除
+    public Integer batchDelete(List<Comment> comments);
 }

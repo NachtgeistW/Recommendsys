@@ -6,6 +6,7 @@ import cn.iwyu.dao.CommentCustomMapper;
 import cn.iwyu.dao.CommentMapper;
 import cn.iwyu.domain.Comment;
 import cn.iwyu.domain.CommentCustom;
+import cn.iwyu.domain.CommentExample;
 import cn.iwyu.service.CommentService;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,26 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public int delete(Integer commId) {
         return commentMapper.deleteByPrimaryKey(commId);
+    }
+
+    @Override
+    public List<CommentCustom> findByExample(CommentExample example) {
+        List<CommentCustom> commentCustoms = commentCustomMapper.findByExample(example);
+        for (CommentCustom c:commentCustoms
+        ) {
+            c.setUserName(c.getUser().getUserName());
+            c.setRestaurantName(c.getRestaurant().getName());
+        }
+        return commentCustoms;
+    }
+
+    @Override
+    public Integer batchDelete(List<Comment> comments) {
+        Integer flag = 0;
+        for (Comment comment :comments) {
+            flag += commentMapper.deleteByPrimaryKey(comment.getIdComment());
+        }
+
+        return flag;
     }
 }

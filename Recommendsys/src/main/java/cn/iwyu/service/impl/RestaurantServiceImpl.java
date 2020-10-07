@@ -72,4 +72,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         return restaurantCustoms;
     }
+
+    @Override
+    public Integer batchDelete(List<Restaurant> restaurants) {
+        Integer flag = 0;
+        for (Restaurant restaurant :restaurants) {
+            flag += restaurantMapper.deleteByPrimaryKey(restaurant.getIdRestaurant());
+        }
+        return flag;
+    }
 }

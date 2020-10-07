@@ -66,15 +66,37 @@
         LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
         WHERE c.id_restaurant = #{resId}
     </select>
-<select id="checkRecord" resultMap="BaseResultMap">
-    SELECT
-	u.*,
-	c.*,
-	r.*
-    FROM
-	( complain_record c LEFT JOIN USER u ON c.id_user = u.id_user )
-	LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
-    WHERE
-	c.is_processed = 0
-</select>
+    <select id="checkRecord" resultMap="BaseResultMap">
+        SELECT
+        u.*,
+        c.*,
+        r.*
+        FROM
+        ( complain_record c LEFT JOIN USER u ON c.id_user = u.id_user )
+        LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        WHERE
+        c.is_processed = 0
+    </select>
+
+    <select id="findByExample" resultMap="BaseResultMap" parameterType="cn.iwyu.domain.ComplainExample">
+        SELECT
+        u.*,
+        c.*,
+        r.*
+        FROM
+        ( complain_record c LEFT JOIN USER u ON c.id_user = u.id_user )
+        LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        <where>
+            <if test="usesrName != null and usesrName != ''">
+                AND u.user_name LIKE CONCAT ( '%', #{usesrName}, '%' )
+            </if>
+            <if test="resName != null and resName != ''">
+                AND r.name LIKE CONCAT( '%', #{resName}, '%' )
+            </if>
+            <if test="result != null and result != ''">
+                AND c.result LIKE CONCAT( '%', #{result}, '%' )
+            </if>
+        </where>
+
+    </select>
 </mapper>

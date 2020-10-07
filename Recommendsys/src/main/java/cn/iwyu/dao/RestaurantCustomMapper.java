@@ -16,9 +16,9 @@ import java.util.List;
  **/
 
 public interface RestaurantCustomMapper {
-    public List<RestaurantCustom> findAllRecommender();
+    List<RestaurantCustom> findAllRecommender();
     //查询为审核的店铺
-    public List<RestaurantCustom> checkRecommend();
+    List<RestaurantCustom> checkRecommend();
     //通过条件查询
-    public List<RestaurantCustom> findByExample(RestaurantExample example);
+    List<RestaurantCustom> findByExample(RestaurantExample example);
 }

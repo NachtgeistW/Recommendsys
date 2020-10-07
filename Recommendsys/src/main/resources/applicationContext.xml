@@ -21,6 +21,8 @@
     <!--spring整合mybatis-->
     <!--导入配置文件-->
     <context:property-placeholder location="classpath:db.properties"/>
+    <!--邮件配置-->
+    <context:property-placeholder location="classpath:mail.properties" ignore-unresolvable="true"/>
     <!--配置连接池-->
     <bean id="dataSource" class="${dataSource}">
         <property name="driverClass" value="${driverClass}"/>
@@ -62,5 +64,17 @@
     <aop:config>
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* cn.iwyu.service.impl.*ServiceImpl.*(..))"/>
     </aop:config>
-
+    <!--配置邮件接口-->
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.smtp.host}"/>
+        <property name="username" value="${mail.smtp.username}"/>
+        <property name="password" value="${mail.smtp.password}"/>
+        <property name="defaultEncoding" value="${mail.smtp.defaultEncoding}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

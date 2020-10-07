@@ -39,6 +39,13 @@ public class RestaurantController {
         }
         return Msg.fail();
     }
+    /**
+    *@Description 查询所有未审核通过的餐馆（审核属性值为0的）
+    *@Author XiaoMao
+    *@Date 7/10/2020 上午10:19
+    *@Param []
+    *Return cn.iwyu.domain.Msg
+    **/
     @RequestMapping("/checkRecommend")
     @ResponseBody
     public Msg checkRecommend(){
@@ -57,6 +64,13 @@ public class RestaurantController {
         }
         return Msg.fail();
     }
+    /**
+    *@Description 修改餐馆信息
+    *@Author XiaoMao
+    *@Date 7/10/2020 上午10:18
+    *@Param [restaurant]
+    *Return cn.iwyu.domain.Msg
+    **/
     @RequestMapping("/update")
     @ResponseBody
     public Msg update(Restaurant restaurant){
@@ -83,5 +97,39 @@ public class RestaurantController {
             return Msg.succeed();
         }
         return Msg.fail();
+    }
+    /**
+    *@Description 餐馆审核通过
+    *@Author XiaoMao
+    *@Date 7/10/2020 上午10:57
+    *@Param [restaurant]
+    *Return cn.iwyu.domain.Msg
+    **/
+    @RequestMapping("/pass")
+    @ResponseBody
+    public Msg pass(Restaurant restaurant){
+        Byte a = 1;
+        restaurant.setIsAuditPassed(a);
+        Integer flag = service.update(restaurant);
+        if(flag==1){
+            return Msg.succeed();
+        }
+        return Msg.fail();
+    }
+/**
+*@Description 批量删除
+*@Author XiaoMao
+*@Date 7/10/2020 下午3:03
+*@Param [restaurants]
+*Return cn.iwyu.domain.Msg
+**/
+    @RequestMapping("/batchDelete")
+    @ResponseBody
+    public Msg batchDelete(List<Restaurant> restaurants){
+        Integer flag = service.batchDelete(restaurants);
+        if(flag>0){
+            return Msg.succeed();
+        }
+        return  Msg.fail();
     }
 }
