@@ -16,7 +16,7 @@ import java.util.List;
  * @Date 29/9/2020 下午3:39
  * @Version 1.0
  **/
-@Service
+
 public interface UserService {
     //增加用户
     public int save(User user);

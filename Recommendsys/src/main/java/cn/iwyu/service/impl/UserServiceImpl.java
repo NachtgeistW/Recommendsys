@@ -28,7 +28,6 @@ import java.util.*;
  * @Version 1.0
  **/
 @Service
-@Repository
 public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;

@@ -66,4 +66,26 @@
         LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
         WHERE c.id_restaurant = #{resId}
     </select>
+
+    <select id="findByExample" parameterType="cn.iwyu.domain.CommentExample" resultMap="BaseResultMap">
+        SELECT
+	      u.*,
+	      c.*,
+	      r.*
+        FROM
+            ( COMMENT c LEFT JOIN USER u ON c.id_user = u.id_user )
+            LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        <where>
+            <if test="resName!=null and resName!=''">
+                AND r.name LIKE CONCAT( '%', #{r_name}, '%' )
+            </if>
+            <if test="userName!=null and userName!=''">
+                AND u.user_name LIKE CONCAT( '%', #{userName}, '%' )
+            </if>
+            <if test="startTime!=null and startTime != '' and endTime != null and endTime!=''">
+                AND c.time BETWEEN #{startTime}
+                AND #{endTime}
+            </if>
+        </where>
+    </select>
 </mapper>

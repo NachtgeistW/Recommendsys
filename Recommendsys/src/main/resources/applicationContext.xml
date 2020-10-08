@@ -20,9 +20,9 @@
     </context:component-scan>
     <!--spring整合mybatis-->
     <!--导入配置文件-->
-    <context:property-placeholder location="classpath:db.properties"/>
-    <!--邮件配置-->
-    <context:property-placeholder location="classpath:mail.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:db.properties,classpath:mail.properties"/>
+<!--    &lt;!&ndash;邮件配置&ndash;&gt;-->
+<!--    <context:property-placeholder location="" ignore-unresolvable="true"/>-->
     <!--配置连接池-->
     <bean id="dataSource" class="${dataSource}">
         <property name="driverClass" value="${driverClass}"/>

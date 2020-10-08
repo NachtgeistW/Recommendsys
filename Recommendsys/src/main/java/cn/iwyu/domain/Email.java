@@ -2,6 +2,8 @@ package cn.iwyu.domain;/**
  * Created by Chester on 7/10/2020.
  */
 
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +13,6 @@ import java.io.Serializable;
  * @Date 7/10/2020 下午7:52
  * @Version 1.0
  **/
-
 public class Email implements Serializable {
     private String address;
 
