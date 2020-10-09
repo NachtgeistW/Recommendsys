@@ -31,8 +31,7 @@ public class RestaurantTest {
         restaurant.setAddress("广州市北京路");
         restaurant.setIdRecommandedUser(3);
         restaurant.setName("北京路烤鸭");
-        Byte a = 0;
-        restaurant.setIsAuditPassed(a);
+        restaurant.setIsAuditPassed(1);
         restaurantService.save(restaurant);
     }
     @Test

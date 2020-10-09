@@ -18,7 +18,7 @@ public class Restaurant implements Serializable {
 
     private String recommandReason;
 
-    private Byte isAuditPassed;
+    private Integer isAuditPassed;
 
     private String comment;
 
@@ -84,11 +84,11 @@ public class Restaurant implements Serializable {
         this.recommandReason = recommandReason == null ? null : recommandReason.trim();
     }
 
-    public Byte getIsAuditPassed() {
+    public Integer getIsAuditPassed() {
         return isAuditPassed;
     }
 
-    public void setIsAuditPassed(Byte isAuditPassed) {
+    public void setIsAuditPassed(Integer isAuditPassed) {
         this.isAuditPassed = isAuditPassed;
     }
 

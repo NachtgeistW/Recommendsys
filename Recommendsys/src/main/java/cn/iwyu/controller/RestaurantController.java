@@ -108,8 +108,7 @@ public class RestaurantController {
     @RequestMapping("/pass")
     @ResponseBody
     public Msg pass(Restaurant restaurant){
-        Byte a = 1;
-        restaurant.setIsAuditPassed(a);
+        restaurant.setIsAuditPassed(1);
         Integer flag = service.update(restaurant);
         if(flag==1){
             return Msg.succeed();
