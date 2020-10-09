@@ -91,7 +91,7 @@
             <label class="layui-form-label">店铺名</label>
             <div class="layui-input-inline">
                 <input name="name" class="layui-input" type="text" autocomplete="off"
-                       lay-verify="required" id="edit_name">
+                       lay-verify="required" id="data_name">
             </div>
         </div>
         <div class="layui-upload layui-input-inline">
@@ -105,21 +105,21 @@
             <label class="layui-form-label">菜系</label>
             <div class="layui-input-inline">
                 <input name="typeOfCuisine" class="layui-input" type="text"
-                       autocomplete="off" lay-verify="required" id="edit_cuisine">
+                       autocomplete="off" lay-verify="required" id="data_cuisine">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">店铺地址</label>
             <div class="layui-input-inline">
                 <input name="address" class="layui-input" type="text"
-                       autocomplete="off" lay-verify="required" id="edit_address">
+                       autocomplete="off" lay-verify="required" id="data_address">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">店铺简介</label>
             <div class="layui-input-inline">
                 <textarea name="intro" class="layui-textarea" autocomplete="off"
-                          id="edit_introduction"></textarea>
+                          id="data_introduction"></textarea>
             </div>
 
         </div>
@@ -160,21 +160,6 @@
             laydate.render({
                 elem: '#endTime'
             });
-            <%--$(function (){--%>
-            <%--    $.ajax({--%>
-            <%--        url:"${pageContext.request.contextPath}/restaurant/findAll",--%>
-            <%--        type:"GET",--%>
-            <%--        success:function (result) {--%>
-            <%--            build_restaurants_table(result);--%>
-            <%--        }--%>
-            <%--    })--%>
-            <%--});--%>
-            <%--function build_restaurants_table(result){--%>
-            <%--    var restaurants = result.data;--%>
-            <%--    $.each(restaurants,function (index,itrm){--%>
-            <%--        alert(item.name);--%>
-            <%--    })--%>
-            <%--}--%>
             //渲染数据表格
             var tableIns = table.render({
                 elem: '#restaurantTable' //渲染的目标对象
@@ -198,15 +183,7 @@
                     , {field: 'recommendTime', title: '推荐时间', sort: true}
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
-                // , parseData: function (res) { //res 后台组装原始返回的数据
-                //     return {
-                //         "code": res.code, //解析接口状态
-                //         "msg": res.message, //解析提示文本
-                //         "count": res.total, //解析数据长度
-                //         "data": res.data.item //解析数据列表，后台返回的item应该解析出来是 [{},{}…] 这样的数组类型
-                //     }
-                // }
-                ,text: "数据加载失败"
+                , text: "数据加载失败"
 
             });
             table.on('toolbar(restaurantTable)', function (obj) {
@@ -222,6 +199,7 @@
             });
             var url;
             var mainIndex;
+
             //打开修改页面
             function openUpadteAddUser(data) {
                 mainIndex = layer.open({
@@ -231,21 +209,60 @@
                     area: 'auto',
                     success: function (index) {
                         form.val("dataFrm", data);
-                        // url = "user/updateUser.action";
-                        // $.ajax({
-                        //     url:ctx+"/backend/staffManagement/addStaff",
-                        //     type:"post",
-                        //     contentType: 'application/json',
-                        //     dataType:"json",
-                        //     data:JSON.stringify({"staffName":$("#staffName").val(),"mobilePhone":$("#mobilePhone").val(),"idNumber":$("#idNumber").val(),"areaId":areaId,"departmentId":departmentId,"email":$("#email").val()}),
-                        //     success:function (data) {
-                        //         console.log("1111111111111");
-                        //     },
-                        //     error:function (data) {
-                        //         console.log("22222222222222");
-                        //     }
-                        // });
                     }
+                });
+                form.on("submit(edit-save)", function (obj) {
+                    alert(JSON.stringify({
+                        "idRestaurant": data.idRestaurant,
+                        "name": $("#data_name").val(),
+                        "intro": $("#data_introduction").val(),
+                        "typeOfCuisine": $("#data_cuisine").val(),
+                        "address": $("#data_address").val(),
+                        "idRecommandedUser": data.idRecommandedUser,
+                        "recommandReason": data.recommandReason,
+                        "isAuditPassed": "1",
+                        "comment": data.comment,
+                        "resturantImage": "sss",
+                        "recommendTime": data.recommendTime
+                    }));
+                    var idRestaurant =data.idRestaurant;
+                    var idRecommandedUser =data.idRecommandedUser;
+                    var recommandReason =data.recommandReason;
+                    var comment =data.comment;
+                    var recommendTime =data.recommendTime;
+                    $.ajax({
+                        type: "POST",
+                        url: '${pageContext.request.contextPath}/restaurant/update',
+                        dataType: "json",
+                        data:{
+                            // "idRestaurant": idRestaurant,
+                            // "name": $("#data_name").val(),
+                            // "intro":  $("#data_introduction").val(),
+                            "typeOfCuisine": encodeURI($("#data_cuisine").val(), "UTF-8"),
+                            // "address": $("#data_address").val(),
+                            // "idRecommandedUser": idRecommandedUser,
+                            "recommandReason": recommandReason,
+                            // "isAuditPassed": "1",
+                            // "comment": comment,
+                            // "resturantImage": "sss",
+                            // "recommendTime": recommendTime,
+                        },
+                        success: function (data) {
+                            console.log("1111111111111");
+                        },
+                        error: function (data) {
+                            console.log("22222222222222");
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+                        }
+
+                    });
+                    //关闭弹出层
+                    layer.close(mainIndex);
+                    //刷新数据表格
+                    tableIns.reload();
+                    // })
                 });
             };
             //监听工具条
@@ -255,6 +272,23 @@
                 if (layEvent === 'del') { //删除
                     layer.msg("删除");
                     layer.confirm('真的删除行么', function (index) {
+                        // alert(data.idRestaurant);
+                        var id = data.idRestaurant;
+                        $.ajax({
+                            type: "POST",
+                            url: "${pageContext.request.contextPath}/restaurant/delete",
+                            data: {"idRestaurant": id},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data == "true") {//删除成功：移除删除行
+                                    console.log("1111111111111");
+                                } else {//删除失败
+                                    console.log("22222222222222");
+                                }
+                                ;
+                            },
+                        });
+
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
@@ -263,6 +297,7 @@
                     openUpadteAddUser(data);
                 }
             });
+
             //打开添加页面
             function openAddUser() {
                 mainIndex = layer.open({
@@ -302,19 +337,19 @@
             // });
             form.on("submit(doSearch)", function (data) {
                 // alert(JSON.stringify(data.field));
-                var r_name=data.field.r_name;
-                var r_address=data.field.r_address;
-                var r_cuisine=data.field.r_cuisine;
-                var startTime=data.field.startTime;
+                var r_name = data.field.r_name;
+                var r_address = data.field.r_address;
+                var r_cuisine = data.field.r_cuisine;
+                var startTime = data.field.startTime;
                 var endTime = data.field.endTime;
                 table.reload('restaurantTable', {
                     url: '${pageContext.request.contextPath}/restaurant/findByExample'
                     , where: {
-                        'r_name':r_name,
-                        'r_address':r_address,
-                        'r_cuisine':r_cuisine,
-                        'startTime':startTime,
-                        'endTime':endTime
+                        'r_name': r_name,
+                        'r_address': r_address,
+                        'r_cuisine': r_cuisine,
+                        'startTime': startTime,
+                        'endTime': endTime
                     } //设定异步数据接口的额外参数
                     //,height: 300
                     , page: {
@@ -326,25 +361,12 @@
                 return false;
             });
             //保存
-            form.on("submit(edit-save)", function (obj) {
-                //alert(url);
-                //序列号表单数据
-                // var params = $("#dataFrm").serialize();
-                // alert(params);
-                // $.post("NewFile.jsp", params, function (obj) {
-                //     layer.msg(obj);
-                //关闭弹出层
-                layer.close(mainIndex);
-                //刷新数据表格
-                tableIns.reload();
-                // })
-            });
 
         });
 </script>
 <script id="rPhoto" type="text/html">
     {{#    if(d.resturantImage.length  == 0){   }}
-        {{ " " }}
+    {{ " " }}
     {{#   }else{   }}
     {{#   var srr=d.resturantImage.split("|");   }}
     {{#   for(var j in srr) { srr[j];  }}

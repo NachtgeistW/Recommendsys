@@ -7,8 +7,12 @@ import cn.iwyu.service.RestaurantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +24,7 @@ import java.util.Map;
  * @Date 3/10/2020 上午8:41
  * @Version 1.0
  **/
-@Controller
+@RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
     @Resource
@@ -73,13 +77,29 @@ public class RestaurantController {
     **/
     @RequestMapping("/update")
     @ResponseBody
-    public Msg update(Restaurant restaurant){
-        Integer flag = service.update(restaurant);
-        if(flag==1){
-            return Msg.succeed();
+    public Msg update(String typeOfCuisine, String recommandReason){
+        String sta1=null;
+        String sta2=null;
+        try {
+             sta1 = new String(typeOfCuisine.getBytes("UTF-8"),"UTF-8");
+             sta2 = new String(recommandReason.getBytes("UTF-8"),"UTF-8");
+            System.out.println(sta1);
+            System.out.println(sta2);
+        } catch (UnsupportedEncodingException e) {
+            System.err.println(e.getMessage());
         }
-        return Msg.fail();
+        System.out.println(sta1);
+        System.out.println(sta2);
+            return Msg.succeed();
     }
+//    public Msg update(Restaurant restaurant){
+//        Integer flag = service.update(restaurant);
+//        System.out.println(restaurant);
+//        if(flag==1){
+//            return Msg.succeed();
+//        }
+//        return Msg.fail();
+//    }
     @RequestMapping("/save")
     @ResponseBody
     public Msg save(Restaurant restaurant){
