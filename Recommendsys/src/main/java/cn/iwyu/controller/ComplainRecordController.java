@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -36,6 +37,13 @@ public class ComplainRecordController {
         }
         return Msg.fail();
     }
+    /**
+    *@Description 查询所有未处理的举报结果
+    *@Author XiaoMao
+    *@Date 10/10/2020 下午4:08
+    *@Param []
+    *Return cn.iwyu.domain.Msg
+    **/
     @RequestMapping("/checkRecord")
     @ResponseBody
     public Msg checkRecord(){
@@ -54,7 +62,9 @@ public class ComplainRecordController {
     **/
     @RequestMapping("/pass")
     @ResponseBody
-    public Msg pass(ComplainRecord complainRecord){
+    public Msg pass(Integer idComplainRecord, HttpSession session){
+        ComplainRecord complainRecord = service.findById(idComplainRecord);
+        complainRecord.setIdAdmin((Integer) session.getAttribute("userID"));
         Integer flag = service.update(complainRecord);
         if(flag>0){
             return Msg.succeed();
@@ -74,8 +84,8 @@ public class ComplainRecordController {
 
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<ComplainRecord>complainRecords){
-        Integer flag = service.batchDelete(complainRecords);
+    public Msg batchDelete(List<Integer> ids){
+        Integer flag = service.batchDelete(ids);
         if(flag>0){
             return Msg.succeed();
         }

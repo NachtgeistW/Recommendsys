@@ -32,10 +32,12 @@ public class LoginController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public Msg login(HttpServletRequest request, User user){
-        HttpSession session = request.getSession();
-        Integer flag = service.checkPwd(user);
-        if(flag>0){
+    public Msg login(HttpSession session,String userName,String email){
+        User user = new User();
+        user.setEmail(email);
+        user.setUserName(userName);
+        user = service.checkPwd(user);
+        if(user!=null){
             session.setAttribute("userName",user.getUserName());
             session.setAttribute("userID",user.getIdUser());
             session.setAttribute("loginFlag",1);
@@ -53,9 +55,9 @@ public class LoginController {
     **/
     @RequestMapping("checkEmail")
     @ResponseBody
-    public Msg checkMail(User user){
+    public Msg checkMail(String email){
         //验证邮箱是否已经存在，不存在的话，需要提醒用户先去注册
-        if(service.checkEmail(user)==0){
+        if(service.checkEmail(email)==null){
             return Msg.succeed("邮箱不存在");
         }
         return Msg.succeed("邮箱已存在");
@@ -63,10 +65,9 @@ public class LoginController {
 
     @RequestMapping("/sendEmail")
     @ResponseBody
-    public Msg sendEmail(Email mail,HttpServletRequest request){
+    public Msg sendEmail(Email mail,HttpSession session){
         String code = service.sendEmail(mail);
         if(code != null){
-            HttpSession session = request.getSession();
             session.setAttribute("code",code);
             return Msg.succeed();
         }
@@ -75,8 +76,7 @@ public class LoginController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public Msg register(User user,String code,HttpServletRequest request){
-        HttpSession session = request.getSession();
+    public Msg register(User user,String code,HttpSession session){
         if(code==session.getAttribute("code")){
             Integer flag = service.save(user);
             if(flag>0){
@@ -95,8 +95,9 @@ public class LoginController {
 **/
     @RequestMapping("/alterPwd")
     @ResponseBody
-    public Msg alterPwd(String code,User user,HttpServletRequest request){
-        HttpSession session = request.getSession();
+    public Msg alterPwd(String code,String email,String password,HttpSession session){
+        User user = service.checkEmail(email);
+        user.setPassword(password);
         if(code==session.getAttribute("code")){
             Integer flag = service.save(user);
             if(flag>0){

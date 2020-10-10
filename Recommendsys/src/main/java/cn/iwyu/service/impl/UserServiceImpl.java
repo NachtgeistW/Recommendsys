@@ -67,10 +67,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer batchDelete(List<User> users) {
+    public Integer batchDelete(List<Integer> ids) {
         Integer flag = 0;
-        for (User user :users) {
-            flag += userMapper.deleteByPrimaryKey(user.getIdUser());
+        for (Integer id :ids) {
+            flag += userMapper.deleteByPrimaryKey(id);
         }
         return flag;
     }
@@ -82,21 +82,15 @@ public class UserServiceImpl implements UserService {
 *Return java.lang.Integer 返回0
 **/
     @Override
-    public Integer checkEmail(User user) {
-        User temp = customMapper.checkEmail(user.getEmail());
-        if(temp == null){
-            return 0;
-        }
-        return 1;
+    public User checkEmail(String email) {
+        User temp = customMapper.checkEmail(email);
+        return temp;
     }
 
     @Override
-    public Integer checkPwd(User user) {
+    public User checkPwd(User user) {
         User temp = customMapper.checkPwd(user);
-        if(temp == null){
-            return 0;
-        }
-        return 1;
+        return temp;
     }
 
     @Override

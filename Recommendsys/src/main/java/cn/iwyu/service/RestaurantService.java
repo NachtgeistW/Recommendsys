@@ -32,5 +32,5 @@ public interface RestaurantService {
     //通过条件查询
     public List<RestaurantCustom> findByExample(RestaurantExample example);
     //批量删除餐馆
-    public Integer batchDelete(List<Restaurant> restaurants);
+    public Integer batchDelete(List<Integer> ids);
 }

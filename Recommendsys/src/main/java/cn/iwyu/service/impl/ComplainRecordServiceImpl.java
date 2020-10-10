@@ -45,6 +45,11 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
     }
 
     @Override
+    public ComplainRecord findById(Integer complainId) {
+        return complainRecordMapper.selectByPrimaryKey(complainId);
+    }
+
+    @Override
     public List<ComplainRecordCustom> findByUserId(Integer userId) {
         return complainRecordCustomMapper.findByUserId(userId);
     }
@@ -76,10 +81,10 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
     }
 
     @Override
-    public Integer batchDelete(List<ComplainRecord> complainRecords) {
+    public Integer batchDelete(List<Integer> ids) {
         Integer flag = 0;
-        for (ComplainRecord complainRecord :complainRecords) {
-            flag += complainRecordMapper.deleteByPrimaryKey(complainRecord.getIdComplainRecord());
+        for (Integer id :ids) {
+            flag += complainRecordMapper.deleteByPrimaryKey(id);
         }
         return flag;
     }

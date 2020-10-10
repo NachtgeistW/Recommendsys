@@ -28,7 +28,7 @@
         </where>
     </select>
 
-    <select id="checkEmail" resultMap="BaseResultMap" parameterType="String">
+    <select id="checkEmail" resultMap="BaseResultMap" parameterType="cn.iwyu.domain.User">
         SELECT * FROM user WHERE email = #{email}
     </select>
     <select id="checkPwd" resultMap="BaseResultMap" parameterType="cn.iwyu.domain.User">

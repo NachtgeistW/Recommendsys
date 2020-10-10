@@ -115,7 +115,8 @@ public class RestaurantController {
     **/
     @RequestMapping("/pass")
     @ResponseBody
-    public Msg pass(Restaurant restaurant){
+    public Msg pass(Integer idRestaurant){
+        Restaurant restaurant = service.findById(idRestaurant);
         restaurant.setIsAuditPassed(1);
         Integer flag = service.update(restaurant);
         if(flag==1){
@@ -132,8 +133,8 @@ public class RestaurantController {
 **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Restaurant> restaurants){
-        Integer flag = service.batchDelete(restaurants);
+    public Msg batchDelete(List<Integer> ids){
+        Integer flag = service.batchDelete(ids);
         if(flag>0){
             return Msg.succeed();
         }

@@ -31,11 +31,11 @@ public interface UserService {
     //条件模糊查询
     public List<User> findByExample(User example);
     //批量删除
-    public Integer batchDelete(List<User> users);
+    public Integer batchDelete(List<Integer> ids);
     //验证邮箱
-    public Integer checkEmail(User user);
+    public User checkEmail(String email);
     //验证密码,并登录
-    public Integer checkPwd(User user);
+    public User checkPwd(User user);
     //发送邮箱验证码，验证邮箱
     public String sendEmail(Email mail);
 }

@@ -32,5 +32,5 @@ public interface CommentService {
     //条件模糊查询
     public List<CommentCustom> findByExample(CommentExample example);
     //批量删除
-    public Integer batchDelete(List<Comment> comments);
+    public Integer batchDelete(List<Integer> ids);
 }

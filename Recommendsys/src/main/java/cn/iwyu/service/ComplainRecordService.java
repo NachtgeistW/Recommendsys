@@ -21,6 +21,8 @@ public interface ComplainRecordService {
     public void save(ComplainRecord complainRecord);
     //查询全部举报信息
     public List<ComplainRecordCustom> findAll();
+    //通过id查询
+    public ComplainRecord findById(Integer complainId);
     //通过用户id查询举报信息
     public List<ComplainRecordCustom> findByUserId(Integer userId);
     //通过餐馆id查询举报信息
@@ -34,5 +36,5 @@ public interface ComplainRecordService {
     //通过条件查询举报信息
     public List<ComplainRecordCustom> findByExample(ComplainExample example);
     //批量删除举报信息
-    public Integer batchDelete(List<ComplainRecord>complainRecords);
+    public Integer batchDelete(List<Integer> ids);
 }

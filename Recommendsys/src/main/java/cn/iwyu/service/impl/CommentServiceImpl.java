@@ -76,10 +76,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Integer batchDelete(List<Comment> comments) {
+    public Integer batchDelete(List<Integer> ids) {
         Integer flag = 0;
-        for (Comment comment :comments) {
-            flag += commentMapper.deleteByPrimaryKey(comment.getIdComment());
+        for (Integer id :ids) {
+            flag += commentMapper.deleteByPrimaryKey(id);
         }
 
         return flag;

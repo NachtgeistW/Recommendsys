@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -71,15 +72,43 @@ public class UserController {
         }
         return Msg.fail();
     }
-    @RequestMapping("/update")
+    /**
+    *@Description 用户端的修改：用户名
+    *@Author XiaoMao
+    *@Date 10/10/2020 下午4:25
+    *@Param [user]
+    *Return cn.iwyu.domain.Msg
+    **/
+    @RequestMapping("/updateUser")
     @ResponseBody
-    public Msg update(User user){
+    public Msg updateUser(String userName, HttpSession session){
+        User user = service.findById((Integer)session.getAttribute("userID"));
+        user.setUserName(userName);
         Integer flag = service.update(user);
         if(flag>0){
             return Msg.succeed();
         }
         return Msg.fail();
     }
+    /**
+    *@Description 管理员只能修改某个用户的身份，给予或收回管理员权限
+    *@Author XiaoMao
+    *@Date 10/10/2020 下午4:29
+    *@Param [userName, session]
+    *Return cn.iwyu.domain.Msg
+    **/
+    @RequestMapping("/updateAdmin")
+    @ResponseBody
+    public Msg updateAdmin(Integer userId,Integer role){
+        User user = service.findById(userId);
+        user.setIdentity(role);
+        Integer flag = service.update(user);
+        if(flag>0){
+            return Msg.succeed();
+        }
+        return Msg.fail();
+    }
+
     /**
     *@Description 批量删除用户
     *@Author XiaoMao
@@ -89,8 +118,8 @@ public class UserController {
     **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<User> users){
-        Integer flag = service.batchDelete(users);
+    public Msg batchDelete(List<Integer> ids){
+        Integer flag = service.batchDelete(ids);
         if(flag>0){
             return Msg.succeed();
         }

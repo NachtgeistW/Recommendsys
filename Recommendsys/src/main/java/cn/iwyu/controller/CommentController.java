@@ -65,11 +65,11 @@ public class CommentController {
 **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Comment> comments){
-        Integer flag = service.batchDelete(comments);
+    public Msg batchDelete(List<Integer> ids){
+        Integer flag = service.batchDelete(ids);
         if(flag>0){
-            return  Msg.succeed();
+            return Msg.succeed();
         }
-        return Msg.fail();
+        return  Msg.fail();
     }
 }
