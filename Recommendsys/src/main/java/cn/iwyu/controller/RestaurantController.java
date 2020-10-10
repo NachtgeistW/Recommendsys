@@ -34,10 +34,6 @@ public class RestaurantController {
     public Msg findAll(){
         List<RestaurantCustom> restaurants = service.findAll();
         if(restaurants.size()>0){
-            for (RestaurantCustom r:restaurants
-                 ) {
-
-            }
             return Msg.succeed().add(restaurants,restaurants.size());
         }
         return Msg.fail();
@@ -74,15 +70,28 @@ public class RestaurantController {
     *@Param [restaurant]
     *Return cn.iwyu.domain.Msg
     **/
+//    @RequestMapping(value = "/update",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+//    public @ResponseBody Msg update(Integer idRestaurant,String name,String intro,String typeOfCuisine,String address){
+//        Restaurant restaurant = service.findById(idRestaurant);
+//        restaurant.setAddress(address);
+//        restaurant.setIntro(intro);
+//        restaurant.setName(name);
+//        restaurant.setTypeOfCuisine(typeOfCuisine);
+//        System.out.println(restaurant);
+//        Integer flag = service.update(restaurant);
+//        if(flag==1){
+//            return Msg.succeed();
+//        }
+//        return Msg.fail();
+//    }
     @RequestMapping(value = "/update",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-    public @ResponseBody Msg update(Integer idRestaurant,String name,String intro,String typeOfCuisine,String address){
-        Restaurant restaurant = service.findById(idRestaurant);
-        restaurant.setAddress(address);
-        restaurant.setIntro(intro);
-        restaurant.setName(name);
-        restaurant.setTypeOfCuisine(typeOfCuisine);
-        System.out.println(restaurant);
+    public @ResponseBody Msg update(Restaurant restaurant){
+        Restaurant r = service.findById(restaurant.getIdRestaurant());
+        restaurant.setIsAuditPassed(r.getIsAuditPassed());
+        restaurant.setRecommendTime(r.getRecommendTime());
+        System.out.println(1);
         Integer flag = service.update(restaurant);
+        System.out.println(flag);
         if(flag==1){
             return Msg.succeed();
         }

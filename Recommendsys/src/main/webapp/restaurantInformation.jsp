@@ -13,6 +13,11 @@
     <title>Title</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/admin/table.css">
+    <%
+        String path = request.getContextPath();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    %>
+    <base href="<%=basePath%>">　
 </head>
 <body>
 <!-- 搜索条件开始 -->
@@ -144,7 +149,38 @@
     </form>
 </div>
 <!-- 添加和修改的弹出层结束 -->
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="layui/layui.js"></script>
+<script type="text/javascript">
+    function dateToString(time) {
+        var datetime = new Date();
+        datetime.setTime(time);
+        var year = datetime.getFullYear();
+        var month = datetime.getMonth() + 1;
+        var date = datetime.getDate();
+        var hour = datetime.getHours();
+        /*对月 日 时 分 秒 小于10的时候的处理  --小于 10 时前面加 0*/
+        if (month <= 9) {
+            month = "0" + month;
+        }
+        if (date <= 9) {
+            date = "0" + date
+        }
+        if (hour <= 9) {
+            hour = "0" + hour;
+        }
+        var minute = datetime.getMinutes();
+        if (minute <= 9) {
+            minute = "0" + minute;
+        }
+        var second = datetime.getSeconds();
+        if (second <= 9) {
+            second = "0" + second;
+        }
+        return year + "-" + month + "-" + date + " " + hour + ":" + minute
+            + ":" + second;
+    };
+</script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],
         function () {
@@ -180,7 +216,9 @@
                     , {field: 'comment', title: '店铺备注'}
                     , {field: 'userName', title: '推荐人'}
                     , {field: 'recommandReason', title: '推荐理由'}
-                    , {field: 'recommendTime', title: '推荐时间', sort: true}
+                    , {field: 'recommendTime', title: '推荐时间',templet:function(d){
+                           return  ''+dateToString(d.recommendTime)+''
+                        } , sort: true}
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
                 , text: "数据加载失败"
@@ -225,7 +263,7 @@
                         "resturantImage": "sss",
                         "recommendTime": data.recommendTime
                     }));
-                    var data1={"idRestaurant": data.idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()};
+                    var data1={"idRestaurant": data.idRestaurant,"idRecommandedUser": data.idRecommandedUser,"recommandReason":data.recommandReason,"comment": data.comment,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()};
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",
