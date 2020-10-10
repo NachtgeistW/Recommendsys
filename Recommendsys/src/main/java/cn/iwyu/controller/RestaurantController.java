@@ -100,6 +100,7 @@ public class RestaurantController {
     @RequestMapping("/save")
     @ResponseBody
     public Msg save(Restaurant restaurant){
+        restaurant.setIsAuditPassed(1);
         Integer flag = service.save(restaurant);
         if(flag==1){
             return Msg.succeed();

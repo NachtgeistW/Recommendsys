@@ -207,13 +207,13 @@
                        autocomplete="off" lay-verify="required" id="recommandReason">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">推荐时间</label>
-            <div class="layui-input-inline">
-                <textarea name="recommendTime" class="layui-input" autocomplete="off"
-                          id="recommendTime"></textarea>
-            </div>
-        </div>
+<%--        <div class="layui-inline">--%>
+<%--            <label class="layui-form-label">推荐时间</label>--%>
+<%--            <div class="layui-input-inline">--%>
+<%--                <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
+<%--                          id="recommendTime"></textarea>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div class="layui-form-item" style="text-align: center;">
             <div class="layui-input-block">
                 <button
@@ -432,36 +432,42 @@
                     area: 'auto',
                     success: function (index) {
                         form.on("submit(add-save)", function (data) {
-                            alert(JSON.stringify(data.field));
-                            var name = data.field.name;
-                            var typeOfCuisine = data.field.typeOfCuisine;
-                            var address = data.field.address;
-                            var intro = data.field.intro;
-                            var comment = data.field.comment;
-                            var idRecommandedUser = data.field.idRecommandedUser;
-                            var recommandReason = data.field.recommandReason;
-                            var recommendTime = data.field.recommendTime;
-                            table.reload('restaurantTable', {
-                                url: '${pageContext.request.contextPath}/restaurant/save'
-                                , where: {
-                                    'name': name,
-                                    'typeOfCuisine': typeOfCuisine,
-                                    'address': address,
-                                    'intro': intro,
-                                    'comment': comment,
-                                    'idRecommandedUser': idRecommandedUser,
-                                    'recommandReason': recommandReason,
-                                    'recommendTime': recommendTime,
-                                } //设定异步数据接口的额外参数
-                                //,height: 300
-                                , page: {
-                                    curr: 1 //重新从第 1 页开始
-                                }
-                                , text: {none: '无数据'}
+                            <%--alert(JSON.stringify(data.field));--%>
+                            <%--var name = data.field.name;--%>
+                            <%--var typeOfCuisine = data.field.typeOfCuisine;--%>
+                            <%--var address = data.field.address;--%>
+                            <%--var intro = data.field.intro;--%>
+                            <%--var comment = data.field.comment;--%>
+                            <%--var idRecommandedUser = data.field.idRecommandedUser;--%>
+                            <%--var recommandReason = data.field.recommandReason;--%>
+                            <%--var recommendTime = data.field.recommendTime;--%>
+                            <%--table.reload('restaurantTable', {--%>
+                            <%--    url: '${pageContext.request.contextPath}/restaurant/save'--%>
+                            <%--    , where: {--%>
+                            <%--        'name': name,--%>
+                            <%--        'typeOfCuisine': typeOfCuisine,--%>
+                            <%--        'address': address,--%>
+                            <%--        'intro': intro,--%>
+                            <%--        'comment': comment,--%>
+                            <%--        'idRecommandedUser': idRecommandedUser,--%>
+                            <%--        'recommandReason': recommandReason,--%>
+                            <%--        // 'recommendTime': recommendTime,--%>
+                            <%--    } //设定异步数据接口的额外参数--%>
+                            <%--    //,height: 300--%>
+                            <%--    , page: {--%>
+                            <%--        curr: 1 //重新从第 1 页开始--%>
+                            <%--    }--%>
+                            <%--    , text: {none: '无数据'}--%>
 
-                            });
+                            <%--});--%>
+                            //关闭弹出层
+                            layer.close(mainIndex);
+                            //刷新数据表格
+                            tableIns.reload();
                             return false;
+
                         });
+
                     }
                 });
             }

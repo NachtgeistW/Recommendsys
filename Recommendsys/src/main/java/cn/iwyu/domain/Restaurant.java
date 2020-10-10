@@ -1,5 +1,7 @@
 package cn.iwyu.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,7 +25,10 @@ public class Restaurant implements Serializable {
     private String comment;
 
     private String resturantImage;
-
+    @JsonFormat(
+        pattern = "yyyy-MM-dd HH:mm:ss",
+        timezone = "GMT+8"
+    )
     private Date recommendTime;
 
     private static final long serialVersionUID = 1L;
