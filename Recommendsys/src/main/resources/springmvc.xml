@@ -20,7 +20,7 @@
     <!--配置视图解析器-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!--JSP文件所在的目录-->
-        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="prefix" value="/webapp"></property>
         <!--文件的后缀-->
         <property name="suffix" value=".jsp"></property>
     </bean>
@@ -43,18 +43,32 @@
         <property name="contentType" value="text/html;charset=UTF-8"></property>
     </bean>
     <!--设置哪些静态资源不过滤-->
-    <mvc:resources mapping="/css/**" location="css"></mvc:resources>
+    <mvc:resources  location="css" mapping="/css/**"></mvc:resources>
 <!--    <mvc:resources mapping="/images/**" location="img"></mvc:resources>-->
-    <mvc:resources mapping="/js/**" location="js"></mvc:resources>
-    <mvc:resources mapping="/html/**" location="admin"></mvc:resources>
+    <mvc:resources location="js" mapping="/js/**" ></mvc:resources>
     <!--启用默认Servlet-->
     <mvc:default-servlet-handler/>
     <!--开启对SpringMVC注解的支持-->
-    <mvc:annotation-driven></mvc:annotation-driven>
     <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        <mvc:message-converters register-defaults="true">
+<!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>-->
+<!--            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+            <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 注解请求映射
+            默认是ISO-88859-1，避免乱码这里设置为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8" />
+            </bean>
+            <!-- 启动JSON格式的配置,自动将格式转换成JSON格式，不需要其他类 -->
+            <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
         </mvc:message-converters>
+
     </mvc:annotation-driven>
+
 </beans>

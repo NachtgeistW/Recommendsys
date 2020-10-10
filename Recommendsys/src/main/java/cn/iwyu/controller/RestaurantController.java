@@ -5,10 +5,13 @@ package cn.iwyu.controller;/**
 import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.sql.SQLOutput;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +74,14 @@ public class RestaurantController {
     *@Param [restaurant]
     *Return cn.iwyu.domain.Msg
     **/
-    @RequestMapping("/update")
-    @ResponseBody
-    public Msg update(Restaurant restaurant){
+    @RequestMapping(value = "/update",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public @ResponseBody Msg update(Integer idRestaurant,String name,String intro,String typeOfCuisine,String address){
+        Restaurant restaurant = service.findById(idRestaurant);
+        restaurant.setAddress(address);
+        restaurant.setIntro(intro);
+        restaurant.setName(name);
+        restaurant.setTypeOfCuisine(typeOfCuisine);
+        System.out.println(restaurant);
         Integer flag = service.update(restaurant);
         if(flag==1){
             return Msg.succeed();

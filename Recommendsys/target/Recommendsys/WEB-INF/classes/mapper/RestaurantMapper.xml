@@ -19,13 +19,13 @@
     where id_restaurant = #{idRestaurant,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.iwyu.domain.Restaurant">
-    insert into restaurant (id_restaurant, name, intro, 
-      type_of_cuisine, address, id_recommanded_user, 
-      recommand_reason, is_audit_passed, comment, 
+    insert into restaurant (id_restaurant, name, intro,
+      type_of_cuisine, address, id_recommanded_user,
+      recommand_reason, is_audit_passed, comment,
       resturant_image, recommend_time)
-    values (#{idRestaurant,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, 
-      #{typeOfCuisine,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idRecommandedUser,jdbcType=INTEGER}, 
-      #{recommandReason,jdbcType=VARCHAR}, #{isAuditPassed,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR}, 
+    values (#{idRestaurant,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR},
+      #{typeOfCuisine,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idRecommandedUser,jdbcType=INTEGER},
+      #{recommandReason,jdbcType=VARCHAR}, #{isAuditPassed,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR},
       #{resturantImage,jdbcType=VARCHAR}, #{recommendTime,jdbcType=DATE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Restaurant">
@@ -43,13 +43,13 @@
     where id_restaurant = #{idRestaurant,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id_restaurant, name, intro, type_of_cuisine, address, id_recommanded_user, 
+    select id_restaurant, name, intro, type_of_cuisine, address, id_recommanded_user,
     recommand_reason, is_audit_passed, comment, resturant_image, recommend_time
     from restaurant
     where id_restaurant = #{idRestaurant,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id_restaurant, name, intro, type_of_cuisine, address, id_recommanded_user, 
+    select id_restaurant, name, intro, type_of_cuisine, address, id_recommanded_user,
     recommand_reason, is_audit_passed, comment, resturant_image, recommend_time
     from restaurant
   </select>
