@@ -15,9 +15,10 @@
     <link rel="stylesheet" href="css/admin/table.css">
     <%
         String path = request.getContextPath();
-        String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
     %>
-    <base href="<%=basePath%>">　
+    <base href="<%=basePath%>">
+    　
 </head>
 <body>
 <!-- 搜索条件开始 -->
@@ -148,9 +149,11 @@
         </div>
     </form>
 </div>
-<!-- 添加和修改的弹出层开始 -->
+<!-- 添加的弹出层开始 -->
 <div style="display: none; padding: 20px" class="pop-box" id="addDiv">
-    <form class="layui-form " action="restaurant/save" method="post" lay-filter="dataFrm" id="addFrm">
+    <form class="layui-form "
+<%--          action="restaurant/save" method="post" --%>
+          lay-filter="dataFrm" id="addFrm">
         <div class="layui-inline">
             <label class="layui-form-label">店铺名</label>
             <div class="layui-input-inline">
@@ -158,13 +161,13 @@
                        lay-verify="required" id="name">
             </div>
         </div>
-<%--        <div class="layui-upload layui-input-inline">--%>
-<%--            <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 5px;width: 228px">--%>
-<%--                预览图：--%>
-<%--                <div class="layui-upload-list" name="resturantImage" id="edit_photo"></div>--%>
-<%--            </blockquote>--%>
-<%--            <button type="button" class="layui-btn" id="btnPhotos" style="width: 265px">多图片上传</button>--%>
-<%--        </div>--%>
+        <%--        <div class="layui-upload layui-input-inline">--%>
+        <%--            <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 5px;width: 228px">--%>
+        <%--                预览图：--%>
+        <%--                <div class="layui-upload-list" name="resturantImage" id="edit_photo"></div>--%>
+        <%--            </blockquote>--%>
+        <%--            <button type="button" class="layui-btn" id="btnPhotos" style="width: 265px">多图片上传</button>--%>
+        <%--        </div>--%>
         <div class="layui-inline">
             <label class="layui-form-label">菜系</label>
             <div class="layui-input-inline">
@@ -194,12 +197,12 @@
             </div>
         </div>
         <div class="layui-inline">
-        <label class="layui-form-label">推荐人id</label>
-        <div class="layui-input-inline">
-            <input name="idRecommandedUser" class="layui-input" type="text"
-                   autocomplete="off" lay-verify="required" id="idRecommandedUser">
+            <label class="layui-form-label">推荐人id</label>
+            <div class="layui-input-inline">
+                <input name="idRecommandedUser" class="layui-input" type="text"
+                       autocomplete="off" lay-verify="required" id="idRecommandedUser">
+            </div>
         </div>
-    </div>
         <div class="layui-inline">
             <label class="layui-form-label">推荐理由</label>
             <div class="layui-input-inline">
@@ -207,13 +210,13 @@
                        autocomplete="off" lay-verify="required" id="recommandReason">
             </div>
         </div>
-<%--        <div class="layui-inline">--%>
-<%--            <label class="layui-form-label">推荐时间</label>--%>
-<%--            <div class="layui-input-inline">--%>
-<%--                <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
-<%--                          id="recommendTime"></textarea>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <%--        <div class="layui-inline">--%>
+        <%--            <label class="layui-form-label">推荐时间</label>--%>
+        <%--            <div class="layui-input-inline">--%>
+        <%--                <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
+        <%--                          id="recommendTime"></textarea>--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
         <div class="layui-form-item" style="text-align: center;">
             <div class="layui-input-block">
                 <button
@@ -287,7 +290,6 @@
                 , toolbar: "#userToolBar" //表头工具条
                 , defaultToolbar: ['filter', 'print', 'exports']
                 , cellMinWidth: 80  //设置 列的最小的默认宽度
-                , page: true //是否启用分页
                 , cols: [[
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'idRestaurant', title: '店铺ID', sort: true}
@@ -299,11 +301,27 @@
                     , {field: 'comment', title: '店铺备注'}
                     , {field: 'userName', title: '推荐人'}
                     , {field: 'recommandReason', title: '推荐理由'}
-                    , {field: 'recommendTime', title: '推荐时间',templet:function(d){
-                           return  ''+dateToString(d.recommendTime)+''
-                        } , sort: true}
+                    , {
+                        field: 'recommendTime', title: '推荐时间', templet: function (d) {
+                            return '' + dateToString(d.recommendTime) + ''
+                        }, sort: true
+                    }
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
+                , page: true //是否启用分页
+                , limit: 10
+                , limits: [3, 5, 10, 12]
+                , parseData: function (res) {
+                    var result;
+                    console.log(this);
+                    console.log(JSON.stringify(res));
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                    return {"code": res.code, "msg": res.msg, "count": res.count, "data": result};
+                }
                 , text: "数据加载失败"
 
             });
@@ -333,45 +351,41 @@
                     }
                 });
                 form.on("submit(edit-save)", function (obj) {
-                    alert(JSON.stringify({
+                    var data1 = {
                         "idRestaurant": data.idRestaurant,
+                        "idRecommandedUser": data.idRecommandedUser,
+                        "recommandReason": data.recommandReason,
+                        "comment": data.comment,
                         "name": $("#data_name").val(),
                         "intro": $("#data_introduction").val(),
                         "typeOfCuisine": $("#data_cuisine").val(),
-                        "address": $("#data_address").val(),
-                        "idRecommandedUser": data.idRecommandedUser,
-                        "recommandReason": data.recommandReason,
-                        "isAuditPassed": "1",
-                        "comment": data.comment,
-                        "resturantImage": "sss",
-                        "recommendTime": data.recommendTime
-                    }));
-                    var data1={"idRestaurant": data.idRestaurant,"idRecommandedUser": data.idRecommandedUser,"recommandReason":data.recommandReason,"comment": data.comment,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()};
+                        "address": $("#data_address").val()
+                    };
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",
                         url: '${pageContext.request.contextPath}/restaurant/update',
-                        contentType:"application/json;charset=UTF-8",
+                        contentType: "application/json;charset=UTF-8",
                         dataType: "json",
-                        data:data1,
+                        data: data1,
                         // data:{
-                            // "idRestaurant": idRestaurant,
-                            // "name": $("#data_name").val(),
-                            // "intro":  $("#data_introduction").val(),
-                            // "typeOfCuisine": encodeURI($("#data_cuisine").val()),
-                            // "address": $("#data_address").val(),
-                            // "idRecommandedUser": idRecommandedUser,
-                            // "recommandReason": recommandReason,
-                            // "isAuditPassed": "1",
-                            // "comment": comment,
-                            // "resturantImage": "sss",
-                            // "recommendTime": recommendTime,
+                        // "idRestaurant": idRestaurant,
+                        // "name": $("#data_name").val(),
+                        // "intro":  $("#data_introduction").val(),
+                        // "typeOfCuisine": encodeURI($("#data_cuisine").val()),
+                        // "address": $("#data_address").val(),
+                        // "idRecommandedUser": idRecommandedUser,
+                        // "recommandReason": recommandReason,
+                        // "isAuditPassed": "1",
+                        // "comment": comment,
+                        // "resturantImage": "sss",
+                        // "recommendTime": recommendTime,
                         //     、
                         //
                         // },
                         // data:'{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}',
                         // data:JSON.stringify('{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}'),
-                            // data:'{"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()}',
+                        // data:'{"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()}',
                         success: function (data) {
                             console.log("1111111111111");
                         },
@@ -431,45 +445,70 @@
                     content: $("#addDiv"),
                     area: 'auto',
                     success: function (index) {
-                        form.on("submit(add-save)", function (data) {
-                            <%--alert(JSON.stringify(data.field));--%>
-                            <%--var name = data.field.name;--%>
-                            <%--var typeOfCuisine = data.field.typeOfCuisine;--%>
-                            <%--var address = data.field.address;--%>
-                            <%--var intro = data.field.intro;--%>
-                            <%--var comment = data.field.comment;--%>
-                            <%--var idRecommandedUser = data.field.idRecommandedUser;--%>
-                            <%--var recommandReason = data.field.recommandReason;--%>
-                            <%--var recommendTime = data.field.recommendTime;--%>
-                            <%--table.reload('restaurantTable', {--%>
-                            <%--    url: '${pageContext.request.contextPath}/restaurant/save'--%>
-                            <%--    , where: {--%>
-                            <%--        'name': name,--%>
-                            <%--        'typeOfCuisine': typeOfCuisine,--%>
-                            <%--        'address': address,--%>
-                            <%--        'intro': intro,--%>
-                            <%--        'comment': comment,--%>
-                            <%--        'idRecommandedUser': idRecommandedUser,--%>
-                            <%--        'recommandReason': recommandReason,--%>
-                            <%--        // 'recommendTime': recommendTime,--%>
-                            <%--    } //设定异步数据接口的额外参数--%>
-                            <%--    //,height: 300--%>
-                            <%--    , page: {--%>
-                            <%--        curr: 1 //重新从第 1 页开始--%>
-                            <%--    }--%>
-                            <%--    , text: {none: '无数据'}--%>
-
-                            <%--});--%>
-                            //关闭弹出层
-                            layer.close(mainIndex);
-                            //刷新数据表格
-                            tableIns.reload();
-                            return false;
-
-                        });
+                        <%--        alert(JSON.stringify(data.field));--%>
 
                     }
+                })
+                //点击添加按钮
+                form.on("submit(add-save)", function (data) {
+                    var name = data.field.name;
+                    var typeOfCuisine = data.field.typeOfCuisine;
+                    var address = data.field.address;
+                    var intro = data.field.intro;
+                    var comment = data.field.comment;
+                    var idRecommandedUser = data.field.idRecommandedUser;
+                    var recommandReason = data.field.recommandReason;
+                    var recommendTime = data.field.recommendTime;
+                    var data1 = {
+                        "name": name,
+                        "idRecommandedUser": idRecommandedUser,
+                        "recommandReason": recommandReason,
+                        "comment": comment,
+                        "intro": intro,
+                        "typeOfCuisine": typeOfCuisine,
+                        "address": address
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: '${pageContext.request.contextPath}/restaurant/save',
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        data: data1,
+                        success: function (data) {
+                            console.log("succeed");
+                        },
+                        error: function (data) {
+                            console.log("fail");
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+                        }
+                    })
+                    <%--table.reload('restaurantTable', {--%>
+                    <%--    url: '${pageContext.request.contextPath}/restaurant/save'--%>
+                    <%--    , where: {--%>
+                    <%--        'name': name,--%>
+                    <%--        'typeOfCuisine': typeOfCuisine,--%>
+                    <%--        'address': address,--%>
+                    <%--        'intro': intro,--%>
+                    <%--        'comment': comment,--%>
+                    <%--        'idRecommandedUser': idRecommandedUser,--%>
+                    <%--        'recommandReason': recommandReason,--%>
+                    <%--        // 'recommendTime': recommendTime,--%>
+                    <%--    } //设定异步数据接口的额外参数--%>
+                    <%--    //,height: 300--%>
+                    <%--    , page: {--%>
+                    <%--        curr: 1 //重新从第 1 页开始--%>
+                    <%--    }--%>
+                    <%--    , text: {none: '无数据'}--%>
+                    <%--});--%>
+
+                    //关闭弹出层
+                    layer.close(mainIndex);
+                    //刷新数据表格
+                    tableIns.reload();
                 });
+
             }
 
             //多图片上传

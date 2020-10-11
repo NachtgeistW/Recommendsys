@@ -97,10 +97,11 @@ public class RestaurantController {
         }
         return Msg.fail();
     }
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save" ,method= RequestMethod.POST,produces="application/json;charset=utf-8")
     @ResponseBody
     public Msg save(Restaurant restaurant){
         restaurant.setIsAuditPassed(1);
+        System.out.println("ok");
         Integer flag = service.save(restaurant);
         if(flag==1){
             return Msg.succeed();
