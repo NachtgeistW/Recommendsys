@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.iwyu.dao.InformMapper" >
+  <resultMap id="BaseResultMap" type="cn.iwyu.domain.Inform" >
+    <id column="inform_id" property="informId" jdbcType="INTEGER" />
+    <result column="read" property="read" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inform
+    where inform_id = #{informId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.iwyu.domain.Inform" >
+    insert into inform (inform_id, read, content, 
+      date, user_id)
+    values (#{informId,jdbcType=INTEGER}, #{read,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Inform" >
+    update inform
+    set read = #{read,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER}
+    where inform_id = #{informId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select inform_id, read, content, date, user_id
+    from inform
+    where inform_id = #{informId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select inform_id, read, content, date, user_id
+    from inform
+  </select>
+</mapper>

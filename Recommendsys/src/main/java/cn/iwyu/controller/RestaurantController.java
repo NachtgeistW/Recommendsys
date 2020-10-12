@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLOutput;
 import java.util.Date;
 import java.util.List;
@@ -99,8 +100,14 @@ public class RestaurantController {
     }
     @RequestMapping(value = "/save" ,method= RequestMethod.POST,produces="application/json;charset=utf-8")
     @ResponseBody
-    public Msg save(Restaurant restaurant){
-        restaurant.setIsAuditPassed(1);
+    public Msg save(Restaurant restaurant, HttpSession session){
+        Date date = new Date();
+        restaurant.setRecommendTime(date);
+        if(session.getAttribute("role")=="1"){
+            restaurant.setIsAuditPassed(1);
+        }else {
+            restaurant.setIsAuditPassed(0);
+        }
         System.out.println("ok");
         Integer flag = service.save(restaurant);
         if(flag==1){

@@ -40,6 +40,7 @@ public class LoginController {
         if(user!=null){
             session.setAttribute("userName",user.getUserName());
             session.setAttribute("userID",user.getIdUser());
+            session.setAttribute("role",user.getIdentity());
             session.setAttribute("loginFlag",1);
             return Msg.succeed();
         }

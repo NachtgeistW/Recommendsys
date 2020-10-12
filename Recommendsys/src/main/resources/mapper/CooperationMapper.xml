@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.iwyu.dao.CooperationMapper" >
+  <resultMap id="BaseResultMap" type="cn.iwyu.domain.Cooperation" >
+    <id column="cooperation_id" property="cooperationId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="restaurant_id" property="restaurantId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="income" property="income" jdbcType="DOUBLE" />
+    <result column="start_date" property="startDate" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cooperation
+    where cooperation_id = #{cooperationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.iwyu.domain.Cooperation" >
+    insert into cooperation (cooperation_id, content, restaurant_id, 
+      type, income, start_date, 
+      end_date)
+    values (#{cooperationId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{restaurantId,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{income,jdbcType=DOUBLE}, #{startDate,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Cooperation" >
+    update cooperation
+    set content = #{content,jdbcType=VARCHAR},
+      restaurant_id = #{restaurantId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      income = #{income,jdbcType=DOUBLE},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR}
+    where cooperation_id = #{cooperationId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select cooperation_id, content, restaurant_id, type, income, start_date, end_date
+    from cooperation
+    where cooperation_id = #{cooperationId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select cooperation_id, content, restaurant_id, type, income, start_date, end_date
+    from cooperation
+  </select>
+</mapper>

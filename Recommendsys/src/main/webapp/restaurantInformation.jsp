@@ -210,13 +210,13 @@
                        autocomplete="off" lay-verify="required" id="recommandReason">
             </div>
         </div>
-        <%--        <div class="layui-inline">--%>
-        <%--            <label class="layui-form-label">推荐时间</label>--%>
-        <%--            <div class="layui-input-inline">--%>
-        <%--                <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
-        <%--                          id="recommendTime"></textarea>--%>
-        <%--            </div>--%>
-        <%--        </div>--%>
+<%--                <div class="layui-inline">--%>
+<%--                    <label class="layui-form-label">推荐时间</label>--%>
+<%--                    <div class="layui-input-inline">--%>
+<%--                        <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
+<%--                                  id="recommendTime"></textarea>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
         <div class="layui-form-item" style="text-align: center;">
             <div class="layui-input-block">
                 <button
@@ -302,9 +302,7 @@
                     , {field: 'userName', title: '推荐人'}
                     , {field: 'recommandReason', title: '推荐理由'}
                     , {
-                        field: 'recommendTime', title: '推荐时间', templet: function (d) {
-                            return '' + dateToString(d.recommendTime) + ''
-                        }, sort: true
+                        field: 'recommendTime', title: '推荐时间', sort: true
                     }
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
