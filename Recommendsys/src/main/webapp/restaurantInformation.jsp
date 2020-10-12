@@ -311,8 +311,6 @@
                 , limits: [3, 5, 10, 12]
                 , parseData: function (res) {
                     var result;
-                    console.log(this);
-                    console.log(JSON.stringify(res));
                     if (this.page.curr) {
                         result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
                     } else {
@@ -588,10 +586,10 @@
         });
 </script>
 <script id="rPhoto" type="text/html">
-    {{#    if(d.resturantImage.length  == 0){   }}
+    {{#    if( d.resturantImage == null || d.resturantImage.length  == 0){   }}
     {{ " " }}
     {{#   }else{   }}
-    {{#   var srr=d.resturantImage.split("|");   }}
+    {{#   var srr=d.resturantImage.split(",");   }}
     {{#   for(var j in srr) { srr[j];  }}
     <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
         <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}"/>
