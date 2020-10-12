@@ -18,7 +18,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">找铺子-后台管理</div>
+        <a data-url="${pageContext.request.contextPath}/homePage.jsp" data-id="homePage" data-title="首页" class="site-demo-active"  href="javascript:;" data-type="tabAdd"><div class="layui-logo">找铺子-后台管理</div></a>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <!--        <ul class="layui-nav layui-layout-left">-->
         <!--            <li class="layui-nav-item"><a href="">控制台</a></li>-->

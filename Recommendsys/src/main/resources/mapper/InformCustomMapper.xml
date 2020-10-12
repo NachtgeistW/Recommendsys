@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.iwyu.dao.InformCustomMapper">
+    <resultMap id="BaseResultMap" type="cn.iwyu.domain.Inform" >
+        <id column="inform_id" property="informId" jdbcType="INTEGER" />
+        <result column="read" property="read" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="date" property="date" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+    </resultMap>
+    <update id="read" parameterType="cn.iwyu.domain.Inform">
+        update inform
+        set `read` = 1
+        where inform_id = #{informId,jdbcType=INTEGER}
+    </update>
+
+    <select id="findAll" parameterType="Integer" resultMap="BaseResultMap">
+        select inform_id, read, content, date, user_id
+        from inform
+        where user_id = #{userId}
+    </select>
+
+    <select id="readAll" resultMap="BaseResultMap" parameterType="Integer">
+        select inform_id, read, content, date, user_id
+        from inform
+        where user_id = #{userId} and read = 0
+    </select>
+</mapper>

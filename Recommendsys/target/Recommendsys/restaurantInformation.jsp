@@ -81,7 +81,7 @@
 <div style="display: none;" id="userToolBar">
     <button type="button" class="layui-btn layui-btn-sm" lay-event="add">增加</button>
     <button type="button" class="layui-btn layui-btn-sm"
-            lay-event="delete">批量删除
+            lay-event="deleteMore" id="deleteMore">批量删除
     </button>
 </div>
 <div id="toolBar" style="display: none;">
@@ -152,7 +152,7 @@
 <!-- 添加的弹出层开始 -->
 <div style="display: none; padding: 20px" class="pop-box" id="addDiv">
     <form class="layui-form "
-<%--          action="restaurant/save" method="post" --%>
+    <%--          action="restaurant/save" method="post" --%>
           lay-filter="dataFrm" id="addFrm">
         <div class="layui-inline">
             <label class="layui-form-label">店铺名</label>
@@ -210,13 +210,13 @@
                        autocomplete="off" lay-verify="required" id="recommandReason">
             </div>
         </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">推荐时间</label>
-                    <div class="layui-input-inline">
-                        <textarea name="recommendTime" class="layui-input" autocomplete="off"
-                                  id="recommendTime"></textarea>
-                    </div>
-                </div>
+        <%--                <div class="layui-inline">--%>
+        <%--                    <label class="layui-form-label">推荐时间</label>--%>
+        <%--                    <div class="layui-input-inline">--%>
+        <%--                        <textarea name="recommendTime" class="layui-input" autocomplete="off"--%>
+        <%--                                  id="recommendTime"></textarea>--%>
+        <%--                    </div>--%>
+        <%--                </div>--%>
         <div class="layui-form-item" style="text-align: center;">
             <div class="layui-input-block">
                 <button
@@ -311,8 +311,6 @@
                 , limits: [3, 5, 10, 12]
                 , parseData: function (res) {
                     var result;
-                    console.log(this);
-                    console.log(JSON.stringify(res));
                     if (this.page.curr) {
                         result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
                     } else {
@@ -509,6 +507,40 @@
 
             }
 
+            //批量删除
+            $("#deleteMore").on('click', function () {
+                //获取选中状态
+                var checkStatus = table.checkStatus('restaurantTable');
+                //获取选中数量
+                data = checkStatus.data;
+                var ids="";
+                alert(data.length);
+                if (data.length > 0) {
+
+                    for(var i=0; i<data.length; i++){
+                        ids = ids  + data[i].idRestaurant+ ",";
+                    }
+                    alert(ids);
+                    layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
+                        $.ajax({
+                            type: 'post',
+                            data: {"ids":ids},
+                            url: '${pageContext.request.contextPath}/restaurant/batchDelete',
+                            success: function (data) {
+                               layer.msg('操作成功!', {icon: 1, time: 1000});
+                            }, error: function (code) {
+                                layer.msg('操作失败!', {icon: 5, time: 1000});
+                            }
+                        });
+                        tableIns.reload();
+                        layer.close(index);
+
+                    })
+                } else {
+                    layer.msg("请选择需要删除的用户");
+                }
+
+            });
             //多图片上传
             // upload.render({
             //     elem: '#btnPhotos'
@@ -554,10 +586,10 @@
         });
 </script>
 <script id="rPhoto" type="text/html">
-    {{#    if(d.resturantImage.length  == 0){   }}
+    {{#    if( d.resturantImage == null || d.resturantImage.length  == 0){   }}
     {{ " " }}
     {{#   }else{   }}
-    {{#   var srr=d.resturantImage.split("|");   }}
+    {{#   var srr=d.resturantImage.split(",");   }}
     {{#   for(var j in srr) { srr[j];  }}
     <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
         <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}"/>
