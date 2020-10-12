@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLOutput;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName RestaurantController
@@ -151,10 +150,17 @@ public class RestaurantController {
 **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Integer> ids){
-        Integer flag = service.batchDelete(ids);
-        if(flag>0){
-            return Msg.succeed();
+    public Msg batchDelete(String ids){
+        List<Integer> list1 = new ArrayList<Integer>();
+        if (ids!=null &&!ids.equals("")) {
+            String[] idsStrings = ids.split(",");//转成String数组
+            int[] array = Arrays.stream(idsStrings).mapToInt(Integer::parseInt).toArray();//转int数组
+            list1 = Arrays.stream(array).boxed().collect(Collectors.toList());//转List<Integer>
+            System.out.println("到达");
+            Integer flag = service.batchDelete(list1);
+            if(flag>0){
+                return Msg.succeed();
+            }
         }
         return  Msg.fail();
     }
