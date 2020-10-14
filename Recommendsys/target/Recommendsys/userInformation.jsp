@@ -11,6 +11,11 @@
     <title>Title</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/admin/table.css">
+    <%
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    %>
+    <base href="<%=basePath%>">
 </head>
 <body>
 <!-- 搜索条件开始 -->
@@ -18,35 +23,37 @@
 <!--          style="margin-top: 0px">-->
 <!--    <legend>店铺信息查询</legend>-->
 <!--</fieldset>-->
-<form class="layui-form" action="user/findAll">
+<form class="layui-form"
+<%--      action="user/findByExample" method="post"--%>
+>
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input name="user_name" id="user_name" class="layui-input" type="text" autocomplete="off">
+                <input name="userName" id="user_name" class="layui-input" type="text" autocomplete="off">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">经验</label>
             <div class="layui-input-inline">
-                <input name="user_experience" id="user_experience" class="layui-input" type="text"
+                <input name="experience" id="user_experience" class="layui-input" type="text"
                        autocomplete="off">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">身份</label>
             <div class="layui-input-inline">
-                <select lay-filter="user_identity" id="user_identity" name="user_identity">
-                    <option value=""></option>
+                <select lay-filter="identity" id="user_identity" name="identity">
+                    <option value="" selected=""></option>
                     <option value="0">普通用户</option>
-                    <option value="1" selected="">管理员</option>
+                    <option value="1">管理员</option>
                 </select>
             </div>
 
             <div class="layui-inline layui-input-block">
                 <button
                         class="layui-btn  layui-icon layui-icon-search"
-                        type="submit" lay-filter="doSearch" id="doSearch">查询
+                        type="submit" lay-submit lay-filter="doSearch" id="doSearch">查询
                 </button>
                 <button
                         class="layui-btn layui-btn-warm layui-icon layui-icon-refresh"
@@ -166,6 +173,18 @@
                     , {field: 'email', title: '邮箱'}
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
+                , limit: 10
+                , limits: [3, 5, 10, 12]
+                , parseData: function (res) {
+                    var result;
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                    return {"code": res.code, "msg": res.msg, "count": res.count, "data": result};
+                }
+                , text: "数据加载失败"
             });
             table.on('toolbar(userTable)', function (obj) {
                 switch (obj.event) {
@@ -202,26 +221,25 @@
                     }
                 });
             }
+            //搜索
             form.on("submit(doSearch)", function (data) {
                 alert(JSON.stringify(data.field));
-                var user_name=data.field.user_name;
-                var user_experience=data.field.user_experience;
-                var user_identity=data.field.user_identity;
+                var user_name = data.field.userName;
+                var user_experience = data.field.experience;
+                var user_identity = data.field.identity;
                 table.reload('userTable', {
-                    url: '${pageContext.request.contextPath}/restaurant/findByExample'
+                    url: '${pageContext.request.contextPath}/user/findByExample'
                     , where: {
-                        'user_name':user_name,
-                        'user_experience':user_experience,
-                        'user_identity':user_identity,
+                        'userName': user_name,
+                        'experience': user_experience,
+                        'identity': user_identity,
                     } //设定异步数据接口的额外参数
                     //,height: 300
                     , page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     , text: {none: '无数据'}
-                    , done: function () {
-                        alert("234");
-                    }
+
                 });
                 return false;
             });
@@ -268,6 +286,7 @@
                     openUpadteAddUser(data);
                 }
             });
+
         });
 </script>
 </body>

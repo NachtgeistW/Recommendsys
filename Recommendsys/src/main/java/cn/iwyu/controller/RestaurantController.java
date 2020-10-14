@@ -4,13 +4,16 @@ package cn.iwyu.controller;/**
 
 import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
+import cn.iwyu.utils.Imgupload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLOutput;
 import java.util.*;
@@ -99,8 +102,10 @@ public class RestaurantController {
     }
     @RequestMapping(value = "/save" ,method= RequestMethod.POST,produces="application/json;charset=utf-8")
     @ResponseBody
-    public Msg save(Restaurant restaurant, HttpSession session){
+    public Msg save(Restaurant restaurant, HttpSession session,MultipartFile[] files, HttpServletRequest request) throws Exception {
         Date date = new Date();
+        Imgupload imgupload = new Imgupload();
+        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
         restaurant.setRecommendTime(date);
         if(session.getAttribute("role")=="1"){
             restaurant.setIsAuditPassed(1);
