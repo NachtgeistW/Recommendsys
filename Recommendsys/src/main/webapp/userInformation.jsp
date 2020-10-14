@@ -5,7 +5,7 @@
   Time: 下午9:38
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
     <title>Title</title>
@@ -81,45 +81,45 @@
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none; padding: 20px" class="pop-box" id="saveOrUpadteDiv">
     <form class="layui-form " action="" lay-filter="dataFrm" id="dataFrm">
-        <div class="layui-inline">
-            <label class="layui-form-label">用户ID</label>
-            <div class="layui-input-inline">
-                <input name="user_id" class="layui-input" type="text" autocomplete="off"
-                       lay-verify="required" id="edit_id">
-            </div>
-        </div>
+        <%--        <div class="layui-inline">--%>
+        <%--            <label class="layui-form-label">用户ID</label>--%>
+        <%--            <div class="layui-input-inline">--%>
+        <%--                <input name="user_id" class="layui-input" type="text" autocomplete="off"--%>
+        <%--                       lay-verify="required" id="edit_id">--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
         <div class="layui-inline">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input name="user_name" class="layui-input" type="text"
+                <input name="userName" class="layui-input" type="text"
                        autocomplete="off" lay-verify="required" id="edit_name">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">经验</label>
             <div class="layui-input-inline">
-                <input name="user_experience" class="layui-input" type="text"
+                <input name="experience" class="layui-input" type="text"
                        autocomplete="off" lay-verify="required" id="edit_experience">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">身份</label>
-            <div class="layui-input-inline">
-                <input name="user_identity" class="layui-input"  autocomplete="off" id="edit_identity"
-                       autocomplete="off" lay-verify="required">
-            </div>
-        </div>
+        <%--        <div class="layui-inline">--%>
+        <%--            <label class="layui-form-label">身份</label>--%>
+        <%--            <div class="layui-input-inline">--%>
+        <%--                <input name="user_identity" class="layui-input"  autocomplete="off" id="edit_identity"--%>
+        <%--                       autocomplete="off" lay-verify="required">--%>
+        <%--            </div>--%>
+        <%--        </div>--%>
         <div class="layui-inline">
             <label class="layui-form-label">积分</label>
             <div class="layui-input-inline">
-                <input name="user_integral" class="layui-input"   autocomplete="off" id="edit_integral"
+                <input name="integral" class="layui-input" autocomplete="off" id="edit_integral"
                        autocomplete="off" lay-verify="required">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
-                <input name="user_email" class="layui-input"  id="edit_email" autocomplete="off"
+                <input name="email" class="layui-input" id="edit_email" autocomplete="off"
                        lay-verify="required|email">
             </div>
         </div>
@@ -167,7 +167,7 @@
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'idUser', title: '用户ID', sort: true}
                     , {field: 'userName', title: '用户名', sort: true}
-                    , {field: 'experience', title: '经验', templet: '#rPhoto', sort: true}
+                    , {field: 'password', title: '密码', hide : true}                    , {field: 'experience', title: '经验', templet: '#rPhoto', sort: true}
                     , {field: 'identity', title: '身份'}
                     , {field: 'integral', title: '积分'}
                     , {field: 'email', title: '邮箱'}
@@ -186,6 +186,21 @@
                 }
                 , text: "数据加载失败"
             });
+            //监听工具条
+            table.on('tool(userTable)', function (obj) {
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                if (layEvent === 'del') { //删除
+                    layer.msg("删除");
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        //向服务端发送删除指令
+                    });
+                } else if (layEvent === 'edit') { //编辑
+                    openUpadteData(data);
+                }
+            });
             table.on('toolbar(userTable)', function (obj) {
                 switch (obj.event) {
                     case 'add':
@@ -199,6 +214,53 @@
             });
             var url;
             var mainIndex;
+
+            //打开修改页面
+            function openUpadteData(data) {
+                mainIndex = layer.open({
+                    type: 1,
+                    title: "修改",
+                    content: $("#saveOrUpadteDiv"),
+                    area: 'auto',
+                    success: function (index) {
+                        form.val("dataFrm", data);
+                    }
+                });
+                form.on("submit(edit-save)", function (obj) {
+                    var data1 = {
+                        "idUser": data.idUser,
+                        "userName": $("#edit_name").val,
+                        "password":data.password,
+                        "experience": $("#edit_experience").val,
+                        "email": $("#edit_name").val,
+                        "identity": data.identity,
+                        "integral": $("#edit_integral").val(),
+                    };
+                    // var data1={"address":$("#data_address").val()};
+                    $.ajax({
+                        type: "POST",
+                        url: '${pageContext.request.contextPath}/restaurant/update',
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        data: data1,
+                        success: function (data) {
+                            console.log("succeed");
+                        },
+                        error: function (data) {
+                            console.log("fail");
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+                        }
+
+                    });
+                    //关闭弹出层
+                    layer.close(mainIndex);
+                    //刷新数据表格
+                    tableIns.reload();
+                    // })
+                });
+            };
 
             //打开添加页面
             function openAddUser() {
@@ -221,6 +283,7 @@
                     }
                 });
             }
+
             //搜索
             form.on("submit(doSearch)", function (data) {
                 alert(JSON.stringify(data.field));
@@ -243,49 +306,7 @@
                 });
                 return false;
             });
-            //打开修改页面
-            function openUpadteAddUser(data) {
-                mainIndex = layer.open({
-                    type: 1,
-                    title: "修改",
-                    content: $("#saveOrUpadteDiv"),
-                    area: ['400px', '450px'],
-                    success: function (layero, index) {
-                        form.val("dataFrm", data);
-                        url = "user/updateUser.action";
-                    }
-                });
-            }
-            ;
-            //保存
-            form.on("submit(edit-save)", function (obj) {
-                //alert(url);
-                //序列号表单数据
-                // var params = $("#dataFrm").serialize();
-                // alert(params);
-                // $.post("NewFile.jsp", params, function (obj) {
-                //     layer.msg(obj);
-                //关闭弹出层
-                layer.close(mainIndex);
-                //刷新数据表格
-                tableIns.reload();
-                // })
-            });
-            //监听工具条
-            table.on('tool(userTable)', function (obj) {
-                var data = obj.data; //获得当前行数据
-                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-                if (layEvent === 'del') { //删除
-                    layer.msg("删除");
-                    layer.confirm('真的删除行么', function (index) {
-                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                        layer.close(index);
-                        //向服务端发送删除指令
-                    });
-                } else if (layEvent === 'edit') { //编辑
-                    openUpadteAddUser(data);
-                }
-            });
+
 
         });
 </script>
