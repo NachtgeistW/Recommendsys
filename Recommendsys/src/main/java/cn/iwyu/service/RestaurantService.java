@@ -33,4 +33,6 @@ public interface RestaurantService {
     public List<RestaurantCustom> findByExample(RestaurantExample example);
     //批量删除餐馆
     public Integer batchDelete(List<Integer> ids);
+
+    Integer updateImg(Restaurant restaurant);
 }

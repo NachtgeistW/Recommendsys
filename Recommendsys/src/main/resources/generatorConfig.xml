@@ -45,7 +45,7 @@
         <!-- 要生成哪些表 -->
 <!--        <table tableName="comment" domainObjectName="Comment"></table>-->
         <!--<table tableName="complain_record" domainObjectName="ComplainRecord"></table>-->
-<!--        <table tableName="restaurant" domainObjectName="Restaurant"></table>-->
+        <table tableName="restaurant" domainObjectName="Restaurant"></table>
         <!--<table tableName="user" domainObjectName="User"></table>-->
 <!--        <table tableName="cooperation" domainObjectName="Cooperation"></table>-->
 <!--        <table tableName="coupon" domainObjectName="Coupon"></table>-->

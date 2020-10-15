@@ -9,6 +9,7 @@ import cn.iwyu.domain.RestaurantCustom;
 import cn.iwyu.domain.RestaurantExample;
 import cn.iwyu.service.RestaurantService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
  * @Version 1.0
  **/
 @Service
+@Transactional
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Resource
@@ -80,5 +82,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             flag += restaurantMapper.deleteByPrimaryKey(id);
         }
         return flag;
+    }
+
+    @Override
+    public Integer updateImg(Restaurant restaurant) {
+        return customMapper.updateImg(restaurant);
     }
 }

@@ -1,11 +1,10 @@
 package cn.iwyu.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class Restaurant implements Serializable {
+    public static Object lock = new Object();
     private Integer idRestaurant;
 
     private String name;
@@ -25,11 +24,10 @@ public class Restaurant implements Serializable {
     private String comment;
 
     private String resturantImage;
-    @JsonFormat(
-        pattern = "yyyy-MM-dd HH:mm:ss",
-        timezone = "GMT+8"
-    )
+
     private Date recommendTime;
+
+    private Integer version;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,7 +104,8 @@ public class Restaurant implements Serializable {
     }
 
     public String getResturantImage() {
-        return resturantImage;
+            return resturantImage;
+
     }
 
     public void setResturantImage(String resturantImage) {
@@ -119,6 +118,14 @@ public class Restaurant implements Serializable {
 
     public void setRecommendTime(Date recommendTime) {
         this.recommendTime = recommendTime;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
@@ -143,7 +150,8 @@ public class Restaurant implements Serializable {
             && (this.getIsAuditPassed() == null ? other.getIsAuditPassed() == null : this.getIsAuditPassed().equals(other.getIsAuditPassed()))
             && (this.getComment() == null ? other.getComment() == null : this.getComment().equals(other.getComment()))
             && (this.getResturantImage() == null ? other.getResturantImage() == null : this.getResturantImage().equals(other.getResturantImage()))
-            && (this.getRecommendTime() == null ? other.getRecommendTime() == null : this.getRecommendTime().equals(other.getRecommendTime()));
+            && (this.getRecommendTime() == null ? other.getRecommendTime() == null : this.getRecommendTime().equals(other.getRecommendTime()))
+            && (this.getVersion() == null ? other.getVersion() == null : this.getVersion().equals(other.getVersion()));
     }
 
     @Override
@@ -161,6 +169,7 @@ public class Restaurant implements Serializable {
         result = prime * result + ((getComment() == null) ? 0 : getComment().hashCode());
         result = prime * result + ((getResturantImage() == null) ? 0 : getResturantImage().hashCode());
         result = prime * result + ((getRecommendTime() == null) ? 0 : getRecommendTime().hashCode());
+        result = prime * result + ((getVersion() == null) ? 0 : getVersion().hashCode());
         return result;
     }
 
@@ -181,6 +190,7 @@ public class Restaurant implements Serializable {
         sb.append(", comment=").append(comment);
         sb.append(", resturantImage=").append(resturantImage);
         sb.append(", recommendTime=").append(recommendTime);
+        sb.append(", version=").append(version);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

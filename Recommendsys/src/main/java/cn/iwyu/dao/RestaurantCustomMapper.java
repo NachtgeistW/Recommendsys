@@ -22,5 +22,6 @@ public interface RestaurantCustomMapper {
     List<RestaurantCustom> checkRecommend();
     //通过条件查询
     List<RestaurantCustom> findByExample(RestaurantExample example);
-
+    //更新图片
+    Integer updateImg(Restaurant restaurant);
 }

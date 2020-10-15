@@ -6,6 +6,7 @@ import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
 import net.sf.json.JSONObject;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 @Controller
+//@Scope("prototype")
 @RequestMapping("/restaurant")
 public class RestaurantController {
     @Resource
@@ -102,30 +104,33 @@ public class RestaurantController {
 
     @RequestMapping(value = "/uploadImg" ,produces="application/json;charset=utf-8")
     @ResponseBody
-    public JSONObject uploadImg( @RequestParam(value = "file", required = false)     MultipartFile file, HttpServletRequest request, @RequestParam(value = "id", required = false) Integer resId) throws Exception {
-        Restaurant restaurant = service.findById(resId);
-//        System.out.println(restaurant.getResturantImage());
+    public synchronized JSONObject uploadImg( @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, @RequestParam(value = "id", required = false) Integer resId) throws Exception {
+        Object lock = new Object();
         Map<String,Object> result =  new HashMap<String, Object>();
-        Imgupload imgupload = new Imgupload();
-        String str = null;
+//        synchronized (lock)
+//        {
+            Restaurant restaurant = service.findById(resId);
+            System.out.println(restaurant.getResturantImage());
+            Imgupload imgupload = new Imgupload();
+            String str = null;
             result = imgupload.uploadAreaFile(file,request);
             if(restaurant.getResturantImage()!=null){
                 str = restaurant.getResturantImage();
                 str = str + result.get("filePath") + ",";
-                restaurant.setResturantImage(str);
-                service.update(restaurant);
+
             }else {
                 str = result.get("filePath") + ",";
-                restaurant.setResturantImage(str);
-                service.update(restaurant);
 //                System.out.println(2);
             }
-            System.out.println(str+"1");
-//            System.out.println(resId);
-        System.out.println(3);
+//            System.out.println(str+"1");
+////            System.out.println(resId);
+//        System.out.println(3);
+            restaurant.setResturantImage(str);
+            service.update(restaurant);
 
-
-        System.out.println(restaurant.getResturantImage()+"2");
+//        System.out.println(restaurant.getResturantImage()+"2");
+//
+//        }
         return JSONObject.fromObject(result);
     }
 
