@@ -2,6 +2,7 @@ package cn.iwyu.dao;/**
  * Created by Chester on 30/9/2020.
  */
 
+import cn.iwyu.domain.Restaurant;
 import cn.iwyu.domain.RestaurantCustom;
 import cn.iwyu.domain.RestaurantExample;
 
@@ -21,4 +22,5 @@ public interface RestaurantCustomMapper {
     List<RestaurantCustom> checkRecommend();
     //通过条件查询
     List<RestaurantCustom> findByExample(RestaurantExample example);
+
 }

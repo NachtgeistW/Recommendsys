@@ -5,14 +5,13 @@ package cn.iwyu.controller;/**
 import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.security.auth.login.AccountException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLOutput;
@@ -92,7 +91,7 @@ public class RestaurantController {
         Restaurant r = service.findById(restaurant.getIdRestaurant());
         restaurant.setIsAuditPassed(r.getIsAuditPassed());
         restaurant.setRecommendTime(r.getRecommendTime());
-        System.out.println(1);
+        restaurant.setResturantImage(r.getResturantImage());
         Integer flag = service.update(restaurant);
         System.out.println(flag);
         if(flag==1){
@@ -100,12 +99,44 @@ public class RestaurantController {
         }
         return Msg.fail();
     }
-    @RequestMapping(value = "/save" ,method= RequestMethod.POST,produces="application/json;charset=utf-8")
+
+    @RequestMapping(value = "/uploadImg" ,produces="application/json;charset=utf-8")
     @ResponseBody
-    public Msg save(Restaurant restaurant, HttpSession session,MultipartFile[] files, HttpServletRequest request) throws Exception {
-        Date date = new Date();
+    public JSONObject uploadImg( @RequestParam(value = "file", required = false)     MultipartFile file, HttpServletRequest request, @RequestParam(value = "id", required = false) Integer resId) throws Exception {
+        Restaurant restaurant = service.findById(resId);
+//        System.out.println(restaurant.getResturantImage());
+        Map<String,Object> result =  new HashMap<String, Object>();
         Imgupload imgupload = new Imgupload();
-        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
+        String str = null;
+            result = imgupload.uploadAreaFile(file,request);
+            if(restaurant.getResturantImage()!=null){
+                str = restaurant.getResturantImage();
+                str = str + result.get("filePath") + ",";
+                restaurant.setResturantImage(str);
+                service.update(restaurant);
+            }else {
+                str = result.get("filePath") + ",";
+                restaurant.setResturantImage(str);
+                service.update(restaurant);
+//                System.out.println(2);
+            }
+            System.out.println(str+"1");
+//            System.out.println(resId);
+        System.out.println(3);
+
+
+        System.out.println(restaurant.getResturantImage()+"2");
+        return JSONObject.fromObject(result);
+    }
+
+    @RequestMapping(value = "/save" ,produces="application/json;charset=utf-8")
+    @ResponseBody
+    public Msg save(Restaurant restaurant, HttpSession session) throws Exception {
+        Date date = new Date();
+
+//        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
+
+
         restaurant.setRecommendTime(date);
         if(session.getAttribute("role")=="1"){
             restaurant.setIsAuditPassed(1);
