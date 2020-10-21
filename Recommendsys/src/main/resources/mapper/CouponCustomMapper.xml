@@ -17,8 +17,18 @@
     </resultMap>
 
     <select id="searchCode" parameterType="String" resultMap="BaseResultMap">
-    select hash_id
-    from coupon
-    where hash_id = #{code}
+        select *
+        from coupon
+        where hash_id = #{code}
   </select>
+    <select id="searchByUser" resultMap="BaseResultMap" parameterType="Integer">
+        select *
+        from coupon
+        where user_id = #{userId}
+    </select>
+    <select id="getOverdue" resultMap="BaseResultMap">
+        select *
+        from coupon
+        where user_id = #{userId} and  #{date} > end_date and  allocation BETWEEN 1 and 2
+    </select>
 </mapper>

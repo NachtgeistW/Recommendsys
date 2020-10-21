@@ -3,6 +3,9 @@ package cn.iwyu.service;/**
  */
 
 import cn.iwyu.domain.Coupon;
+import cn.iwyu.domain.Preference;
+
+import java.util.List;
 
 /**
  * @InterfaceName CouponService
@@ -20,12 +23,11 @@ public interface CouponService {
     //查询优惠券代码是否已经存在
     public int searchCode(String code);
     //使优惠券可用
-
+    public int change(Integer couponId);
     //分配优惠券给某个用户
-
+    public int giveCoupon(Integer couponId,Integer userId);
     //使用兑换优惠券（使该优惠券失效）
-
-
-    //查询用户拥有的优惠券（顺便查询已经过期的优惠券，将其标记为失效的3状态）
-
+    public int useCoupon(String code);
+    //查询用户拥有的优惠券（顺便查询已经过期的优惠券，将其标记为失效的0状态）
+    public List<Coupon> findByUser(Integer userId);
 }
