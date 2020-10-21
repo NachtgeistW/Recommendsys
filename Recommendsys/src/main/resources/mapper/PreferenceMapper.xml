@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.iwyu.dao.PreferenceMapper" >
+  <resultMap id="BaseResultMap" type="cn.iwyu.domain.Preference" >
+    <id column="preference_id" property="preferenceId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="restaurant_id" property="restaurantId" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from preference
+    where preference_id = #{preferenceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.iwyu.domain.Preference" >
+    insert into preference (preference_id, user_id, restaurant_id, 
+      score, date)
+    values (#{preferenceId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{restaurantId,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{date,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Preference" >
+    update preference
+    set user_id = #{userId,jdbcType=INTEGER},
+      restaurant_id = #{restaurantId,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      date = #{date,jdbcType=VARCHAR}
+    where preference_id = #{preferenceId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select preference_id, user_id, restaurant_id, score, date
+    from preference
+    where preference_id = #{preferenceId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select preference_id, user_id, restaurant_id, score, date
+    from preference
+  </select>
+</mapper>

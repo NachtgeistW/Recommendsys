@@ -22,6 +22,7 @@
       <log4j.version>1.2.12</log4j.version>
       <mysql.version>5.1.6</mysql.version>
       <mybatis.version>3.4.5</mybatis.version>
+      <mahout.version>0.13.0</mahout.version>
   </properties>
 
     <dependencies>
@@ -240,6 +241,13 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
+        <!-- mahout -->
+        <dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-integration</artifactId>
+            <version>${mahout.version}</version>
+        </dependency>
+
     </dependencies>
 
 

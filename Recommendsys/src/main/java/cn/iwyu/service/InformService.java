@@ -15,6 +15,7 @@ import java.util.List;
  **/
 
 public interface InformService {
+    //发送通知
     public Integer sendInform(Inform inform);
     //获取某用户所有消息
     public List<Inform> userFindAll(Integer userId);

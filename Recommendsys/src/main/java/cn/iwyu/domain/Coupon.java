@@ -19,6 +19,8 @@ public class Coupon implements Serializable {
 
     private String hashId;
 
+    private Integer restaurantId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getCouponId() {
@@ -85,6 +87,14 @@ public class Coupon implements Serializable {
         this.hashId = hashId == null ? null : hashId.trim();
     }
 
+    public Integer getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Integer restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -104,7 +114,8 @@ public class Coupon implements Serializable {
             && (this.getUseDate() == null ? other.getUseDate() == null : this.getUseDate().equals(other.getUseDate()))
             && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
             && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
-            && (this.getHashId() == null ? other.getHashId() == null : this.getHashId().equals(other.getHashId()));
+            && (this.getHashId() == null ? other.getHashId() == null : this.getHashId().equals(other.getHashId()))
+            && (this.getRestaurantId() == null ? other.getRestaurantId() == null : this.getRestaurantId().equals(other.getRestaurantId()));
     }
 
     @Override
@@ -119,6 +130,7 @@ public class Coupon implements Serializable {
         result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
         result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         result = prime * result + ((getHashId() == null) ? 0 : getHashId().hashCode());
+        result = prime * result + ((getRestaurantId() == null) ? 0 : getRestaurantId().hashCode());
         return result;
     }
 
@@ -136,6 +148,7 @@ public class Coupon implements Serializable {
         sb.append(", startDate=").append(startDate);
         sb.append(", endDate=").append(endDate);
         sb.append(", hashId=").append(hashId);
+        sb.append(", restaurantId=").append(restaurantId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

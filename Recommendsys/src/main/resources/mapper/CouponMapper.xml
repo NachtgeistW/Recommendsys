@@ -1,29 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.iwyu.dao.CouponMapper" >
-  <resultMap id="BaseResultMap" type="cn.iwyu.domain.Coupon" >
-    <id column="coupon_id" property="couponId" jdbcType="INTEGER" />
-    <result column="allocation" property="allocation" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="use_date" property="useDate" jdbcType="VARCHAR" />
-    <result column="start_date" property="startDate" jdbcType="VARCHAR" />
-    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
-    <result column="hash_id" property="hashId" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iwyu.dao.CouponMapper">
+  <resultMap id="BaseResultMap" type="cn.iwyu.domain.Coupon">
+    <id column="coupon_id" jdbcType="INTEGER" property="couponId" />
+    <result column="allocation" jdbcType="INTEGER" property="allocation" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="use_date" jdbcType="VARCHAR" property="useDate" />
+    <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+    <result column="end_date" jdbcType="VARCHAR" property="endDate" />
+    <result column="hash_id" jdbcType="VARCHAR" property="hashId" />
+    <result column="restaurant_id" jdbcType="INTEGER" property="restaurantId" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from coupon
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.iwyu.domain.Coupon" >
-    insert into coupon (coupon_id, allocation, user_id, 
-      content, use_date, start_date, 
-      end_date, hash_id)
-    values (#{couponId,jdbcType=INTEGER}, #{allocation,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{useDate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, 
-      #{endDate,jdbcType=VARCHAR}, #{hashId,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="cn.iwyu.domain.Coupon">
+    insert into coupon (coupon_id, allocation, user_id,
+      content, use_date, start_date,
+      end_date, hash_id, restaurant_id
+      )
+    values (#{couponId,jdbcType=INTEGER}, #{allocation,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR}, #{useDate,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR},
+      #{endDate,jdbcType=VARCHAR}, #{hashId,jdbcType=VARCHAR}, #{restaurantId,jdbcType=INTEGER}
+      )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Coupon" >
+  <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Coupon">
     update coupon
     set allocation = #{allocation,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
@@ -31,16 +34,19 @@
       use_date = #{useDate,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=VARCHAR},
       end_date = #{endDate,jdbcType=VARCHAR},
-      hash_id = #{hashId,jdbcType=VARCHAR}
+      hash_id = #{hashId,jdbcType=VARCHAR},
+      restaurant_id = #{restaurantId,jdbcType=INTEGER}
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select coupon_id, allocation, user_id, content, use_date, start_date, end_date, hash_id
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select coupon_id, allocation, user_id, content, use_date, start_date, end_date, hash_id,
+    restaurant_id
     from coupon
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select coupon_id, allocation, user_id, content, use_date, start_date, end_date, hash_id
+  <select id="selectAll" resultMap="BaseResultMap">
+    select coupon_id, allocation, user_id, content, use_date, start_date, end_date, hash_id,
+    restaurant_id
     from coupon
   </select>
 </mapper>
