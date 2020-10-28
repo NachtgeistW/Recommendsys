@@ -68,4 +68,9 @@
         </where>
 
     </select>
+    <update id="updateImg" parameterType="cn.iwyu.domain.Restaurant">
+    update restaurant
+    set  resturant_image = #{resturantImage,jdbcType=VARCHAR},version = version + 1
+    where id_restaurant = #{idRestaurant,jdbcType=INTEGER} and version = #{version,jdbcType=INTEGER}
+  </update>
 </mapper>

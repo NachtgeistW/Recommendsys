@@ -15,6 +15,8 @@
 <a href="userInformation.jsp">测试页面显示</a>
 <a href="user/findAll">测试json具体数据</a>
 <a href="AdminIndex.jsp">测试首页</a>
+<p/>
+<a href="login.jsp">测试登录</a>
 <a href="admin/AdminIndex.html">测试首页html</a>
 <a href="restaurant/findAll">测试餐馆json</a>
 <a href="complain/findAll">测试举报json</a>

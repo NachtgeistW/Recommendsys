@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public int save(User user) {
+        System.out.println(1);
         return userMapper.insert(user);
     }
 

@@ -7,9 +7,11 @@ import cn.iwyu.domain.Msg;
 import cn.iwyu.domain.User;
 import cn.iwyu.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -65,27 +67,44 @@ public class LoginController {
     }
 
     @RequestMapping("/sendEmail")
-    @ResponseBody
-    public Msg sendEmail(Email mail,HttpSession session){
-        String code = service.sendEmail(mail);
+    public ModelAndView sendEmail(@RequestBody String address, HttpSession session){
+        Email email = new Email();
+        email.setAddress(address);
+//        System.out.println(email.getAddress());
+        ModelAndView mv = new ModelAndView();
+        String code = service.sendEmail(email);
+//        mv.setViewName("loginRegister");
+        boolean result = false;
         if(code != null){
+            result =true;
             session.setAttribute("code",code);
-            return Msg.succeed();
+            session.setAttribute("address",address);
+            mv.addObject("result",result);
+            return mv;
         }
-        return Msg.fail();
+        mv.addObject("result",result);
+        return mv;
     }
 
     @RequestMapping("/register")
-    @ResponseBody
-    public Msg register(User user,String code,HttpSession session){
-        if(code==session.getAttribute("code")){
+    public ModelAndView register(User user,String emailCaptcha,HttpSession session){
+        user.setIdentity(2);
+//        System.out.println(user);
+        boolean result = false;
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("loginRegister");
+        if(emailCaptcha.equals(session.getAttribute("code"))&&user.getEmail().equals(session.getAttribute("address"))){
             Integer flag = service.save(user);
+            System.out.println(flag);
             if(flag>0){
-                return Msg.succeed();
+                result =true;
+                mv.addObject("result",result);
+                return mv;
             }
-            return Msg.fail();
         }
-        return Msg.fail();
+
+        mv.addObject("result",result);
+        return mv;
     }
 /**
 *@Description 传入邮箱、新密码、验证码，后台需要先验证这个邮箱是否存在
@@ -95,18 +114,30 @@ public class LoginController {
 *Return cn.iwyu.domain.Msg
 **/
     @RequestMapping("/alterPwd")
-    @ResponseBody
-    public Msg alterPwd(String code,String email,String password,HttpSession session){
-        User user = service.checkEmail(email);
-        user.setPassword(password);
-        if(code==session.getAttribute("code")){
-            Integer flag = service.save(user);
-            if(flag>0){
-                return Msg.succeed();
+    public ModelAndView alterPwd(String FEmailCaptcha,String fEmail,String password,HttpSession session){
+        boolean result = false;
+        ModelAndView mv = new ModelAndView();
+        User user = service.checkEmail(fEmail);
+        mv.setViewName("login");
+        System.out.println(user);
+        if(user==null){
+            System.out.println("邮箱不存在");
+            mv.addObject("result",result);
+            return mv;
+        }else {
+            user.setPassword(password);
+            if(FEmailCaptcha.equals(session.getAttribute("code"))&&fEmail.equals(session.getAttribute("address"))){
+                Integer flag = service.update(user);
+                System.out.println(user);
+                if(flag>0){
+                    result = true;
+                    mv.addObject("result",result);
+                    return mv;
+                }
             }
-            return Msg.fail();
         }
-        return Msg.fail();
+        mv.addObject("result",result);
+        return mv;
     }
 
 }
