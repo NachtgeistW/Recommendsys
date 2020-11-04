@@ -26,4 +26,6 @@ public interface CommentCustomMapper {
     List<CommentCustom> findByUserId(Integer userId);
     //条件模糊查询
     List<CommentCustom> findByExample(CommentExample example);
+    //查询某一位用户是否已经评论过了
+    List<CommentCustom> findScore(Integer user_id,Integer res_id);
 }

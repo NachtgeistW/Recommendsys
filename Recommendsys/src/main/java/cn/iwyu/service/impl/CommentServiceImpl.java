@@ -29,8 +29,8 @@ public class CommentServiceImpl implements CommentService {
     CommentCustomMapper commentCustomMapper;
 
     @Override
-    public void save(Comment comment) {
-        commentMapper.insert(comment);
+    public Integer save(Comment comment) {
+        return commentMapper.insert(comment);
     }
 
     @Override
@@ -83,5 +83,27 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return flag;
+    }
+
+    @Override
+    public Integer scoreRestaurant(Comment comment) {
+        Integer user_id = comment.getIdUser();
+        Integer res_id = comment.getIdRestaurant();
+        Integer score = comment.getScore();
+        List<CommentCustom> commentCustoms = commentCustomMapper.findScore(user_id,res_id);
+        //查到用户是否评论过这个餐馆，评论过就看是否已经评分过，评分过不能再次评分
+        if(commentCustoms!=null){
+            for (CommentCustom commentCustom :commentCustoms) {
+                if(commentCustom.getScore()!=null){
+                    return 0;
+                }
+            }
+        }
+        return  commentMapper.insert(comment);
+    }
+
+    @Override
+    public Comment findById(Integer comment_id) {
+        return commentMapper.selectByPrimaryKey(comment_id);
     }
 }

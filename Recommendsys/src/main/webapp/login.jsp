@@ -48,9 +48,9 @@
                     <a href="javascript:" class="forget-password" onclick="jump(2)">忘记密码？</a>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid btn" lay-submit="login"
-                            lay-filter="login" id="loginBtn">登 入
-                    </button>
+                    <input type="button" class="layui-btn layui-btn layui-btn-normal layui-btn-fluid btn" lay-submit="login"
+                            lay-filter="login" id="loginBtn" value="登录">
+                    </input>
                 </div>
             </form>
         </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="fPasswords"></label>
-                    <input type="password" name="fPasswords" id="fPasswords" lay-verify="required|confirmFPass"
+                    <input type="fPasswords" name="fPasswords" id="fPasswords" lay-verify="required|confirmFPass"
                            placeholder="密码"
                            autocomplete="off" class="layui-input" value="">
                 </div>
@@ -86,9 +86,9 @@
                     <a href="javascript:" class="transPage" onclick="jump(1)">返回登录页面</a>
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid btn" lay-submit="fPasswordBtn"
-                            lay-filter="fPasswordBtn" id="fPasswordBtn">修改密码
-                    </button>
+                    <input type="button" class="layui-btn layui-btn layui-btn-normal layui-btn-fluid btn" lay-submit="fPasswordBtn"
+                            lay-filter="fPasswordBtn" id="fPasswordBtn" value="修改密码">
+                    </input>
                 </div>
             </form>
         </div>
@@ -139,28 +139,32 @@
                 draw(show_num);
                 return false;
             }
-            var loginUsername = $('#email').val();
-            var loginPassword = $('#loginPassword').val();
-            $('#loginBtn').val("正在登录...");
-            alert(loginUsername)
+            var email = $('#email').val();
+            var password = $('#loginPassword').val();
+            var data1 = {
+                "email": email,
+                "password": password
+            };
+             alert(email);
             $.ajax({
                 type: 'post',
-                url: 'login.json',
-                dataType: 'json',
-                data: {
-                    loginUsername: $('#email').val(),
-                    loginPassword: $('#loginPassword').val()
-                },
+                async:false,
+                cache:false,
+                url: '${pageContext.request.contextPath}/loginUser',
+                // contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: data1,
                 success: function (data) {
-                    alert(13)
-                    var jsonData = JSON.parse(data);
-                    if (jsonData.code == '999') {
-                        window.location.href = './static/templates/main.html';
-                    }
+                    console.log(data);
+                   if(data.msg=="1"){
+                       window.location.href = "AdminIndex.jsp";
+                   }
+                   else{
+                       layer.msg("登陆失败1");
+                   }
                 },
                 error: function () {
-                    alert(12)
-                    $('#loginBtn').val("登录");
+                    layer.msg("登陆失败");
                 }
             })
         });

@@ -432,7 +432,7 @@
                     ,error: function(index, upload,msg){
                         var tr = demoListView.find('tr#upload-'+ index)
                             ,tds = tr.children();
-                        tds.eq(2).html('<span style="color: #FF5722;">'+msg+'</span>');
+                        tds.eq(2).html('<span style="color: #ff5722;">'+msg+'</span>');
                         tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
 
@@ -502,6 +502,7 @@
                         // alert(data.idRestaurant);
                         var id = data.idRestaurant;
                         $.ajax({
+
                             type: "POST",
                             url: "${pageContext.request.contextPath}/restaurant/delete",
                             data: {"idRestaurant": id},

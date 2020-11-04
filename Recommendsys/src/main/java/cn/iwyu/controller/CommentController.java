@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,5 +72,49 @@ public class CommentController {
             return Msg.succeed();
         }
         return  Msg.fail();
+    }
+    /**
+    *@Description 评分
+    *@Author XiaoMao
+    *@Date 4/11/2020 下午3:15
+    *@Param [comment]
+    *Return java.lang.Integer
+    **/
+    @RequestMapping("/scoreRestaurant")
+    @ResponseBody
+    public Integer scoreRestaurant(Comment comment){
+        Date date = new Date();
+        comment.setTime(date);
+        comment.setNumLike(0);
+        Integer flag = 0;
+        //评分不能为回复信息
+        if(comment.getIdCommentReply()!=null){
+            return flag;
+        }
+        flag = service.scoreRestaurant(comment);
+        return flag;
+    }
+    /**
+    *@Description 评论消息
+    *@Author XiaoMao
+    *@Date 4/11/2020 下午3:20
+    *@Param [comment]
+    *Return java.lang.Integer
+    **/
+    @RequestMapping("/restaueant")
+    @ResponseBody
+    public Integer restaueant(Comment comment){
+        //单纯的评论不能带评分
+        if(comment.getScore()!=null){
+            return 0;
+        }
+        //回复的原评论需要存在
+        if(service.findById(comment.getIdCommentReply())==null){
+            return 0;
+        }
+        Date date = new Date();
+        comment.setTime(date);
+        comment.setNumLike(0);
+        return service.save(comment);
     }
 }

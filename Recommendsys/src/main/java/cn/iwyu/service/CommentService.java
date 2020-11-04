@@ -18,7 +18,9 @@ import java.util.List;
 
 public interface CommentService {
     //添加评论
-    public void save(Comment comment);
+    public Integer save(Comment comment);
+    //通过id查询评论
+    Comment findById(Integer comment_id);
     //查询全部评论
     public List<CommentCustom> findAll();
     //通过用户id查询评论
@@ -33,4 +35,6 @@ public interface CommentService {
     public List<CommentCustom> findByExample(CommentExample example);
     //批量删除
     public Integer batchDelete(List<Integer> ids);
+    //完成评分
+    Integer scoreRestaurant(Comment comment);
 }

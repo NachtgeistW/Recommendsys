@@ -9,12 +9,14 @@ import cn.iwyu.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
@@ -31,21 +33,40 @@ public class LoginController {
 
     @Resource
     UserService service;
-
-    @RequestMapping("/login")
+//    @RequestMapping("/loginUser")
     @ResponseBody
-    public Msg login(HttpSession session,String userName,String email){
+    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+    public Msg login(HttpSession session,String password,String email){
         User user = new User();
+        char data = '0';
+        System.out.println(email);
         user.setEmail(email);
-        user.setUserName(userName);
+        user.setPassword(password);
         user = service.checkPwd(user);
+        System.out.println(user);
         if(user!=null){
             session.setAttribute("userName",user.getUserName());
             session.setAttribute("userID",user.getIdUser());
             session.setAttribute("role",user.getIdentity());
             session.setAttribute("loginFlag",1);
-            return Msg.succeed();
+            if(user.getIdentity()==1){
+//                data = '1';
+////                return '1';
+//                return data;
+                System.out.println("arrived2");
+                return Msg.succeed("1");
+//                System.out.println("arrived2");
+            }else if(user.getIdentity()==2){
+                return Msg.succeed("2");
+            }
+//            mv.addObject("result",data);
+//            return mv;
+//            return Msg.succeed("1");
         }
+        //查不到默认跳回登录页面
+//        mv.addObject("result",data);
+//        return mv;
+//        return Msg.fail();
         return Msg.fail();
     }
 
@@ -56,7 +77,7 @@ public class LoginController {
     *@Param [user]
     *Return cn.iwyu.domain.Msg
     **/
-    @RequestMapping("checkEmail")
+    @RequestMapping("/checkEmail")
     @ResponseBody
     public Msg checkMail(String email){
         //验证邮箱是否已经存在，不存在的话，需要提醒用户先去注册
