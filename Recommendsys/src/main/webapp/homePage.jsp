@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="plug/layui/css/layui.css">
 </head>
 <body>
 <div style="padding: 20px; background-color: #F2F2F2;">
@@ -34,7 +34,7 @@
         </div>
     </div>
 </div>
-<script src="layui/layui.js"></script>
+<script src="plug/layui/layui.js"></script>
 <script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script>

@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>登录</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="plug/layui/css/layui.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
@@ -61,7 +61,7 @@
     </div>
 </div>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="layui/layui.js"></script>
+<script src="plug/layui/layui.js"></script>
 <script type="text/javascript">
     layui.use(['form', 'jquery'], function () {
         var form = layui.form

@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="plug/layui/css/layui.css">
     <link rel="stylesheet" href="css/admin/table.css">
 
 </head>
@@ -78,7 +78,7 @@
 <!-- 添加和修改的弹出层结束 -->
 
 
-<script src="layui/layui.js"></script>
+<script src="plug/layui/layui.js"></script>
 <script>
     layui.use(['table', 'jquery', 'layer', 'form',], function () {
         var table = layui.table;

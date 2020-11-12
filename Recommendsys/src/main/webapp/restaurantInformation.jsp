@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="plug/layui/css/layui.css">
     <link rel="stylesheet" href="css/admin/table.css">
     <%
         String path = request.getContextPath();
@@ -243,7 +243,7 @@
 </div>
 <!-- 添加和修改的弹出层结束 -->
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="layui/layui.js"></script>
+<script src="plug/layui/layui.js"></script>
 <script type="text/javascript">
     function dateToString(time) {
         var datetime = new Date();
@@ -366,14 +366,14 @@
                     ,url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
                     ,accept: 'images'
                     ,acceptMime:'image/*'
-                    ,method: 'post'
+                    // ,method: 'post'
                     ,multiple: true
                     ,auto: false
+                    // ,async: false
                     ,size:2048
                     ,bindAction: '#edit-save'
                     ,data:{"id":data.idRestaurant}
                     ,choose: function(obj){
-                        alert(1)
                         var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                         //读取本地文件
                         obj.preview(function(index, file, result){
@@ -403,31 +403,17 @@
                         });
                     }
                     ,done: function(res, index, upload){
-                        document.getElementById("isCoverSourceFile").value="";
-                        if(res.code == 0){ //上传成功
-
-                            var tr = demoListView.find('tr#upload-'+ index)
-                                ,tds = tr.children();
+                        setTimeout(function(){
+                            console.log("延时");
+                        },200);
+                        if(res.code == 0) { //上传成功
+                            var tr = demoListView.find('tr#upload-' + index)
+                                , tds = tr.children();
                             tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                             tds.eq(3).html(''); //清空操作
                             return delete this.files[index]; //删除文件队列已经上传成功的文件
-                        }else if(res.code == -2){ //上传提示
-                            layer.confirm('该驾校已上传过此文件，是否选择重新上传？', {
-                                btn: ['是','否'] //按钮
-                            }, function(){
-                                document.getElementById("isCoverSourceFile").value="true";
-                                var tr = demoListView.find('tr#upload-'+ index)
-                                    ,tds = tr.children();
-                                layer.closeAll('dialog');//关闭询问框
-                                tds.eq(3).find('.demo-reload').click(); //触发重新上传点击事件
-                            }, function(){
-                                //和错误提示操作相同
-                                document.getElementById("isCoverSourceFile").value="";
-                                uploadListIns.config.error(index, upload,res.msg);
-                            });
-                        }else{
-                            this.error(index, upload,res.msg);
                         }
+                        this.error(index, upload,res.msg);
                     }
                     ,error: function(index, upload,msg){
                         var tr = demoListView.find('tr#upload-'+ index)
@@ -435,7 +421,6 @@
                         tds.eq(2).html('<span style="color: #ff5722;">'+msg+'</span>');
                         tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
-
                 });
                 form.on("submit(edit-save)", function (obj) {
                     var data1 = {
@@ -488,6 +473,8 @@
                     layer.close(mainIndex);
                     //刷新数据表格
                     tableIns.reload();
+                    //刷新页面
+                    location.reload();
                     // })
                 });
             };

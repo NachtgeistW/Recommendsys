@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="plug/layui/css/layui.css">
     <link rel="stylesheet" href="css/admin/table.css">
 </head>
 <body>
@@ -146,7 +146,7 @@
     </form>
 </div>
 <!-- 添加和修改的弹出层结束 -->
-<script src="layui/layui.js"></script>
+<script src="plug/layui/layui.js"></script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],function () {
         var table = layui.table;

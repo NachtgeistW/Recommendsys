@@ -88,4 +88,10 @@
             </if>
         </where>
     </select>
+    <select id="findScore" resultMap="BaseResultMap" parameterType="Integer">
+        select
+        *
+        from COMMENT
+        where id_restaurant = #{res_id} and id_user = #{user_id}
+    </select>
 </mapper>

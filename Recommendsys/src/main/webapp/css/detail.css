@@ -1,0 +1,92 @@
+﻿.shop-detail {
+    background: #fff;
+    padding: 5px;
+    box-shadow: 0 1px 8px #a6a6a6;
+    margin-bottom: 15px;
+    display: flex;
+    /*flex-direction: column;*/
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.shop-detail-text {
+    width: 380px;
+    padding: 30px 15px 15px 15px;
+    height: 210px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    /*box-shadow: 0 1px 8px #a6a6a6;*/
+    order: 1;
+}
+
+.shop-detail-text-name {
+    font-size: 20px;
+    padding: 3px 0;
+}
+
+.shop-detail-text-content {
+    font-size: 14px;
+    color: #0C0C0C;
+}
+
+.shop-detail-text-label {
+    margin-right: 5px;
+}
+
+.shop-detail-text-commentNum {
+    margin-left: 15px;
+    color: #808080;
+}
+
+.shop-detail-photo {
+    margin-right: 0px;
+    width: 350px;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+.content_low{
+    font-size: 10px;
+    color: #acacac;
+}
+.content-line{
+    margin-top: 5px;
+}
+.star{
+    font-weight: bold;
+}
+.time{
+color: rgba(141, 141, 141, 0.8);
+ }
+/*地图容器*/
+.containerMap {
+    height: 500px;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .containerMap {
+        height: 500px;
+        width: 450px;
+    }
+}
+
+/*地图容器end*/
+
+/*图片容器*/
+.boxPhoto {
+    width: 300px;
+    padding: 12px;
+    margin: 20px 10px;
+    border-radius: 5px;
+    background-color: rgba(197, 194, 197, 0.56);
+}
+
+/*图片容器end*/
+
+/*图片弹窗*/
+#windowPhoto {
+    display: none;
+}
+
+
+/*图片弹窗end*/
