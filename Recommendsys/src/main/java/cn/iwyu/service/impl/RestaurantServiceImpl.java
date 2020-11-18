@@ -22,7 +22,6 @@ import java.util.List;
  * @Version 1.0
  **/
 @Service
-@Transactional
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Resource
@@ -30,9 +29,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Resource
     RestaurantCustomMapper customMapper;
 
+    @Transactional
     @Override
     public Integer save(Restaurant restaurant) {
-        return restaurantMapper.insert(restaurant);
+        return customMapper.saveGetId(restaurant);
     }
 
     @Override

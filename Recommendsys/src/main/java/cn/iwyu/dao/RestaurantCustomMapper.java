@@ -24,4 +24,6 @@ public interface RestaurantCustomMapper {
     List<RestaurantCustom> findByExample(RestaurantExample example);
     //更新图片
     Integer updateImg(Restaurant restaurant);
+    //添加餐馆，返回id
+    int saveGetId(Restaurant restaurant);
 }

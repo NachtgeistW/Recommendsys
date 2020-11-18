@@ -323,10 +323,12 @@
                 , limits: [3, 5, 10, 12]
                 , parseData: function (res) {
                     var result;
-                    if (this.page.curr) {
-                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                    } else {
-                        result = res.data.slice(0, this.limit);
+                    if(res.data!=null){
+                        if (this.page.curr) {
+                            result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                        } else {
+                            result = res.data.slice(0, this.limit);
+                        }
                     }
                     return {"code": res.code, "msg": res.msg, "count": res.count, "data": result};
                 }
@@ -427,12 +429,13 @@
                         "idRestaurant": data.idRestaurant,
                         "idRecommandedUser": data.idRecommandedUser,
                         "recommandReason": data.recommandReason,
-                        "comment": data.comment,
+                        "comment": $("#edit_remark").val(),
                         "name": $("#data_name").val(),
                         "intro": $("#data_introduction").val(),
                         "typeOfCuisine": $("#data_cuisine").val(),
                         "address": $("#data_address").val()
                     };
+                    alert(JSON.stringify(data1));
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",

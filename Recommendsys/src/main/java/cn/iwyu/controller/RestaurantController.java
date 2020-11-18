@@ -95,7 +95,6 @@ public class RestaurantController {
         restaurant.setRecommendTime(r.getRecommendTime());
         restaurant.setResturantImage(r.getResturantImage());
         Integer flag = service.update(restaurant);
-        System.out.println(flag);
         if(flag==1){
             return Msg.succeed();
         }
@@ -148,7 +147,7 @@ public class RestaurantController {
         System.out.println(date);
         if(restaurant.getName() == null){
 
-            return Msg.fail("失败");
+            return Msg.fail("添加失败");
         }
 //        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
 
@@ -163,10 +162,11 @@ public class RestaurantController {
         }
         System.out.println("ok");
         Integer flag = service.save(restaurant);
-        if(flag==1){
-            return Msg.succeed();
+        System.out.println(restaurant.getIdRestaurant());
+        if(flag==0){
+            return Msg.fail();
         }
-        return Msg.fail();
+        return Msg.succeed(Integer.toString(flag));
     }
     @RequestMapping("/delete")
     @ResponseBody
