@@ -27,26 +27,26 @@ public class Msg {
     //静态方法添加成功或失败信息
     public static Msg succeed(){
         Msg msg = new Msg();
-        msg.setCode("1");
+        msg.setCode("0");
         msg.setMsg("succeed");
         return msg;
     }
     public static Msg succeed(String text){
         Msg msg = new Msg();
-        msg.setCode("1");
+        msg.setCode("0");
         msg.setMsg(text);
         return msg;
     }
     public static Msg fail(){
         Msg msg = new Msg();
-        msg.setCode("0");
+        msg.setCode("-1");
         msg.setCount(0);
         msg.setMsg("失败");
         return msg;
     }
     public static Msg fail(String text){
         Msg msg = new Msg();
-        msg.setCode("0");
+        msg.setCode("-1");
         msg.setCount(0);
         msg.setMsg(text);
         return msg;

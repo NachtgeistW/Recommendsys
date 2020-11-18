@@ -549,35 +549,14 @@
                         url: '${pageContext.request.contextPath}/restaurant/save',
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
-                        data: data1,
-                        success: function (data) {
+                        data: JSON.stringify(data1),
+                        success: function (res) {
                             console.log("succeed");
                         },
-                        error: function (data) {
+                        error: function (res) {
                             console.log("fail");
-                        },
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
                         }
                     })
-                    <%--table.reload('restaurantTable', {--%>
-                    <%--    url: '${pageContext.request.contextPath}/restaurant/save'--%>
-                    <%--    , where: {--%>
-                    <%--        'name': name,--%>
-                    <%--        'typeOfCuisine': typeOfCuisine,--%>
-                    <%--        'address': address,--%>
-                    <%--        'intro': intro,--%>
-                    <%--        'comment': comment,--%>
-                    <%--        'idRecommandedUser': idRecommandedUser,--%>
-                    <%--        'recommandReason': recommandReason,--%>
-                    <%--        // 'recommendTime': recommendTime,--%>
-                    <%--    } //设定异步数据接口的额外参数--%>
-                    <%--    //,height: 300--%>
-                    <%--    , page: {--%>
-                    <%--        curr: 1 //重新从第 1 页开始--%>
-                    <%--    }--%>
-                    <%--    , text: {none: '无数据'}--%>
-                    <%--});--%>
 
                     //关闭弹出层
                     layer.close(mainIndex);
