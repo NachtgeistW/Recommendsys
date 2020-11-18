@@ -143,10 +143,11 @@ public class RestaurantController {
     @RequestMapping(value = "/save" ,produces="application/json;charset=utf-8")
     @ResponseBody
     public Msg save(@RequestBody Restaurant restaurant, HttpSession session) throws Exception {
+        System.out.println("asdf");
         Date date = new Date();
-
+        System.out.println(date);
         if(restaurant.getName() == null){
-            System.out.println("asdf");
+
             return Msg.fail("失败");
         }
 //        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
@@ -185,12 +186,20 @@ public class RestaurantController {
     **/
     @RequestMapping("/pass")
     @ResponseBody
-    public Msg pass(Integer idRestaurant){
+    public Msg pass(Integer idRestaurant,HttpSession session){
+        Integer userID = 1;
+        /*
+            Integer userID = session.getAttribute("userID");
+        **/
+        System.out.println(idRestaurant);
         Restaurant restaurant = service.findById(idRestaurant);
-        restaurant.setIsAuditPassed(1);
+        if(restaurant==null){
+            return Msg.fail("查无此餐馆");
+        }
+        restaurant.setIsAuditPassed(userID);
         Integer flag = service.update(restaurant);
         if(flag==1){
-            return Msg.succeed();
+            return Msg.succeed("通过");
         }
         return Msg.fail();
     }

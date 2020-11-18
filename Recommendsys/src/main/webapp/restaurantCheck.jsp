@@ -35,7 +35,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">店铺名</label>
             <div class="layui-input-inline">
-                <input name="r_name" class="layui-input" type="text" autocomplete="off"
+                <input name="name" class="layui-input" type="text" autocomplete="off"
                        lay-verify="required" id="edit_name" disabled="disabled">
             </div>
         </div>
@@ -49,35 +49,35 @@
         <div class="layui-inline">
             <label class="layui-form-label">菜系</label>
             <div class="layui-input-inline">
-                <input name="r_cuisine" class="layui-input" type="text"
+                <input name="typeOfCuisine" class="layui-input" type="text"
                        autocomplete="off" lay-verify="required" id="edit_cuisine" disabled="disabled">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">店铺地址</label>
             <div class="layui-input-inline">
-                <input name="r_address" class="layui-input" type="text"
+                <input name="address" class="layui-input" type="text"
                        autocomplete="off" lay-verify="required" id="edit_address" disabled="disabled">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">店铺简介</label>
             <div class="layui-input-inline">
-                <textarea name="r_introduction" class="layui-textarea" autocomplete="off" id="edit_introduction" disabled="disabled"></textarea>
+                <textarea name="intro" class="layui-textarea" autocomplete="off" id="edit_introduction" disabled="disabled"></textarea>
             </div>
 
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">备注</label>
             <div class="layui-input-inline">
-                <textarea name="r_remark" class="layui-textarea" autocomplete="off" id="edit_remark" disabled="disabled"></textarea>
+                <textarea name="comment" class="layui-textarea" autocomplete="off" id="edit_remark" disabled="disabled"></textarea>
             </div>
         </div>
     </form>
 </div>
 <!-- 添加和修改的弹出层结束 -->
 
-
+<script src="js/jquery.min.js"></script>
 <script src="plug/layui/layui.js"></script>
 <script>
     layui.use(['table', 'jquery', 'layer', 'form',], function () {
@@ -95,7 +95,7 @@
                 {type: 'numbers'}
                 , {field: 'idRestaurant', title: '店铺ID', sort: true}
                 , {field: 'name', title: '店铺名' }
-                , {field: 'resturantImage', title: '图片'}
+                , {field: 'resturantImage', title: '图片',templet: '#rPhoto'}
                 , {field: 'intro', title: '店铺简介'}
                 , {field: 'typeOfCuisine', title: '菜系名称'}
                 , {field: 'address', title: '店铺地址'}
@@ -112,15 +112,39 @@
 
         //监听通过操作
         form.on('checkbox(checkDemo)', function (obj) {
-            var id = $(this).parents("tr").children("td:nth-child(2)").text();//获得当前行数据
-            alert(id);
-            layer.msg("通过");
-            layer.confirm('确定通过？', function (index) {
-                layer.close(index);
-                //向服务端发送删除指令
-            });
+            // var id = $(this).parents("tr").children("td:nth-child(2)").text();
+            // 获得当前行数据
+            var id = $(this).parents("tr").children("td:nth-child(2)").text();
+            var checkBox = $(this);
+            console.log(checkBox.val());
+            layer.confirm('确定通过？',
+                {	closeBtn:0
+                    ,btn: ['确定', '取消']},
+                function () {
+                    $.ajax({
+                        url:'${pageContext.request.contextPath}/restaurant/pass',
+                        dataType:'json',
+                        type:'POST',
+                        data:{"idRestaurant":parseInt(id)},
+                        success:function (res){
+                            if(res.code==="0"){
+                                console.log(res.msg);
+                                location.reload();
+                            }
+                        },
+                        error:function (res){
+                        }
+                    })
+                },
+                function(index){
+                    layer.close(index);
+                    checkBox.prop("checked", false);
+                    layui.form.render();
+
+                }
+            );
         });
-        //打开修改页面
+        //打开详情页面
         function openDetails(data) {
             mainIndex = layer.open({
                 type: 1,
@@ -129,7 +153,7 @@
                 area: ['325px', '350px'],
                 success: function (layero,index) {
                     form.val("dataFrm", data);
-                    url = "user/updateUser.action";
+
                 }
             });
         };
@@ -142,6 +166,18 @@
             }
         });
     });
+</script>
+<script id="rPhoto" type="text/html">
+    {{#    if( d.resturantImage == null || d.resturantImage.length  == 0){   }}
+    {{ " " }}
+    {{#   }else{   }}
+    {{#   var srr=d.resturantImage.split(",");   }}
+    {{#   for(var j in srr) { srr[j];  }}
+    <div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
+        <img style=" max-width:70px; max-height:50px;" src="{{srr[j]}}"/>
+    </div>
+    {{#  }  }}
+    {{#  }  }}
 </script>
 </body>
 </html>
