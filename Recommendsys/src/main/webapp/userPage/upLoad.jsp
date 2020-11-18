@@ -301,9 +301,8 @@
                         data: JSON.stringify(data1),
                         success: function (data) {
                             $("input[type=reset]").trigger("click");
-                            data = 12;
                             console.log("succeed");
-                            restaurantID = data;
+                            restaurantID = data.msg;
                             layer.confirm('上传成功！是否继续上传图片？', {
                                 btn: ['确定', '取消'] //可以无限个按钮
                             }, function(index, layero){

@@ -196,13 +196,6 @@
                        lay-verify="required" id="name">
             </div>
         </div>
-        <%--                <div class="layui-upload layui-input-inline">--%>
-        <%--                    <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 5px;width: 228px">--%>
-        <%--                        预览图：--%>
-        <%--                        <div class="layui-upload-list" name="resturantImage" id="edit_photo"></div>--%>
-        <%--                    </blockquote>--%>
-        <%--                    <button type="button" class="layui-btn" id="btnPhotos" style="width: 265px">多图片上传</button>--%>
-        <%--                </div>--%>
         <div class="layui-inline">
             <label class="layui-form-label">菜系</label>
             <div class="layui-input-inline">
@@ -554,31 +547,24 @@
                 })
                 //点击添加按钮
                 form.on("submit(add-save)", function (data) {
-                    var idRestaurant=data.field.idRestaurant;
-                    var name = data.field.name;
-                    var typeOfCuisine = data.field.typeOfCuisine;
-                    var address = data.field.address;
-                    var intro = data.field.intro;
-                    var comment = data.field.comment;
-                    var idRecommandedUser = data.field.idRecommandedUser;
-                    var recommandReason = data.field.recommandReason;
-                    var recommendTime = data.field.recommendTime;
                     var data1 = {
-                        "name": name,
-                        "idRecommandedUser": idRecommandedUser,
-                        "recommandReason": recommandReason,
-                        "comment": comment,
-                        "intro": intro,
-                        "typeOfCuisine": typeOfCuisine,
-                        "address": address
+                        "name": $("#name").val(),
+                        "idRecommandedUser": $("#idRecommandedUser").val(),
+                        "recommandReason": $("#recommandReason").val(),
+                        "comment": $("#comment").val(),
+                        "intro": $("#intro").val(),
+                        "typeOfCuisine": $("#typeOfCuisine").val(),
+                        "address": $("#address").val()
                     };
+                    console.log(JSON.stringify(data1));
                     $.ajax({
                         type: "POST",
                         url: '${pageContext.request.contextPath}/restaurant/save',
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
-                        data: data1,
-                        success: function (data) {
+                        data: JSON.stringify(data1),
+                        success: function (res) {
+                            var idRestaurant=res.msg;
                             layer.confirm('上传成功！是否继续上传图片？', {
                                 btn: ['确定', '取消'] //可以无限个按钮
                             }, function(index, layero){
@@ -593,29 +579,8 @@
                         },
                         error: function (data) {
                             console.log("fail");
-                        },
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
                         }
                     })
-                    <%--table.reload('restaurantTable', {--%>
-                    <%--    url: '${pageContext.request.contextPath}/restaurant/save'--%>
-                    <%--    , where: {--%>
-                    <%--        'name': name,--%>
-                    <%--        'typeOfCuisine': typeOfCuisine,--%>
-                    <%--        'address': address,--%>
-                    <%--        'intro': intro,--%>
-                    <%--        'comment': comment,--%>
-                    <%--        'idRecommandedUser': idRecommandedUser,--%>
-                    <%--        'recommandReason': recommandReason,--%>
-                    <%--        // 'recommendTime': recommendTime,--%>
-                    <%--    } //设定异步数据接口的额外参数--%>
-                    <%--    //,height: 300--%>
-                    <%--    , page: {--%>
-                    <%--        curr: 1 //重新从第 1 页开始--%>
-                    <%--    }--%>
-                    <%--    , text: {none: '无数据'}--%>
-                    <%--});--%>
                     setTimeout(function(){
                         //关闭弹出层
                         layer.close(mainIndex);
@@ -637,7 +602,7 @@
                     ,success: function ( ) {
                         var demoListView = $('#photoListTable1')
                             ,uploadListIns = upload.render({
-                            elem: '#photoListBtn'
+                            elem: '#photoListBtn1'
                             ,url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
                             ,accept: 'images'
                             ,acceptMime:'image/*'

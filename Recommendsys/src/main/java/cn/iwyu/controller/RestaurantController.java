@@ -162,11 +162,10 @@ public class RestaurantController {
         }
         System.out.println("ok");
         Integer flag = service.save(restaurant);
-        System.out.println(restaurant.getIdRestaurant());
         if(flag==0){
             return Msg.fail();
         }
-        return Msg.succeed(Integer.toString(flag));
+        return Msg.succeed(Integer.toString(restaurant.getIdRestaurant()));
     }
     @RequestMapping("/delete")
     @ResponseBody

@@ -73,4 +73,14 @@
     set  resturant_image = #{resturantImage,jdbcType=VARCHAR},version = version + 1
     where id_restaurant = #{idRestaurant,jdbcType=INTEGER} and version = #{version,jdbcType=INTEGER}
   </update>
+    <insert id="saveGetId" parameterType="cn.iwyu.domain.Restaurant" useGeneratedKeys="true" keyProperty="idRestaurant">
+        insert into restaurant (name, intro,
+          type_of_cuisine, address, id_recommanded_user,
+          recommand_reason, is_audit_passed, comment,
+          resturant_image, recommend_time)
+        values ( #{name,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR},
+          #{typeOfCuisine,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idRecommandedUser,jdbcType=INTEGER},
+          #{recommandReason,jdbcType=VARCHAR}, #{isAuditPassed,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR},
+          #{resturantImage,jdbcType=VARCHAR}, #{recommendTime,jdbcType=DATE})
+    </insert>
 </mapper>
