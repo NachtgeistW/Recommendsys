@@ -44,30 +44,18 @@ public class LoginController {
         user.setPassword(password);
         user = service.checkPwd(user);
         System.out.println(user);
-        if(user!=null){
-            session.setAttribute("userName",user.getUserName());
-            session.setAttribute("userID",user.getIdUser());
-            session.setAttribute("role",user.getIdentity());
-            session.setAttribute("loginFlag",1);
-            if(user.getIdentity()==1){
-//                data = '1';
-////                return '1';
-//                return data;
-                System.out.println("arrived2");
-                return Msg.succeed("1");
-//                System.out.println("arrived2");
-            }else if(user.getIdentity()==2){
-                return Msg.succeed("2");
+        if(user!=null) {
+            session.setAttribute("userName", user.getUserName());
+            session.setAttribute("userID", user.getIdUser());
+            session.setAttribute("role", user.getIdentity());
+            session.setAttribute("loginFlag", 1);
+            if (user.getIdentity() == 1) {
+                return Msg.succeed("管理员登录成功");
+            } else if (user.getIdentity() == 2) {
+                return Msg.succeed("用户登录成功");
             }
-//            mv.addObject("result",data);
-//            return mv;
-//            return Msg.succeed("1");
         }
-        //查不到默认跳回登录页面
-//        mv.addObject("result",data);
-//        return mv;
-//        return Msg.fail();
-        return Msg.fail();
+        return Msg.fail("账号或密码错误");
     }
 
     /**

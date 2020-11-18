@@ -110,14 +110,23 @@ public class UserServiceImpl implements UserService {
             mMessageHelper.setFrom(from);//发件人邮箱
             mMessageHelper.setTo(mail.getAddress());//收件人邮箱
             if (mail.getTitle() == null){
-                mail.setTitle("check");
+                mail.setTitle("欢迎使用找铺子系统");
             }
             mMessageHelper.setSubject(mail.getTitle());//邮件的主题
             if (mail.getText() == null){
+                String message = "注意不要将此验证码给予别人，如果非本人操作，请忽略此消息\n"+"您的验证码为：";
                 checkCode = String.valueOf(new Random().nextInt(89999/9) + 100000);
-                String message = "您的注册验证码为："+checkCode;
+                if(mail.getCode() == null){
+                    mail.setCode(checkCode);
+                    message = message + checkCode;
+                }else {
+                    message = message + mail.getCode();
+                }
                 mail.setText(message);
                 System.out.println(message);
+            }else {
+                String message = mail.getText();
+                mail.setText(message+mail.getCode());
             }
             mMessageHelper.setText("<p>"+mail.getText()+"</p><br/>",true);//邮件的文本内容，true表示文本以html格式打开
             javaMailSender.send(mMessage);//发送邮件

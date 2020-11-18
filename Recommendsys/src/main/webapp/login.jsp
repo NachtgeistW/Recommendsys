@@ -96,6 +96,7 @@
 </div>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="plug/layui/layui.js"></script>
+<script src="js/json2.js"></script>
 <%--<script src="js/jquery.particleground.min.js" charset="utf-8"></script>--%>
 <script type="text/javascript">
     layui.use(['form', 'jquery'], function () {
@@ -156,11 +157,16 @@
                 data: data1,
                 success: function (data) {
                     console.log(data);
-                   if(data.msg=="1"){
+                    // var tes = data.responseText;
+                    // var obj = JSON.parse(tes);
+                    // console.log(obj);
+                   if(data.code=="1"){
+                       layer.msg(data.msg);
                        window.location.href = "AdminIndex.jsp";
                    }
                    else{
-                       layer.msg("登陆失败1");
+                       layer.msg(data.msg);
+                       window.location.href = "login.jsp";
                    }
                 },
                 error: function () {

@@ -133,16 +133,28 @@ public class RestaurantController {
 //        }
         return JSONObject.fromObject(result);
     }
-
+/**
+*@Description 记得整合时恢复用户id的设置
+*@Author XiaoMao
+*@Date 15/11/2020 下午5:20
+*@Param [restaurant, session]
+*Return cn.iwyu.domain.Msg
+**/
     @RequestMapping(value = "/save" ,produces="application/json;charset=utf-8")
     @ResponseBody
-    public Msg save(Restaurant restaurant, HttpSession session) throws Exception {
+    public Msg save(@RequestBody Restaurant restaurant, HttpSession session) throws Exception {
         Date date = new Date();
 
+        if(restaurant.getName() == null){
+            System.out.println("asdf");
+            return Msg.fail("失败");
+        }
 //        restaurant.setResturantImage(imgupload.uploadMultipal(files,request));
 
 
         restaurant.setRecommendTime(date);
+//        restaurant.setIdRecommandedUser((Integer) session.getAttribute("userID"));
+        restaurant.setIdRecommandedUser(1);
         if(session.getAttribute("role")=="1"){
             restaurant.setIsAuditPassed(1);
         }else {

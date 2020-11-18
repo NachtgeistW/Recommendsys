@@ -15,6 +15,8 @@
     <link href="../css/global.css" rel="stylesheet" />
     <!--本页样式表-->
     <link href="../css/article.css" rel="stylesheet" />
+<!--    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+<!--    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>-->
 </head>
 <body>
     <!-- 导航 -->
@@ -193,6 +195,125 @@
                 <div class="clear"></div>
             </div>
         </div>
+        <script src="../plug/layui/layui.js"></script>
+        <script src="../js/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function (){
+                // var $btn = document.getElementById("#edit-save");
+                // var $table = document.getElementById("#dataFrm");
+                var $btn = $("#edit-save");
+                var $name = $("#data_name");
+                var $typeOfCuisine = $("#data_cuisine");
+                var $adress = $("#data_address");
+                var $intro = $("#data_introduction");
+                var $comment = $("#edit_remark")
+                $($btn).on("click",function () {
+                    console.log("aaa")
+                    $.ajax({
+                            url:'../${pageContext.request.contextPath}/restaurant/save',
+                            type:'post',
+                            contentType: "application/json;charset=UTF-8",
+                            dataType: "json",
+                            data:{
+                                "name":$name.val(),
+                                "typeOfCuisine":$typeOfCuisine.val(),
+                                "adress":$adress.val(),
+                                "intro" :$intro.val(),
+                                "comment" :$comment.val()
+                            },
+                            success: function (data) {
+                                console.log("succeed");
+                            },
+                            error: function (data) {
+                                console.log("fail");
+                            },
+                        }
+                    )
+                })
+            })
+            //多图片上传
+            layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],
+                function () {
+                    var table = layui.table;
+                    var $ = layui.jquery;
+                    var form = layui.form;
+                    var layer = layui.layer;
+                    var laydate = layui.laydate;
+                    var upload = layui.upload;
+                    //绑定时间选择器
+                    laydate.render({
+                        elem: '#startTime'
+                    });
+                    laydate.render({
+                        elem: '#endTime'
+                    });
+                    laydate.render({
+                        elem: '#recommendTime'
+                    });
+                    var demoListView = $('#photoListTable')
+                        ,uploadListIns = upload.render({
+                        elem: '#photoListBtn'
+                        ,url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
+                        ,accept: 'images'
+                        ,acceptMime:'image/*'
+                        // ,method: 'post'
+                        ,multiple: true
+                        ,auto: false
+                        // ,async: false
+                        ,size:2048
+                        ,bindAction: '#edit-save'
+                        ,choose: function(obj){
+                            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                            //读取本地文件
+                            obj.preview(function(index, file, result){
+                                var tr = $(['<tr id="upload-'+ index +'">'
+                                    ,'<td>'+ file.name +'</td>'
+                                    ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+                                    ,'<td>等待上传</td>'
+                                    ,'<td>'
+                                    ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                    ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                    ,'</td>'
+                                    ,'</tr>'].join(''));
+
+                                //单个重传
+                                tr.find('.demo-reload').on('click', function(){
+                                    obj.upload(index, file);
+                                });
+
+                                //删除
+                                tr.find('.demo-delete').on('click', function(){
+                                    delete files[index]; //删除对应的文件
+                                    tr.remove();
+                                    uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                                });
+
+                                demoListView.append(tr);
+                            });
+                        }
+                        ,done: function(res, index, upload){
+                            setTimeout(function(){
+                                console.log("延时");
+                            },200);
+                            if(res.code == 0) { //上传成功
+                                var tr = demoListView.find('tr#upload-' + index)
+                                    , tds = tr.children();
+                                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                tds.eq(3).html(''); //清空操作
+                                return delete this.files[index]; //删除文件队列已经上传成功的文件
+                            }
+                            this.error(index, upload,res.msg);
+                        }
+                        ,error: function(index, upload,msg){
+                            var tr = demoListView.find('tr#upload-'+ index)
+                                ,tds = tr.children();
+                            tds.eq(2).html('<span style="color: #ff5722;">'+msg+'</span>');
+                            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                        }
+                    });
+                });
+
+        </script>
     </div>
     <!-- 底部 -->
     <footer class="blog-footer">
