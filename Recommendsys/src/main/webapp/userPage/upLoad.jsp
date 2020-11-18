@@ -12,17 +12,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">
     <meta http-equiv="Content-Language" content="zh-CN">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <title>找铺子</title>
     <link rel="shortcut icon" href="../images/Logo_40.png" type="image/x-icon">
     <!--Layui-->
-    <link href="../plug/layui/css/layui.css" rel="stylesheet" />
+    <link href="../plug/layui/css/layui.css" rel="stylesheet"/>
     <!--font-awesome-->
-    <link href="../plug/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../plug/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
     <!--全局样式表-->
-    <link href="../css/global.css" rel="stylesheet" />
+    <link href="../css/global.css" rel="stylesheet"/>
     <!--本页样式表-->
-    <link href="../css/article.css" rel="stylesheet" />
+    <link href="../css/article.css" rel="stylesheet"/>
     <!--    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
     <!--    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>-->
 </head>
@@ -35,7 +35,7 @@
             <i class="fa fa-qq"></i>
         </a>
         <a href="javascript:;" class="blog-user layui-hide">
-            <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely" />
+            <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely"/>
         </a>
         <!-- 找铺子 -->
         <a class="blog-logo" href="home.html">找铺子</a>
@@ -63,6 +63,26 @@
         </a>
     </div>
 </nav>
+<div id="windowUploadImg" style="display: none">
+    <div class="layui-upload">
+        <button type="button" class="layui-btn layui-btn-normal" id="photoListBtn">选择多图片</button>
+        <div class="layui-upload-list">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>文件名</th>
+                    <th>大小</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="photoListTable"></tbody>
+            </table>
+        </div>
+    </div>
+    <input type="hidden" id="isCoverSourceFile" name="isCoverSourceFile" value="">
+    <input type="hidden" id="schoolId" name="schoolId" value="">
+</div>
 <!-- 主体（一般只改变这里的内容） -->
 <div class="blog-body">
     <div class="blog-container">
@@ -84,35 +104,23 @@
                                     <input name="name" class="layui-input" type="text" autocomplete="off"
                                            lay-verify="required" id="data_name">
                                 </div>
-                            </div>
-                            <div class="layui-upload">
-                                <button type="button" class="layui-btn layui-btn-normal" id="photoListBtn">选择多图片</button>
-                                <div class="layui-upload-list">
-                                    <table class="layui-table">
-                                        <thead>
-                                        <tr><th>文件名</th>
-                                            <th>大小</th>
-                                            <th>状态</th>
-                                            <th>操作</th>
-                                        </tr></thead>
-                                        <tbody id="photoListTable"></tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            </div><br>
                             <div class="layui-inline">
                                 <label class="layui-form-label">菜系</label>
                                 <div class="layui-input-inline">
                                     <input name="typeOfCuisine" class="layui-input" type="text"
                                            autocomplete="off" lay-verify="required" id="data_cuisine">
                                 </div>
-                            </div><br>
+                            </div>
+                            <br>
                             <div class="layui-inline">
                                 <label class="layui-form-label">店铺地址</label>
                                 <div class="layui-input-inline">
                                     <input name="address" class="layui-input" type="text"
                                            autocomplete="off" lay-verify="required" id="data_address">
                                 </div>
-                            </div><br>
+                            </div>
+                            <br>
                             <div class="layui-inline">
                                 <label class="layui-form-label">店铺简介</label>
                                 <div class="layui-input-inline">
@@ -120,17 +128,20 @@
                           id="data_introduction"></textarea>
                                 </div>
 
-                            </div><br>
+                            </div>
+                            <br>
                             <div class="layui-inline">
                                 <label class="layui-form-label">备注</label>
                                 <div class="layui-input-inline">
-                                    <textarea name="comment" class="layui-textarea" autocomplete="off" id="edit_remark"></textarea>
+                                    <textarea name="comment" class="layui-textarea" autocomplete="off"
+                                              id="edit_remark"></textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item" style="text-align: center;">
                                 <!--                                    <div class="layui-input-block">-->
                                 <button
-                                        class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-heart-fill" id="edit-save"
+                                        class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-heart-fill"
+                                        id="edit-save"
                                         type="button" lay-filter="edit-save" lay-submit="">保存
                                 </button>
                                 <button
@@ -140,8 +151,6 @@
 
                             </div>
                         </form>
-                        <input type="hidden" id="isCoverSourceFile" name="isCoverSourceFile" value="">
-                        <input type="hidden" id="schoolId" name="schoolId" value="">
                     </div>
                 </div>
             </div>
@@ -150,10 +159,12 @@
                     <form class="layui-form" action="">
                         <div class="layui-form-item">
                             <div class="search-keywords  shadow">
-                                <input type="text" name="keywords" lay-verify="required" placeholder="输入关键词搜索" autocomplete="off" class="layui-input">
+                                <input type="text" name="keywords" lay-verify="required" placeholder="输入关键词搜索"
+                                       autocomplete="off" class="layui-input">
                             </div>
                             <div class="search-submit  shadow">
-                                <a class="search-btn" lay-submit="formSearch" lay-filter="formSearch"><i class="fa fa-search"></i></a>
+                                <a class="search-btn" lay-submit="formSearch" lay-filter="formSearch"><i
+                                        class="fa fa-search"></i></a>
                             </div>
                         </div>
                     </form>
@@ -172,25 +183,31 @@
                     <div class="blog-module-title">作者推荐</div>
                     <ul class="fa-ul blog-module-ul">
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">Web安全之跨站请求伪造CSRF</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC 防范跨站请求伪造（CSRF）</a>
+                        </li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">C#基础知识回顾-扩展方法</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（一）（HTML篇）</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（二）（CSS篇）</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（三）（JS篇）</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">写了个Win10风格快捷菜单！</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC自定义错误页</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC制作404跳转（非302和200）</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">基于laypage的layui扩展模块（pagesize.js）！</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET
+                            MVC制作404跳转（非302和200）</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">基于laypage的layui扩展模块（pagesize.js）！</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="blog-module shadow">
                     <div class="blog-module-title">随便看看</div>
                     <ul class="fa-ul blog-module-ul">
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（一）（HTML篇）</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC制作404跳转（非302和200）</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET
+                            MVC制作404跳转（非302和200）</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">ASP.NET MVC 防范跨站请求伪造（CSRF）</a>
+                        </li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（三）（JS篇）</a></li>
-                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">基于laypage的layui扩展模块（pagesize.js）！</a></li>
+                        <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">基于laypage的layui扩展模块（pagesize.js）！</a>
+                        </li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">一步步制作时光轴（二）（CSS篇）</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">写了个Win10风格快捷菜单！</a></li>
                         <li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html">常用正则表达式</a></li>
@@ -202,128 +219,6 @@
             <div class="clear"></div>
         </div>
     </div>
-    <script src="../plug/layui/layui.js"></script>
-    <script src="../js/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function (){
-            // var $btn = document.getElementById("#edit-save");
-            // var $table = document.getElementById("#dataFrm");
-            var $btn = $("#edit-save");
-            var $name = $("#data_name");
-            var $typeOfCuisine = $("#data_cuisine");
-            var $adress = $("#data_address");
-            var $intro = $("#data_introduction");
-            var $comment = $("#edit_remark");
-            $($btn).on("click",function () {
-                var data1 = {
-                    "name":$name.val(),
-                    "typeOfCuisine":$typeOfCuisine.val(),
-                    "address":$adress.val(),
-                    "intro" :$intro.val(),
-                    "comment" :$comment.val()
-                };
-                console.log("aaa");
-                alert($name.val());
-                alert(JSON.stringify(data1));
-                $.ajax({
-                        url:'${pageContext.request.contextPath}/restaurant/save',
-                        type:"POST",
-                        contentType: "application/json;charset=UTF-8",
-                        dataType: "json",
-                        data:JSON.stringify(data1),
-                        success: function (data) {
-                            console.log("succeed");
-                        },
-                        error: function (data) {
-                            console.log("fail");
-                        },
-                    }
-                )
-            })
-        })
-        //多图片上传
-        layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],
-            function () {
-                var table = layui.table;
-                var $ = layui.jquery;
-                var form = layui.form;
-                var layer = layui.layer;
-                var laydate = layui.laydate;
-                var upload = layui.upload;
-                //绑定时间选择器
-                laydate.render({
-                    elem: '#startTime'
-                });
-                laydate.render({
-                    elem: '#endTime'
-                });
-                laydate.render({
-                    elem: '#recommendTime'
-                });
-                var demoListView = $('#photoListTable')
-                    ,uploadListIns = upload.render({
-                    elem: '#photoListBtn'
-                    ,url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
-                    ,accept: 'images'
-                    ,acceptMime:'image/*'
-                    // ,method: 'post'
-                    ,multiple: true
-                    ,auto: false
-                    // ,async: false
-                    ,size:2048
-                    ,bindAction: '#edit-save'
-                    ,choose: function(obj){
-                        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                        //读取本地文件
-                        obj.preview(function(index, file, result){
-                            var tr = $(['<tr id="upload-'+ index +'">'
-                                ,'<td>'+ file.name +'</td>'
-                                ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
-                                ,'<td>等待上传</td>'
-                                ,'<td>'
-                                ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
-                                ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
-                                ,'</td>'
-                                ,'</tr>'].join(''));
-
-                            //单个重传
-                            tr.find('.demo-reload').on('click', function(){
-                                obj.upload(index, file);
-                            });
-
-                            //删除
-                            tr.find('.demo-delete').on('click', function(){
-                                delete files[index]; //删除对应的文件
-                                tr.remove();
-                                uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                            });
-
-                            demoListView.append(tr);
-                        });
-                    }
-                    ,done: function(res, index, upload){
-                        setTimeout(function(){
-                            console.log("延时");
-                        },200);
-                        if(res.code == 0) { //上传成功
-                            var tr = demoListView.find('tr#upload-' + index)
-                                , tds = tr.children();
-                            tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                            tds.eq(3).html(''); //清空操作
-                            return delete this.files[index]; //删除文件队列已经上传成功的文件
-                        }
-                        this.error(index, upload,res.msg);
-                    }
-                    ,error: function(index, upload,msg){
-                        var tr = demoListView.find('tr#upload-'+ index)
-                            ,tds = tr.children();
-                        tds.eq(2).html('<span style="color: #ff5722;">'+msg+'</span>');
-                        tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
-                    }
-                });
-            });
-
-    </script>
 </div>
 <!-- 底部 -->
 <footer class="blog-footer">
@@ -359,11 +254,138 @@
         </div>
     </div>
 </div>
+<%--jquery.js--%>
+<script src="../js/jquery.min.js"></script>
 <!--遮罩-->
 <div class="blog-mask animated layui-hide"></div>
 <!-- layui.js -->
 <script src="../plug/layui/layui.js"></script>
 <!-- 全局脚本 -->
 <script src="../js/global.js"></script>
+<script type="text/javascript">
+    layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var upload = layui.upload;
+
+        $(function () {
+            // var $btn = document.getElementById("#edit-save");
+            // var $table = document.getElementById("#dataFrm");
+            var $name = $("#data_name");
+            var $typeOfCuisine = $("#data_cuisine");
+            var $adress = $("#data_address");
+            var $intro = $("#data_introduction");
+            var $comment = $("#edit_remark");
+            var restaurantID="";
+            $("#edit-save").on("click", function () {
+                var data1 = {
+                    "name": $name.val(),
+                    "typeOfCuisine": $typeOfCuisine.val(),
+                    "address": $adress.val(),
+                    "intro": $intro.val(),
+                    "comment": $comment.val()
+                };
+                $.ajax({
+                        url: '${pageContext.request.contextPath}/restaurant/save',
+                        type: "POST",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        data: JSON.stringify(data1),
+                        success: function (data) {
+                            data = 1;
+                            console.log("succeed");
+                            restaurantID = data;
+                            if(restaurantID==1){
+                                alert("hhh");
+                                uploadImg();
+                            }
+                        },
+                        error: function (data) {
+                            console.log("fail");
+                        },
+                    }
+                )
+            })
+        })
+
+        function uploadImg() {
+            layer.open({
+                type: 1,
+                area: ["400px", "700px"],
+                // area:"auto",
+                title: "上传图片",
+                scrollbar: false,
+                offset: ['0px', '6px'],
+                content: $("#windowPhoto")
+                , end: function () {
+                    var windowPhoto = document.getElementById("windowPhoto");
+                    windowPhoto.style.display = "none";
+                }
+            });
+        }
+
+        var demoListView = $('#photoListTable')
+            , uploadListIns = upload.render({
+            elem: '#photoListBtn'
+            , url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
+            , accept: 'images'
+            , acceptMime: 'image/*'
+            // ,method: 'post'
+            , multiple: true
+            , auto: false
+            // ,async: false
+            , size: 2048
+            , bindAction: '#edit-save'
+            , choose: function (obj) {
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1024).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            , done: function (res, index, upload) {
+                setTimeout(function () {
+                    console.log("延时");
+                }, 200);
+                if (res.code == 0) { //上传成功
+                    var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload, res.msg);
+            }
+            , error: function (index, upload, msg) {
+                var tr = demoListView.find('tr#upload-' + index)
+                    , tds = tr.children();
+                tds.eq(2).html('<span style="color: #ff5722;">' + msg + '</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+    });
+</script>
 </body>
 </html>
