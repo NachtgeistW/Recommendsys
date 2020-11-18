@@ -614,6 +614,7 @@
                             ,bindAction: '#btnUploadImg'
                             ,data:{"id":restaurantID}
                             ,choose: function(obj){
+                                console.log("11");
                                 var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                                 //读取本地文件
                                 obj.preview(function(index, file, result){

@@ -54,7 +54,7 @@
                 <a href="timeline.html"><i class="fa fa-hourglass-half fa-fw"></i>&nbsp;签到</a>
             </li>
             <li class="layui-nav-item">
-                <a href="about.html"><i class="fa fa-info fa-fw"></i>&nbsp;个人中心</a>
+                <a href="userInformation.html"><i class="fa fa-info fa-fw"></i>&nbsp;个人中心</a>
             </li>
         </ul>
         <!-- 手机和平板的导航开关 -->
@@ -240,7 +240,7 @@
         <a href="timeline.html"><i class="fa fa-road fa-fw"></i>&nbsp;签到</a>
     </li>
     <li class="layui-nav-item">
-        <a href="about.html"><i class="fa fa-info fa-fw"></i>&nbsp;个人中心</a>
+        <a href="userInformation.html"><i class="fa fa-info fa-fw"></i>&nbsp;个人中心</a>
     </li>
 </ul>
 <!--分享窗体-->
