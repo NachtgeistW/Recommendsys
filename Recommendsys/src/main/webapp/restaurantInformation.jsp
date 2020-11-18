@@ -90,6 +90,31 @@
         class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </div>
 <!-- 数据表格结束 -->
+<div id="windowUploadImg" style="display: none">
+    <div class="layui-upload">
+        <button type="button" class="layui-btn layui-btn-normal" id="photoListBtn1">选择多图片</button>
+        <div class="layui-upload-list">
+            <table class="layui-table" width="100%" style="table-layout:fixed">
+                <thead>
+                <tr>
+                    <th width="40">文件名</th>
+                    <th width="20">大小</th>
+                    <th width="20">状态</th>
+                    <th width="20">操作</th>
+                </tr>
+                </thead>
+                <tbody id="photoListTable1"></tbody>
+            </table>
+        </div>
+    </div>
+    <button
+            class="layui-btn layui-btn-normal"
+            id="btnUploadImg"
+            type="button" lay-filter="btnUploadImg" lay-submit="">保存
+    </button>
+    <input type="hidden" id="isCoverSourceFile1" name="isCoverSourceFile" value="">
+    <input type="hidden" id="schoolId1" name="schoolId" value="">
+</div>
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none; padding: 20px" class="pop-box" id="saveOrUpadteDiv">
     <form class="layui-form " action="" lay-filter="dataFrm" id="dataFrm">
@@ -231,7 +256,7 @@
             <div class="layui-input-block">
                 <button
                         class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-heart-fill"
-                        type="submit" lay-filter="add-save" lay-submit="">保存
+                        type="button" lay-filter="add-save" lay-submit="">保存
                 </button>
                 <button
                         class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-heart"
@@ -521,12 +546,12 @@
                     content: $("#addDiv"),
                     area: 'auto',
                     success: function (index) {
-                        <%--        alert(JSON.stringify(data.field));--%>
 
                     }
                 })
                 //点击添加按钮
                 form.on("submit(add-save)", function (data) {
+                    var idRestaurant=data.field.idRestaurant;
                     var name = data.field.name;
                     var typeOfCuisine = data.field.typeOfCuisine;
                     var address = data.field.address;
@@ -551,7 +576,17 @@
                         dataType: "json",
                         data: data1,
                         success: function (data) {
-                            console.log("succeed");
+                            layer.confirm('上传成功！是否继续上传图片？', {
+                                btn: ['确定', '取消'] //可以无限个按钮
+                            }, function(index, layero){
+                                //按钮1-确定
+                                uploadImg(idRestaurant);
+                                layer.close(index);
+                            }, function(index){
+                                //按钮2-取消
+                                layer.close(index);
+                                location.reload();
+                            });
                         },
                         error: function (data) {
                             console.log("fail");
@@ -578,15 +613,102 @@
                     <%--    }--%>
                     <%--    , text: {none: '无数据'}--%>
                     <%--});--%>
+                    setTimeout(function(){
+                        //关闭弹出层
+                        layer.close(mainIndex);
+                        //刷新数据表格
+                        tableIns.reload();
+                    },1000);
 
-                    //关闭弹出层
-                    layer.close(mainIndex);
-                    //刷新数据表格
-                    tableIns.reload();
                 });
 
             }
+            function uploadImg(restaurantID) {
+                layer.open({
+                    type: 1,
+                    area: ["400px", "700px"],
+                    // area:"auto",
+                    title: "上传图片",
+                    scrollbar: false,
+                    content: $("#windowUploadImg")
+                    ,success: function ( ) {
+                        var demoListView = $('#photoListTable1')
+                            ,uploadListIns = upload.render({
+                            elem: '#photoListBtn'
+                            ,url: '${pageContext.request.contextPath}/restaurant/uploadImg' //改成您自己的上传接口
+                            ,accept: 'images'
+                            ,acceptMime:'image/*'
+                            // ,method: 'post'
+                            ,multiple: true
+                            ,auto: false
+                            // ,async: false
+                            ,size:2048
+                            ,bindAction: '#btnUploadImg'
+                            ,data:{"id":restaurantID}
+                            ,choose: function(obj){
+                                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                //读取本地文件
+                                obj.preview(function(index, file, result){
+                                    var tr = $(['<tr id="upload-'+ index +'">'
+                                        ,'<td><div class="layui-table-cell laytable-cell-1-0-3"> '+ file.name +'</div></td>'
+                                        ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+                                        ,'<td>等待上传</td>'
+                                        ,'<td>'
+                                        ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                        ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                        ,'</td>'
+                                        ,'</tr>'].join(''));
 
+                                    //单个重传
+                                    tr.find('.demo-reload').on('click', function(){
+                                        obj.upload(index, file);
+                                    });
+
+                                    //删除
+                                    tr.find('.demo-delete').on('click', function(){
+                                        delete files[index]; //删除对应的文件
+                                        tr.remove();
+                                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                                    });
+
+                                    demoListView.append(tr);
+                                });
+                            }
+                            ,done: function(res, index, upload){
+                                if(res.code == 0) { //上传成功
+                                    var tr = demoListView.find('tr#upload-' + index)
+                                        , tds = tr.children();
+                                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                    tds.eq(3).html(''); //清空操作
+                                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                                }
+                                this.error(index, upload,res.msg);
+                            }
+                            ,error: function(index, upload,msg){
+                                var tr = demoListView.find('tr#upload-'+ index)
+                                    ,tds = tr.children();
+                                tds.eq(2).html('<span style="color: #ff5722;">'+msg+'</span>');
+                                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                            }
+                            ,allDone: function(obj){ //当文件全部被提交后，才触发
+                                console.log(obj.total); //得到总文件数
+                                console.log(obj.successful); //请求成功的文件数
+                                console.log(obj.aborted); //请求失败的文件数
+                                if(obj.successful==obj.total){
+                                    layer.msg(obj.total+"张图片都已上传成功！",{icon: 1, time: 1000});
+                                    setTimeout(function(){
+                                        location.reload();
+                                    },1000);
+                                }
+                            }
+                        });
+                    }
+                    , end: function () {
+                        var windowUploadImg = document.getElementById("windowUploadImg");
+                        windowUploadImg.style.display = "none";
+                    }
+                });
+            }
             //批量删除
             $("#deleteMore").on('click', function () {
                 //获取选中状态

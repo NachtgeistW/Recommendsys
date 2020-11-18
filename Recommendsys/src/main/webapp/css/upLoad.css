@@ -5,6 +5,10 @@
 .search-submit {
     display: none;
 }
+.upload-line{
+    margin-left: 25%;
+    margin-bottom: 12px;
+}
 
 @media (min-width: 992px) {
     .blog-search {
