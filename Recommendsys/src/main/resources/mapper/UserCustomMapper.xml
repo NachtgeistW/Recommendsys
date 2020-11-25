@@ -19,11 +19,11 @@
             <if test="userName != null and userName != ''">
                 AND user_name LIKE CONCAT( '%',#{userName},'%' )
             </if>
-            <if test="experience != null and experience != ''">
-                AND experience = #{experience}
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT( '%',#{email},'%' )
             </if>
-            <if test="identity != null and identity != ''">
-                AND identity = #{identity}
+            <if test="identity == 0 or identity == 1">
+                AND identity = #{identity,jdbcType=INTEGER}
             </if>
         </where>
     </select>

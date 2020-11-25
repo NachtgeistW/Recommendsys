@@ -50,12 +50,12 @@ public class LoginController {
             session.setAttribute("role", user.getIdentity());
             session.setAttribute("loginFlag", 1);
             if (user.getIdentity() == 1) {
-                return Msg.succeed("管理员登录成功");
-            } else if (user.getIdentity() == 2) {
-                return Msg.succeed("用户登录成功");
+                return Msg.succeed("1");
+            } else if (user.getIdentity() == 0) {
+                return Msg.succeed("0");
             }
         }
-        return Msg.fail("账号或密码错误");
+        return Msg.fail("-1");
     }
 
     /**

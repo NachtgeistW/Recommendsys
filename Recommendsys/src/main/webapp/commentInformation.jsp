@@ -24,15 +24,15 @@
     <div class="layui-form-item">
 
         <div class="layui-inline">
-            <label class="layui-form-label">店铺id</label>
+            <label class="layui-form-label">店铺名</label>
             <div class="layui-input-inline">
-                <input name="r_id" id="r_id" class="layui-input" type="text" autocomplete="off">
+                <input name="r_name" id="r_name" class="layui-input" type="text" autocomplete="off">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">用户id</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input name="user_id" class="layui-input"   id="user_id" type="text"
+                <input name="user_name" class="layui-input"   id="user_name" type="text"
                        autocomplete="off" >
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="layui-inline layui-input-block">
             <button
                     class="layui-btn  layui-icon layui-icon-search"
-                    type="button" lay-filter="doSearch" id="doSearch">查询
+                    type="submit" lay-filter="doSearch" id="doSearch">查询
             </button>
             <button
                     class="layui-btn layui-btn-warm layui-icon layui-icon-refresh"
@@ -113,17 +113,21 @@
                     , {fixed: 'right', title: '操作', toolbar: '#toolBar', minWidth: 115}
                 ]]
             });
-            form.on("submit(doSearch)", function (data) {
-                alert(JSON.stringify(data.field));
-                var r_id=data.field.r_id;
-                var user_id=data.field.user_id;
-                var startTime=data.field.startTime;
-                var endTime = data.field.endTime;
+            $("#doSearch").on("click", function (data) {
+                // alert(JSON.stringify(data.field));
+                // var r_name=data.field.r_name;
+                // var user_name=data.field.user_name;
+                // var startTime=data.field.startTime;
+                // var endTime = data.field.endTime;
+                var r_name=$("#r_name").val();
+                var user_name=$("#user_name").val();
+                var startTime=$("#startTime").val();
+                var endTime = $("#endTime").val();
                 table.reload('commentTable', {
-                    url: '${pageContext.request.contextPath}/restaurant/findByExample'
+                    url: '${pageContext.request.contextPath}/Comment/findByExample'
                     , where: {
-                        'r_id':r_id,
-                        'user_id':user_id,
+                        'resName':r_name,
+                        'userName':user_name,
                         'startTime':startTime,
                         'endTime':endTime
                     } //设定异步数据接口的额外参数
@@ -133,7 +137,7 @@
                     }
                     , text: {none: '无数据'}
                     , done: function () {
-                        alert("234");
+                        layer.msg("查询成功")
                     }
                 });
                 return false;
@@ -141,7 +145,33 @@
             table.on('toolbar(commentTable)', function (obj) {
                 switch (obj.event) {
                     case 'delete':
-                        layer.msg('删除');
+                        //获取选中状态
+                        var checkStatus = table.checkStatus('commentTable');
+                        //获取选中数量
+                        data = checkStatus.data;
+                        var ids = "";
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                ids = ids + data[i].idComment + ",";
+                            }
+                            layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
+                                $.ajax({
+                                    type: 'post',
+                                    data: {"ids": ids},
+                                    url: '${pageContext.request.contextPath}/Comment/batchDelete',
+                                    success: function (data) {
+                                        layer.msg('操作成功!', {icon: 1, time: 1000});
+                                    }, error: function (code) {
+                                        layer.msg('操作失败!', {icon: 5, time: 1000});
+                                    }
+                                });
+                                tableIns.reload();
+                                layer.close(index);
+                                location.reload();
+                            })
+                        } else {
+                            layer.msg("请选择需要删除的用户");
+                        }
                         break;
                 }
                 ;
@@ -150,15 +180,26 @@
             var mainIndex;
 
             //监听工具条
-            table.on('tool(restaurantTable)', function (obj) {
+            table.on('tool(commentTable)', function (obj) {
+                var id = $(this).parents("tr").children("td:nth-child(2)").text();
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 if (layEvent === 'del') { //删除
                     layer.msg("删除");
-                    layer.confirm('真的删除行么', function (index) {
+                    layer.confirm('真的删除这条评论吗', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
+                        $.ajax({
+                            url:'${pageContext.request.contextPath}/Comment/delete',
+                            dataType:'json',
+                            type: 'post',
+                            data:{"idComment":id},
+                            success:function (data) {
+                                layer.msg(data.msg);
+                                tableIns.reload();
+                            }
+                        })
                     });
                 }
             });

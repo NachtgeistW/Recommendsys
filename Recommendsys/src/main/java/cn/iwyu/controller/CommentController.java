@@ -7,6 +7,7 @@ import cn.iwyu.domain.CommentCustom;
 import cn.iwyu.domain.CommentExample;
 import cn.iwyu.domain.Msg;
 import cn.iwyu.service.CommentService;
+import cn.iwyu.utils.StringToList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,6 +42,7 @@ public class CommentController {
     @RequestMapping("/findByExample")
     @ResponseBody
     public Msg findByExample(CommentExample example){
+        System.out.println(example);
         List<CommentCustom> commentCustoms = service.findByExample(example);
         Integer count = commentCustoms.size();
         if(count>0){
@@ -53,7 +55,7 @@ public class CommentController {
     public Msg delete(Integer idComment){
         Integer flag = service.delete(idComment);
         if(flag>0){
-            return  Msg.succeed();
+            return  Msg.succeed("删除成功");
         }
         return Msg.fail("删除失败");
     }
@@ -66,11 +68,15 @@ public class CommentController {
 **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Integer> ids){
-        Integer flag = service.batchDelete(ids);
-        if(flag>0){
-            return Msg.succeed();
+    public Msg batchDelete(String ids){
+        List<Integer> list = StringToList.change(ids);
+        if (list != null) {
+            Integer flag = service.batchDelete(list);
+            if(flag>0){
+                return Msg.succeed("批量删除成功");
+            }
         }
+
         return  Msg.fail("批量删除失败");
     }
     /**

@@ -34,9 +34,9 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">经验</label>
+            <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
-                <input name="experience" id="user_experience" class="layui-input" type="text"
+                <input name="email" id="email" class="layui-input" type="text"
                        autocomplete="off">
             </div>
         </div>
@@ -67,15 +67,14 @@
 <!-- 数据表格开始 -->
 <table class="layui-hide" id="userTable" lay-filter="userTable"></table>
 <div style="display: none;" id="userToolBar">
-    <button type="button" class="layui-btn layui-btn-sm" lay-event="add">增加</button>
+<%--    <button type="button" class="layui-btn layui-btn-sm" lay-event="add">增加</button>--%>
     <button type="button" class="layui-btn layui-btn-sm"
             lay-event="delete">批量删除
     </button>
 </div>
 <div id="toolBar" style="display: none;">
-    <a class="layui-btn layui-btn-xs" lay-event="edit"
-       lay-filter="edit">编辑</a> <a
-        class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<%--    <a class="layui-btn layui-btn-xs" lay-event="edit" lay-filter="edit">编辑</a>--%>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </div>
 <!-- 数据表格结束 -->
 <!-- 添加和修改的弹出层开始 -->
@@ -95,13 +94,13 @@
                        autocomplete="off" lay-verify="required" id="edit_name">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">经验</label>
-            <div class="layui-input-inline">
-                <input name="experience" class="layui-input" type="text"
-                       autocomplete="off" lay-verify="required" id="edit_experience">
-            </div>
-        </div>
+<%--        <div class="layui-inline">--%>
+<%--            <label class="layui-form-label">经验</label>--%>
+<%--            <div class="layui-input-inline">--%>
+<%--                <input name="experience" class="layui-input" type="text"--%>
+<%--                       autocomplete="off" lay-verify="required" id="edit_experience">--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <%--        <div class="layui-inline">--%>
         <%--            <label class="layui-form-label">身份</label>--%>
         <%--            <div class="layui-input-inline">--%>
@@ -109,13 +108,13 @@
         <%--                       autocomplete="off" lay-verify="required">--%>
         <%--            </div>--%>
         <%--        </div>--%>
-        <div class="layui-inline">
-            <label class="layui-form-label">积分</label>
-            <div class="layui-input-inline">
-                <input name="integral" class="layui-input" autocomplete="off" id="edit_integral"
-                       autocomplete="off" lay-verify="required">
-            </div>
-        </div>
+<%--        <div class="layui-inline">--%>
+<%--            <label class="layui-form-label">积分</label>--%>
+<%--            <div class="layui-input-inline">--%>
+<%--                <input name="integral" class="layui-input" autocomplete="off" id="edit_integral"--%>
+<%--                       autocomplete="off" lay-verify="required">--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div class="layui-inline">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-inline">
@@ -127,7 +126,7 @@
             <div class="layui-input-block">
                 <button
                         class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-heart-fill"
-                        type="button" lay-filter="edit-save" lay-submit="">保存
+                        type="button" lay-filter="edit-save" lay-submit="" id="save">保存
                 </button>
                 <button
                         class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-heart"
@@ -167,7 +166,8 @@
                     {type: 'checkbox', fixed: 'left'}
                     , {field: 'idUser', title: '用户ID', sort: true}
                     , {field: 'userName', title: '用户名', sort: true}
-                    , {field: 'password', title: '密码', hide : true}                    , {field: 'experience', title: '经验', templet: '#rPhoto', sort: true}
+                    , {field: 'password', title: '密码', hide : true}
+                    , {field: 'experience', title: '经验', sort: true}
                     , {field: 'identity', title: '身份'}
                     , {field: 'integral', title: '积分'}
                     , {field: 'email', title: '邮箱'}
@@ -177,10 +177,14 @@
                 , limits: [3, 5, 10, 12]
                 , parseData: function (res) {
                     var result;
-                    if (this.page.curr) {
-                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                    } else {
-                        result = res.data.slice(0, this.limit);
+                    if(res.data!=null){
+                        if (this.page.curr) {
+                            result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                        } else {
+                            result = res.data.slice(0, this.limit);
+                        }
+                    }else {
+                        layer.msg("没有查询到相关数据")
                     }
                     return {"code": res.code, "msg": res.msg, "count": res.count, "data": result};
                 }
@@ -188,18 +192,30 @@
             });
             //监听工具条
             table.on('tool(userTable)', function (obj) {
+                var id = $(this).parents("tr").children("td:nth-child(2)").text();
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 if (layEvent === 'del') { //删除
                     layer.msg("删除");
-                    layer.confirm('真的删除行么', function (index) {
+                    layer.confirm('真的删除这位用户吗', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
+                        $.ajax({
+                            url:'${pageContext.request.contextPath}/user/delete',
+                            dataType:'json',
+                            type: 'post',
+                            data:{"idUser":id},
+                            success:function (data) {
+                                layer.msg(data.msg);
+                                tableIns.reload();
+                            }
+                        })
                     });
-                } else if (layEvent === 'edit') { //编辑
-                    openUpadteData(data);
                 }
+                // else if (layEvent === 'edit') { //编辑
+                //     openUpadteData(data);
+                // }
             });
             table.on('toolbar(userTable)', function (obj) {
                 switch (obj.event) {
@@ -207,7 +223,32 @@
                         openAddUser();
                         break;
                     case 'delete':
-                        layer.msg('删除');
+                        var checkStatus = table.checkStatus('userTable');
+                        //获取选中数量
+                        data = checkStatus.data;
+                        var ids = "";
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                ids = ids + data[i].idUser + ",";
+                            }
+                            layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
+                                $.ajax({
+                                    type: 'post',
+                                    data: {"ids": ids},
+                                    url: '${pageContext.request.contextPath}/user/batchDelete',
+                                    success: function (data) {
+                                        layer.msg('操作成功!', {icon: 1, time: 1000});
+                                    }, error: function (code) {
+                                        layer.msg('操作失败!', {icon: 5, time: 1000});
+                                    }
+                                });
+                                tableIns.reload();
+                                layer.close(index);
+                                location.reload();
+                            })
+                        } else {
+                            layer.msg("请选择需要删除的用户");
+                        }
                         break;
                 }
                 ;
@@ -225,21 +266,18 @@
                     success: function (index) {
                         form.val("dataFrm", data);
                     }
+
                 });
                 form.on("submit(edit-save)", function (obj) {
                     var data1 = {
                         "idUser": data.idUser,
                         "userName": $("#edit_name").val,
-                        "password":data.password,
-                        "experience": $("#edit_experience").val,
                         "email": $("#edit_name").val,
-                        "identity": data.identity,
-                        "integral": $("#edit_integral").val(),
                     };
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",
-                        url: '${pageContext.request.contextPath}/restaurant/update',
+                        url: '${pageContext.request.contextPath}/user/saveOrUpdate',
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
                         data: data1,
@@ -286,15 +324,15 @@
 
             //搜索
             form.on("submit(doSearch)", function (data) {
-                alert(JSON.stringify(data.field));
+                // alert(JSON.stringify(data.field));
                 var user_name = data.field.userName;
-                var user_experience = data.field.experience;
+                var email = data.field.email;
                 var user_identity = data.field.identity;
                 table.reload('userTable', {
                     url: '${pageContext.request.contextPath}/user/findByExample'
                     , where: {
                         'userName': user_name,
-                        'experience': user_experience,
+                        'email': email,
                         'identity': user_identity,
                     } //设定异步数据接口的额外参数
                     //,height: 300

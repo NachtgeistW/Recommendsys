@@ -26,12 +26,12 @@ public class ComplainExample implements Serializable {
                 '}';
     }
 
-    public String getUsesrName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUsesrName(String usesrName) {
-        this.userName = usesrName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getResName() {

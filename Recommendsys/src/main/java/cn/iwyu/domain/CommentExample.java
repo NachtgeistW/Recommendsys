@@ -18,6 +18,16 @@ public class CommentExample implements Serializable {
     private String startTime;
     private String endTime;
 
+    @Override
+    public String toString() {
+        return "CommentExample{" +
+                "resName='" + resName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                '}';
+    }
+
     public String getResName() {
         return resName;
     }
