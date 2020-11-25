@@ -24,4 +24,6 @@ public interface ComplainRecordCustomMapper {
     List<ComplainRecordCustom> findByUserId(Integer userId);
     //通过条件模糊查询
     List<ComplainRecordCustom> findByExample(ComplainExample example);
+    //查询未审核的举报信息
+    List<ComplainRecordCustom> checkRecord();
 }

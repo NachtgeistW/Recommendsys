@@ -453,7 +453,6 @@
                         "typeOfCuisine": $("#data_cuisine").val(),
                         "address": $("#data_address").val()
                     };
-                    alert(JSON.stringify(data1));
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",
@@ -507,7 +506,6 @@
                 if (layEvent === 'del') { //删除
                     layer.msg("删除");
                     layer.confirm('真的删除行么', function (index) {
-                        // alert(data.idRestaurant);
                         var id = data.idRestaurant;
                         $.ajax({
 
@@ -685,13 +683,11 @@
                 //获取选中数量
                 data = checkStatus.data;
                 var ids = "";
-                alert(data.length);
                 if (data.length > 0) {
 
                     for (var i = 0; i < data.length; i++) {
                         ids = ids + data[i].idRestaurant + ",";
                     }
-                    alert(ids);
                     layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
                         $.ajax({
                             type: 'post',
@@ -705,7 +701,7 @@
                         });
                         tableIns.reload();
                         layer.close(index);
-
+                        location.reload();
                     })
                 } else {
                     layer.msg("请选择需要删除的用户");
@@ -728,7 +724,6 @@
             //     }
             // });
             form.on("submit(doSearch)", function (data) {
-                // alert(JSON.stringify(data.field));
                 var r_name = data.field.r_name;
                 var r_address = data.field.r_address;
                 var r_cuisine = data.field.r_cuisine;

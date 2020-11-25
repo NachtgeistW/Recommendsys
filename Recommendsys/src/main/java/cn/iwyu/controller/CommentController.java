@@ -35,7 +35,7 @@ public class CommentController {
         if(commentCustoms.size()>0){
             return Msg.succeed().add(commentCustoms,commentCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("数据库中暂无数据");
     }
 
     @RequestMapping("/findByExample")
@@ -46,7 +46,7 @@ public class CommentController {
         if(count>0){
             return Msg.succeed().add(commentCustoms,count);
         }
-        return Msg.fail();
+        return Msg.fail("没有找到拥有该条件的数据");
     }
     @RequestMapping("/delete")
     @ResponseBody
@@ -55,7 +55,7 @@ public class CommentController {
         if(flag>0){
             return  Msg.succeed();
         }
-        return Msg.fail();
+        return Msg.fail("删除失败");
     }
 /**
 *@Description 批量删除
@@ -71,7 +71,7 @@ public class CommentController {
         if(flag>0){
             return Msg.succeed();
         }
-        return  Msg.fail();
+        return  Msg.fail("批量删除失败");
     }
     /**
     *@Description 评分

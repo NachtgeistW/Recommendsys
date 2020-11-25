@@ -5,6 +5,7 @@ package cn.iwyu.controller;/**
 import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
+import cn.iwyu.utils.StringToList;
 import net.sf.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class RestaurantController {
         if(restaurants.size()>0){
             return Msg.succeed().add(restaurants,restaurants.size());
         }
-        return Msg.fail();
+        return Msg.fail("无数据");
     }
     /**
     *@Description 查询所有未审核通过的餐馆（审核属性值为0的）
@@ -65,7 +66,7 @@ public class RestaurantController {
         if(restaurantCustoms.size()>0){
             return Msg.succeed().add(restaurantCustoms,restaurantCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("数据库中无该数据");
     }
     /**
     *@Description 修改餐馆信息
@@ -98,7 +99,7 @@ public class RestaurantController {
         if(flag==1){
             return Msg.succeed();
         }
-        return Msg.fail();
+        return Msg.fail("数据更新失败");
     }
 
     @RequestMapping(value = "/uploadImg" ,produces="application/json;charset=utf-8")
@@ -142,7 +143,6 @@ public class RestaurantController {
     @RequestMapping(value = "/save" ,produces="application/json;charset=utf-8")
     @ResponseBody
     public Msg save(@RequestBody Restaurant restaurant, HttpSession session) throws Exception {
-        System.out.println("asdf");
         Date date = new Date();
         System.out.println(date);
         if(restaurant.getName() == null){
@@ -212,17 +212,13 @@ public class RestaurantController {
     @RequestMapping("/batchDelete")
     @ResponseBody
     public Msg batchDelete(String ids){
-        List<Integer> list1 = new ArrayList<Integer>();
-        if (ids!=null &&!ids.equals("")) {
-            String[] idsStrings = ids.split(",");//转成String数组
-            int[] array = Arrays.stream(idsStrings).mapToInt(Integer::parseInt).toArray();//转int数组
-            list1 = Arrays.stream(array).boxed().collect(Collectors.toList());//转List<Integer>
-            System.out.println("到达");
-            Integer flag = service.batchDelete(list1);
+        List<Integer> list = StringToList.change(ids);
+        if(list!=null){
+            Integer flag = service.batchDelete(list);
             if(flag>0){
-                return Msg.succeed();
+                return Msg.succeed("删除成功");
             }
         }
-        return  Msg.fail();
+        return  Msg.fail("删除失败");
     }
 }
