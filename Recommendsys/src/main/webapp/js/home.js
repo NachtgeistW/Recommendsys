@@ -17,8 +17,25 @@
         playAnnouncement(3000);
         //显示数据列表
         showRestaurant();
+        //显示排行榜
+        showHotRestaurant();
     });
-
+    function showHotRestaurant() {
+        $.ajax({
+            type: "get",
+            url: "_hotRestaurant.json",
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var newHtml = '<li><i class="fa-li fa fa-hand-o-right"></i><a href="detail.html?productId='+data[i].id_restaurant+'">'+data[i].name+'</a></li>\n';
+                    $("#hotRestaurant").append(newHtml);
+                }
+            },
+            error: function () {
+                console.log("传输错误");
+            }
+        });
+    }
     function showRestaurant() {
         $.ajax({
             type: "get",
