@@ -11,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/table.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/table.css">
     <%
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -261,7 +261,7 @@
 </div>
 <!-- 添加和修改的弹出层结束 -->
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script type="text/javascript">
     function dateToString(time) {
         var datetime = new Date();

@@ -23,7 +23,7 @@
     function showHotRestaurant() {
         $.ajax({
             type: "get",
-            url: "_hotRestaurant.json",
+            url: "hotRestaurant.json",
             dataType: "json",
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -46,7 +46,7 @@
                     var newHtml = '<div class="blog-main-left">\n' +
                         '                <div class="article shadow">\n' +
                         '                    <div class="article-left">\n' +
-                        '                        <img src="../' + data[i].resturant_image + '" alt="店铺图片" class="imgRestaurant"/>\n' +
+                        '                        <img src=' + data[i].resturant_image + '".." alt="店铺图片" class="imgRestaurant"/>\n' +
                         '                    </div>\n' +
                         '                    <div class="article-right">\n' +
                         '                        <div class="article-title">\n' +

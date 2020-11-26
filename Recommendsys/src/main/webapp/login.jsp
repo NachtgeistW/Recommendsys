@@ -19,7 +19,7 @@
     <div class="login-background">
         <div class="layui-form login-form"
              id="loginDiv">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" id="login_form">
                 <div class="layui-form-item logo-title">
                     <h1>找铺子-登录</h1>
                 </div>
@@ -165,12 +165,14 @@
                        window.location.href = "userPage/home.html";
                    }
                    else{
-                       layer.msg(data.msg);
-                       window.location.href = "login.jsp";
+                       layer.msg("账号或密码错误");
+                       $("#login_form")[0].reset();
+                       //TODO：重设验证码
+                       layui.form.render();
                    }
                 },
                 error: function (res) {
-                    layer.msg('${msg}');
+                    layer.msg('1');
                     // window.location.href = "login.jsp";
                 }
             })

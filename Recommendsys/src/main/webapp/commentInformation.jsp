@@ -11,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/table.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/table.css">
 </head>
 <body>
 <!-- 搜索条件开始 -->
@@ -75,7 +75,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </div>
 <!-- 数据表格结束 -->
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],
         function () {

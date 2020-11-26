@@ -9,17 +9,12 @@ import cn.iwyu.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * @ClassName LoginController
@@ -35,11 +30,13 @@ public class LoginController {
     UserService service;
 //    @RequestMapping("/loginUser")
     @ResponseBody
-    @RequestMapping(value = "/loginUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/loginUser")
     public Msg login(HttpSession session,String password,String email){
+//        System.out.println(1);
+//        ModelAndView mv = new ModelAndView();
         User user = new User();
         char data = '0';
-        System.out.println(email);
+        System.out.println(password);
         user.setEmail(email);
         user.setPassword(password);
         user = service.checkPwd(user);
@@ -50,11 +47,17 @@ public class LoginController {
             session.setAttribute("role", user.getIdentity());
             session.setAttribute("loginFlag", 1);
             if (user.getIdentity() == 1) {
+//                mv.setViewName("AdminIndex");
+//                return mv;
                 return Msg.succeed("1");
             } else if (user.getIdentity() == 0) {
+//                mv.setViewName("WEB-INF/userPage/home");
+//                return mv;
                 return Msg.succeed("0");
             }
         }
+//        mv.setViewName("login");
+//        return mv;
         return Msg.fail("-1");
     }
 
@@ -148,5 +151,12 @@ public class LoginController {
         mv.addObject("result",result);
         return mv;
     }
+    //退出
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) throws Exception {
 
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:queryItems.action";
+    }
 }

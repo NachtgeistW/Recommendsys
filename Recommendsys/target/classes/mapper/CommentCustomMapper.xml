@@ -77,14 +77,16 @@
             LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
         <where>
             <if test="resName!=null and resName!=''">
-                AND r.name LIKE CONCAT( '%', #{r_name}, '%' )
+                AND r.name LIKE CONCAT( '%', #{resName}, '%' )
             </if>
             <if test="userName!=null and userName!=''">
                 AND u.user_name LIKE CONCAT( '%', #{userName}, '%' )
             </if>
-            <if test="startTime!=null and startTime != '' and endTime != null and endTime!=''">
-                AND c.time BETWEEN #{startTime}
-                AND #{endTime}
+            <if test="startTime!=null and startTime != ''">
+                AND c.time > #{startTime}
+            </if>
+            <if test="endTime != null and endTime!=''">
+                AND #{endTime} > c.time
             </if>
         </where>
     </select>

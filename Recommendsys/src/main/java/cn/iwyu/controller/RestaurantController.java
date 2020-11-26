@@ -186,10 +186,7 @@ public class RestaurantController {
     @RequestMapping("/pass")
     @ResponseBody
     public Msg pass(Integer idRestaurant,HttpSession session){
-        Integer userID = 1;
-        /*
-            Integer userID = session.getAttribute("userID");
-        **/
+        Integer userID = (Integer) session.getAttribute("userID");
         System.out.println(idRestaurant);
         Restaurant restaurant = service.findById(idRestaurant);
         if(restaurant==null){

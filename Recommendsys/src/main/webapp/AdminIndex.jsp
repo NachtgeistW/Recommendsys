@@ -12,8 +12,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/common-style.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/common-style.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -37,7 +37,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601458538542&di=82f07cfd0ca8dc4b782a3adc6884ff25&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F06%2F20160306204517_i4Se8.jpeg" class="layui-nav-img">
-                    管理员A
+                    ${userName}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -92,7 +92,7 @@
         © layui.com - 底部固定区域
     </div>
 </div>
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {

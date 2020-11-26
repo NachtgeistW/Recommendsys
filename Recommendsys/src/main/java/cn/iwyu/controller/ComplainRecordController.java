@@ -68,14 +68,14 @@ public class ComplainRecordController {
     @RequestMapping("/pass")
     @ResponseBody
     public Msg pass(Integer idComplainRecord,String record_result, HttpSession session){
-        System.out.println(idComplainRecord);
+//        System.out.println(idComplainRecord);
         ComplainRecord complainRecord = service.findById(idComplainRecord);
         if(complainRecord==null){
             return Msg.fail("没有查询到数据");
         }
 
-//        complainRecord.setIdAdmin((Integer) session.getAttribute("userID"));
-        complainRecord.setIdAdmin(1);
+        complainRecord.setIdAdmin((Integer) session.getAttribute("userID"));
+//        complainRecord.setIdAdmin(1);
         complainRecord.setIsProcessed((byte)1);
         complainRecord.setResult(record_result);
         Integer flag = service.update(complainRecord);
