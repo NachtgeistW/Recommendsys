@@ -43,11 +43,11 @@
             <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely"/>
         </a>
         <!-- 找铺子 -->
-        <a class="blog-logo" href="home.html">找铺子</a>
+        <a class="blog-logo" href="home.jsp">找铺子</a>
         <!-- 导航菜单 -->
         <ul class="layui-nav" lay-filter="nav">
             <li class="layui-nav-item layui-this">
-                <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+                <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
             </li>
             <li class="layui-nav-item">
                 <a href="upLoad.jsp"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>
@@ -94,27 +94,27 @@
             </div>
             <!--左边文章列表-->
             <div class="blog-main-left" id="content">
-                <div class="article shadow">
-                    <div class="article-left">
-                        <img src="../images/download.jpg" alt="店铺图片"/>
-                    </div>
-                    <div class="article-right">
-                        <div class="article-title">
-                            <a href="detail.html?productId=1">关东小店</a>
-                        </div>
-                        <div class="article-abstract">
-                            一个菜式普通、但味道很好的店。回锅肉令人印象深刻
-                        </div>
-                        <div class="article-abstract article-abstract-low">
-                            推荐理由：一个菜式普通、但味道很好的店。回锅肉令人印象深刻，酸菜鱼亦是十分美味。
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="article-footer">
-                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">Web前端</a></span>
-                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;4</span>
-                    </div>
-                </div>
+<%--                <div class="article shadow">--%>
+<%--&lt;%&ndash;                    <div class="article-left">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <img src="../images/download.jpg" alt="店铺图片"/>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    <div class="article-right">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-title">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            <a href="detail.html?productId=1">关东小店</a>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-abstract">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            一个菜式普通、但味道很好的店。回锅肉令人印象深刻&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-abstract article-abstract-low">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            推荐理由：一个菜式普通、但味道很好的店。回锅肉令人印象深刻，酸菜鱼亦是十分美味。&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+<%--                    <div class="clear"></div>--%>
+<%--                    <div class="article-footer">--%>
+<%--                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">Web前端</a></span>--%>
+<%--                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;4</span>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
             </div>
             <!--右边小栏目-->
             <div class="blog-main-right">
@@ -175,7 +175,7 @@
 <!--侧边导航-->
 <ul class="layui-nav layui-nav-tree layui-nav-side blog-nav-left layui-hide" lay-filter="nav">
     <li class="layui-nav-item layui-this">
-        <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+        <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
     </li>
     <li class="layui-nav-item">
         <a href="upLoad.jsp"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>

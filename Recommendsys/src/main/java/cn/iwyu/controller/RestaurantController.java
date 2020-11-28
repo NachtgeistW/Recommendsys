@@ -6,6 +6,7 @@ import cn.iwyu.domain.*;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
 import cn.iwyu.utils.StringToList;
+import cn.iwyu.utils.UrlImgUtil;
 import net.sf.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,19 @@ public class RestaurantController {
             return Msg.succeed().add(restaurantCustoms,restaurantCustoms.size());
         }
         return Msg.fail("数据库中无该数据");
+    }
+    @RequestMapping("/findById")
+    @ResponseBody
+    public Msg findById(Integer idRestaurant){
+        Restaurant restaurant = service.findById(idRestaurant);
+        if(restaurant==null){
+            return Msg.fail("获取数据失败");
+        }
+        restaurant.setResturantImage(UrlImgUtil.change(restaurant.getResturantImage()));
+        System.out.println(restaurant);
+        List<Restaurant> list = new ArrayList<>();
+        list.add(restaurant);
+        return Msg.succeed().add(list,list.size());
     }
     /**
     *@Description 修改餐馆信息
@@ -226,7 +240,6 @@ public class RestaurantController {
         List<RecommendRes> recommendRes = new ArrayList<>();
         if(userId==null){
             recommendRes = service.passRecommend(10);
-            System.out.println(recommendRes.get(0));
             return Msg.succeed().add(recommendRes,recommendRes.size());
         }
 

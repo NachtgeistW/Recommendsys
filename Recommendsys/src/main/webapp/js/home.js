@@ -44,7 +44,7 @@
             success: function (res) {
                 // var a = JSON.stringify(res);
                 // console.log(data[1].recommand_reason);
-                console.log(res.data[2]);
+                console.log(res.data[2].idRestaurant);
                 for (var i = 0; i < res.data.length; i++) {
                     var newHtml =
                         '<div class="blog-main-left">\n' +
@@ -54,7 +54,7 @@
                         '                    </div>\n' +
                         '                    <div class="article-right">\n' +
                         '                        <div class="article-title">\n' +
-                        '                            <a href="detail.html?productId=' + res.data[i].id_restaurant + '">' + res.data[i].name + '</a>\n' +
+                        '                            <a href="detail.jsp?productId='+res.data[i].idRestaurant+'">' + res.data[i].name + '</a>\n' +
                         '                        </div>\n' +
                         '                        <div class="article-abstract">\n' +
                         '                            '+res.data[i].intro+'\n' +

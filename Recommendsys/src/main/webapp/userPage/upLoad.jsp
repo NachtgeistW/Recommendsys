@@ -38,11 +38,11 @@
             <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely"/>
         </a>
         <!-- 找铺子 -->
-        <a class="blog-logo" href="home.html">找铺子</a>
+        <a class="blog-logo" href="home.jsp">找铺子</a>
         <!-- 导航菜单 -->
         <ul class="layui-nav" lay-filter="nav">
             <li class="layui-nav-item">
-                <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+                <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
             </li>
             <li class="layui-nav-item  layui-this">
                 <a href="upLoad.html"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>
@@ -92,7 +92,7 @@
 <div class="blog-body">
     <div class="blog-container">
         <blockquote class="layui-elem-quote sitemap layui-breadcrumb shadow">
-            <a href="home.html" title="网站首页">网站首页</a>
+            <a href="home.jsp" title="网站首页">网站首页</a>
             <a><cite>文章专栏</cite></a>
         </blockquote>
         <div class="blog-main">
@@ -228,7 +228,7 @@
 <!--侧边导航-->
 <ul class="layui-nav layui-nav-tree layui-nav-side blog-nav-left layui-hide" lay-filter="nav">
     <li class="layui-nav-item ">
-        <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+        <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
     </li>
     <li class="layui-nav-item layui-this">
         <a href="upLoad.html"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>

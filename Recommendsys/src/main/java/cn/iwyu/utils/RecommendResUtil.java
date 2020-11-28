@@ -27,18 +27,9 @@ public class RecommendResUtil {
         recommendRes.setRecommandReason(restaurant.getRecommandReason());
         recommendRes.setTypeOfCuisine(restaurant.getTypeOfCuisine());
         if(restaurant.getResturantImage()!=null){
-            String[] strs = restaurant.getResturantImage().split(",");
-            String str ="";
-            for(int i =0;i<strs[0].length();i++){
-                char c = strs[0].charAt(i);
-                if(c==' '){
-                    str = str + "%20";
-                    continue;
-                }
-                str = str + c ;
-            }
-            strs[0] = str;
-            recommendRes.setResturantImage(strs[0]);
+            String[] strs =restaurant.getResturantImage().split(",");
+            String str = UrlImgUtil.change(strs[0]);
+            recommendRes.setResturantImage(str);
         }
         recommendRes.setRecommendTime(restaurant.getRecommendTime());
         recommendRes.setIdRestaurant(restaurant.getIdRestaurant());

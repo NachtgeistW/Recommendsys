@@ -85,4 +85,15 @@
           #{recommandReason,jdbcType=VARCHAR}, #{isAuditPassed,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR},
           #{resturantImage,jdbcType=VARCHAR}, #{recommendTime,jdbcType=DATE})
     </insert>
+
+    <select id="passRecommend" resultMap="BaseResultMap">
+        SELECT
+            u.*,
+            r.*
+        FROM
+            restaurant r
+            LEFT JOIN USER u ON r.id_recommanded_user = u.id_user
+        WHERE
+            r.is_audit_passed != 0
+    </select>
 </mapper>

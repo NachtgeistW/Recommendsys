@@ -20,7 +20,7 @@
         $("#shopPhoto").click(function () {
             var windowPhoto = document.getElementById("windowPhoto");
             windowPhoto.style.display = "block";
-            playCarousel();
+            playCarousel(restaurantData.data[0].resturantImage);
         });
         //给评论点赞
         $("#comment").on("click", ".commentHeart1", function () {
@@ -32,11 +32,19 @@
             var index = $('.commentHeart2').index($(this));
             commentDisLike(index);
         });
-
         getData(ID);
+        setImg(restaurantData.data[0].resturantImage);
         fillData(restaurantData);
         fillComment(ID);
     });
+
+    function setImg(res){
+        var str = res.split(",");
+        var $img = $("#resImg");
+        $img.attr("src","../"+str[0]);
+
+    }
+
 
     function getData(ID) {
         $.ajax({
@@ -45,7 +53,8 @@
             // type : 'POST',
             // url : "",
             type: "get",
-            url: "_detail.json",
+            url: contextPath+"/restaurant/findById",
+            data:{"idRestaurant":ID},
             dataType: "json",
             success: function (data) {
                 restaurantData = data;
@@ -70,17 +79,17 @@
     }
 
     //页面数据填充
-    function fillData(data) {
+    function fillData(res) {
         var restaurantName = document.getElementById("restaurantName");
         var commentNumber = document.getElementById("commentNumber");
         var addressID = document.getElementById("addressID");
         var restaurant_intro = document.getElementById("restaurant_intro");
         var commentReason = document.getElementById("commentReason");
-        restaurantName.innerHTML = data.name;
-        commentNumber.innerHTML = data.comment_num;
-        addressID.innerHTML = data.address;
-        restaurant_intro.innerHTML = data.intro;
-        commentReason.innerHTML = data.recommand_reason;
+        restaurantName.innerHTML = res.data[0].name;
+        commentNumber.innerHTML = res.data.comment_num;
+        addressID.innerHTML = res.data[0].address;
+        restaurant_intro.innerHTML = res.data[0].intro;
+        commentReason.innerHTML = res.data[0].recommandReason;
     }
 
     function fillComment(ID) {
@@ -269,13 +278,8 @@
     }
 
     // 打开图片弹窗
-    function playCarousel() {
-        $.ajax({
-            type: "post",
-            url: "_carousal.json",
-            async: false,
-            dataType: "json",
-            success: function (data) {
+    function playCarousel(res) {
+        var str = res.split(",");
                 var W = document.body.clientWidth;
                 var H = document.body.clientHeight;
                 if (W > 500) {
@@ -283,13 +287,13 @@
                         type: 1,
                         area: ["400px", "700px"],
                         // area:"auto",
-                        title: "地图显示",
+                        title: "图片",
                         scrollbar: false,
                         offset: ['0px', '35%'],
                         content: $("#windowPhoto")
                         , success: function () {
-                            for (var i = 0; i < data.length; i++) {
-                                var newHtml = '<div><img src=' + data[i].src + ' class="pic" width="100%"></div>';
+                            for (var i = 0; i < str.length-1; i++) {
+                                var newHtml = '<div><img src=' +"../"+ str[i] + ' class="pic" width="100%"></div>';
                                 $("#carousel").append(newHtml);
                             }
                             carousel.render({
@@ -311,13 +315,13 @@
                         type: 1,
                         area: ["400px", "700px"],
                         // area:"auto",
-                        title: "地图显示",
+                        title: "图片显示",
                         scrollbar: false,
                         offset: ['0px', '6px'],
                         content: $("#windowPhoto")
                         , success: function () {
-                            for (var i = 0; i < data.length; i++) {
-                                var newHtml = '<div><img src=' + data[i].src + ' class="pic" width="100%"></div>';
+                            for (var i = 0; i < str.length-1; i++) {
+                                var newHtml = '<div><img src=' +"../"+ str[i] + ' class="pic" width="100%"></div>';
                                 $("#carousel").append(newHtml);
                             }
                             carousel.render({
@@ -335,10 +339,6 @@
                         }
                     });
                 }
-
-
-            },
-        });
     }
 
     //打开地图弹窗
