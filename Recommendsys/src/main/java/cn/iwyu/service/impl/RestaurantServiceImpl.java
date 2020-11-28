@@ -2,16 +2,20 @@ package cn.iwyu.service.impl;/**
  * Created by Chester on 30/9/2020.
  */
 
+import cn.iwyu.dao.CommentCustomMapper;
 import cn.iwyu.dao.RestaurantCustomMapper;
 import cn.iwyu.dao.RestaurantMapper;
+import cn.iwyu.domain.RecommendRes;
 import cn.iwyu.domain.Restaurant;
 import cn.iwyu.domain.RestaurantCustom;
 import cn.iwyu.domain.RestaurantExample;
 import cn.iwyu.service.RestaurantService;
+import cn.iwyu.utils.RecommendResUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +32,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     RestaurantMapper restaurantMapper;
     @Resource
     RestaurantCustomMapper customMapper;
+    @Resource
+    CommentCustomMapper commentCustomMapper;
 
     @Transactional
     @Override
@@ -87,5 +93,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Integer updateImg(Restaurant restaurant) {
         return customMapper.updateImg(restaurant);
+    }
+
+    @Override
+    public List<RecommendRes> passRecommend(int num) {
+        List<RestaurantCustom> restaurantCustoms = customMapper.passRecommend();
+        List<RecommendRes> recommendRes = new ArrayList<>();
+        int n = restaurantCustoms.size()>num ? num:restaurantCustoms.size();
+        for (int i =0;i<n;i++){
+            RestaurantCustom restaurantCustom = restaurantCustoms.get(i);
+            RecommendRes res = RecommendResUtil.change(restaurantCustom);
+            res.setComment_num(commentCustomMapper.findByResId(restaurantCustom.getIdRestaurant()).size());
+            recommendRes.add(res);
+        }
+        return recommendRes;
     }
 }

@@ -162,7 +162,7 @@
                        window.location.href = "AdminIndex.jsp";
                    }else if(data.msg=="0"){
                        layer.msg("用户登录成功");
-                       window.location.href = "userPage/home.html";
+                       window.location.href = "userPage/home.jsp";
                    }
                    else{
                        layer.msg("账号或密码错误");

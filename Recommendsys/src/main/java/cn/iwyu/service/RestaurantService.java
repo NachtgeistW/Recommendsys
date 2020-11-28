@@ -2,6 +2,7 @@ package cn.iwyu.service;/**
  * Created by Chester on 29/9/2020.
  */
 
+import cn.iwyu.domain.RecommendRes;
 import cn.iwyu.domain.Restaurant;
 import cn.iwyu.domain.RestaurantCustom;
 import cn.iwyu.domain.RestaurantExample;
@@ -35,4 +36,6 @@ public interface RestaurantService {
     public Integer batchDelete(List<Integer> ids);
 
     Integer updateImg(Restaurant restaurant);
+    //获取指定数量的通过审核的餐馆
+    List<RecommendRes> passRecommend(int num);
 }

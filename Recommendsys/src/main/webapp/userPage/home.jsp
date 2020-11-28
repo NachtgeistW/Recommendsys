@@ -1,13 +1,25 @@
-﻿<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: WX_78
+  Date: 28/11/2020
+  Time: 下午3:29
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
+    <script>
+        var contextPath = "${contextPath}";
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-<!--    <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">-->
-<!--    <meta http-equiv="Content-Language" content="zh-CN">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>-->
+    <!--    <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">-->
+    <!--    <meta http-equiv="Content-Language" content="zh-CN">-->
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>-->
     <title>找铺子</title>
     <link rel="shortcut icon" href="../images/Logo_40.png" type="image/x-icon">
     <!--Layui-->

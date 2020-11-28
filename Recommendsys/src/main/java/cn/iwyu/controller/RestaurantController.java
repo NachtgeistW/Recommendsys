@@ -218,4 +218,18 @@ public class RestaurantController {
         }
         return  Msg.fail("删除失败");
     }
+
+    @RequestMapping("/recommend")
+    @ResponseBody
+    public Msg recommend(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        List<RecommendRes> recommendRes = new ArrayList<>();
+        if(userId==null){
+            recommendRes = service.passRecommend(10);
+            System.out.println(recommendRes.get(0));
+            return Msg.succeed().add(recommendRes,recommendRes.size());
+        }
+
+        return Msg.fail("推荐失败");
+    }
 }

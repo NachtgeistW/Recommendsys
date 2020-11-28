@@ -65,6 +65,7 @@
     <!--设置哪些静态资源不过滤-->
     <mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
     <mvc:resources location="/images/" mapping="/images/**" ></mvc:resources>
+    <mvc:resources location="/uploadImg/" mapping="/images/**" ></mvc:resources>
     <mvc:resources location="/js/" mapping="/js/**" ></mvc:resources>
 
     <!--开启对SpringMVC注解的支持-->

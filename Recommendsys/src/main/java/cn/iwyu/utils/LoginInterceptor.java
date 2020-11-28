@@ -25,20 +25,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 //        String userName = (String) session.getAttribute("userName");
 //        System.out.println(userName);
 //        if(userName==null){
-////            request.getRequestDispatcher(request.getContextPath()+"/login").forward(request, response);
+//            request.getRequestDispatcher(request.getContextPath()+"/login").forward(request, response);
 //            System.out.println(1);
 //            return false;
 //        }
         return true;
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        HttpSession session = request.getSession();
-        String userName = (String) session.getAttribute("userName");
-        System.out.println(userName);
-        if(userName==null){
-            response.sendRedirect("/login.jsp");
-        }
-    }
 }
