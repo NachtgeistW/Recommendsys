@@ -33,6 +33,7 @@
 </head>
 <body>
 <!-- 导航 -->
+
 <nav class="blog-nav layui-header">
     <div class="blog-container">
         <!-- QQ互联登陆 -->
@@ -68,7 +69,6 @@
         </a>
     </div>
 </nav>
-
 <!-- 主体（一般只改变这里的内容） -->
 <div class="blog-body">
 

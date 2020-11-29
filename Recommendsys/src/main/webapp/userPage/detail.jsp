@@ -39,6 +39,7 @@
         <a href="javascript:;" class="blog-user layui-hide">
             <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely"/>
         </a>
+
         <!-- 找铺子 -->
         <a class="blog-logo" href="home.jsp">找铺子</a>
         <!-- 导航菜单 -->
@@ -93,6 +94,7 @@
             <a href="upLoad.jsp" title="文章专栏">文章专栏</a>
             <a><cite>基于layui的laypage扩展模块！</cite></a>
         </blockquote>
+        <a id="userID" data = "${userID} "></a>
         <div class="blog-main">
             <div class="blog-main-left">
                 <!-- 文章内容（使用Kingeditor富文本编辑器发表的） -->
@@ -169,6 +171,16 @@
 <%--                                <div class="content">--%>
 <%--                                    我为大家做了模拟评论功能！还有，这个评论功能也可以改成和留言一样，但是目前没改，有兴趣可以自己改--%>
 <%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <div class="replycontainer layui-hide">--%>
+<%--                                <form class="layui-form" action="">--%>
+<%--                                    <div class="layui-form-item">--%>
+<%--                                        <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="layui-form-item">--%>
+<%--                                        <button class="layui-btn layui-btn-mini" lay-submit="formReply" lay-filter="formReply">提交</button>--%>
+<%--                                    </div>--%>
+<%--                                </form>--%>
 <%--                            </div>--%>
                         </li>
                     </ul>

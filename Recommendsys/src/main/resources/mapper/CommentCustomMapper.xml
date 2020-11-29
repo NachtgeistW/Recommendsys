@@ -92,15 +92,19 @@
         </where>
     </select>
     <select id="findScore" resultMap="BaseResultMap" parameterType="Integer">
-        select
-        *
-        from COMMENT
-        where id_restaurant = #{res_id} and id_user = #{user_id}
+        SELECT
+        u.*,
+        c.*,
+        r.*
+        FROM
+        ( COMMENT c LEFT JOIN USER u ON c.id_user = u.id_user )
+        LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
+        WHERE c.id_restaurant = #{resId} and c.id_user = #{userId}
     </select>
     <select id="getScore" resultMap="BaseResultMap" parameterType="Integer">
         select
         *
-        from COMMENT
+        from COMMENT c
         where id_restaurant = #{res_id} and score !=0
     </select>
 </mapper>

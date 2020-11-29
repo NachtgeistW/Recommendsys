@@ -108,6 +108,9 @@ public class CommentController {
         comment.setTime(date);
         comment.setNumLike(0);
         Integer flag = 0;
+        if(comment.getIdUser()==null){
+            return -1;
+        }
         //评分不能为回复信息
         if(comment.getIdCommentReply()!=null){
             return flag;

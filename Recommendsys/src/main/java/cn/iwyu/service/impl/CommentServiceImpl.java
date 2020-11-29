@@ -91,6 +91,7 @@ public class CommentServiceImpl implements CommentService {
         Integer res_id = comment.getIdRestaurant();
         Double score = comment.getScore();
         List<CommentCustom> commentCustoms = commentCustomMapper.findScore(user_id,res_id);
+//        List<CommentCustom> commentCustoms =commentCustomMapper.findByResId(res_id);
         //查到用户是否评论过这个餐馆，评论过就看是否已经评分过，评分过不能再次评分
         if(commentCustoms!=null){
             for (CommentCustom commentCustom :commentCustoms) {

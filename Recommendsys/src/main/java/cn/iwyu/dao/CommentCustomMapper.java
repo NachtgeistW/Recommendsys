@@ -6,7 +6,7 @@ import cn.iwyu.domain.Comment;
 import cn.iwyu.domain.CommentCustom;
 import cn.iwyu.domain.CommentExample;
 import org.springframework.stereotype.Repository;
-
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
@@ -28,6 +28,6 @@ public interface CommentCustomMapper {
     List<CommentCustom> findByUserId(Integer userId);
     //条件模糊查询
     List<CommentCustom> findByExample(CommentExample example);
-    //查询某一位用户是否已经评论过了
-    List<CommentCustom> findScore(Integer user_id,Integer res_id);
+    //查询某一位用户是否已经评分过了
+    List<CommentCustom> findScore(@Param("userId") Integer userId,@Param("resId") Integer resId);
 }

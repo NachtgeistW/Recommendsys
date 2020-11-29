@@ -106,13 +106,18 @@
             data: {"resId":ID},
             success: function (res) {
                 // var comment =document.getElementById("comment");
+
                 for (var i = 0; i < res.data.length; i++) {
+                    var score = " ";
+                    if(res.data[i].score!=0){
+                        score = "评分："+res.data[i].score + " 分";
+                    }
                     var newHtml = '<li>\n' +
                         '                            <div class="comment-parent">\n' +
                         '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
                         '                                <div class="info">\n' +
                         '                                    <span class="username">' + res.data[i].user.userName + '</span>\n' +
-                        '                                    评分：<span class="score">' + res.data[i].score + '分</span>\n' +
+                        '                                    <span class="score">' + score + '</span>\n' +
                         '                                    <span class="time">' + res.data[i].time + '</span>\n' +
                         '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
                         '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
@@ -188,30 +193,52 @@
     //监听评论提交
     form.on('submit(formRemark)', function (data) {
         var index = layer.load(1);
-
+        var userId = $("#userID").attr("data");
         setTimeout(function () {
             layer.close(index);
             var content = data.field.editorContent;
             var star = Number(document.querySelector("#star>span").innerText);
+            $.ajax({
+                type:"post",
+                url:contextPath+"/Comment/scoreRestaurant",
+                dataType:'json',
+                data:{
+                    "idRestaurant":ID,
+                    "idUser":userId,
+                    "score":star,
+                    "context":content
+                },
+                success:function (flag){
+                    console.log(flag);
+                    if(flag!="0"){
+                        layer.msg("评分成功");
+                        window.location.reload()
+                    }else {
+                        layer.msg("您已经对该店铺做出过评分");
+                    }
+
+                }
+
+            });
             //模拟评论提交start
-            var html = '<li>\n' +
-                '                            <div class="comment-parent">\n' +
-                '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
-                '                                <div class="info">\n' +
-                '                                    <span class="username">老辣鸡</span>\n' +
-                '                                    评分：<span class="score">' + star + '</span>\n' +
-                '                                    <span class="time">' + commentTime() + '</span>\n' +
-                '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
-                '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
-                '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
-                '                                             style="display: none">\n' +
-                '                                        <span class="commentNum" style="float: right">0</span></div>\n' +
-                '                                </div>\n' +
-                '                                <div class="content">\n' + content +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </li>';
-            $('#comment').append(html);
+            // var html = '<li>\n' +
+            //     '                            <div class="comment-parent">\n' +
+            //     '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
+            //     '                                <div class="info">\n' +
+            //     '                                    <span class="username">老辣鸡</span>\n' +
+            //     '                                    评分：<span class="score">' + star + '</span>\n' +
+            //     '                                    <span class="time">' + commentTime() + '</span>\n' +
+            //     '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
+            //     '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
+            //     '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
+            //     '                                             style="display: none">\n' +
+            //     '                                        <span class="commentNum" style="float: right">0</span></div>\n' +
+            //     '                                </div>\n' +
+            //     '                                <div class="content">\n' + content +
+            //     '                                </div>\n' +
+            //     '                            </div>\n' +
+            //     '                        </li>';
+            // $('#comment').append(html);
             //模拟评论提交end
             // var data1 = {
             //     "context": content,
