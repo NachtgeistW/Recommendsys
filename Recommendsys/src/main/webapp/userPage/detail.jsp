@@ -108,7 +108,7 @@
                             <div class="layui-inline">
                                 <div id="gradeStar"></div>
                             </div>
-                            <div class="layui-inline shop-detail-text-commentNum"><span id="commentNumber"></span>条评价
+                            <div class="layui-inline shop-detail-text-commentNum"><span id="commentNumber"></span>名用户参与评分
                             </div>
                         </div>
                         <div class="shop-detail-text-content">
@@ -154,22 +154,22 @@
                     <div class="blog-module-title">最新评论</div>
                     <ul class="comment" id="comment">
                         <li>
-                            <div class="comment-parent">
-                                <img src="../images/Absolutely.jpg" alt="absolutely"/>
-                                <div class="info">
-                                    <span class="username">Absolutely</span>
-                                    评分：<span class="score">4.5</span>
-                                    <span class="time">2017-03-18 18:46:06</span>
-                                    <div style="float: right"><img src="../images/heart.svg" width="16px"
-                                                                   class="commentHeart1" style="display: inline-block;">
-                                        <img src="../images/heart.png" width="16px" class="commentHeart2"
-                                             style="display: none">
-                                        <span class="commentNum" style="float: right">98</span></div>
-                                </div>
-                                <div class="content">
-                                    我为大家做了模拟评论功能！还有，这个评论功能也可以改成和留言一样，但是目前没改，有兴趣可以自己改
-                                </div>
-                            </div>
+<%--                            <div class="comment-parent">--%>
+<%--                                <img src="../images/Absolutely.jpg" alt="absolutely"/>--%>
+<%--                                <div class="info">--%>
+<%--                                    <span class="username">Absolutely</span>--%>
+<%--                                    评分：<span class="score">4.5</span>--%>
+<%--                                    <span class="time">2017-03-18 18:46:06</span>--%>
+<%--                                    <div style="float: right"><img src="../images/heart.svg" width="16px"--%>
+<%--                                                                   class="commentHeart1" style="display: inline-block;">--%>
+<%--                                        <img src="../images/heart.png" width="16px" class="commentHeart2"--%>
+<%--                                             style="display: none">--%>
+<%--                                        <span class="commentNum" style="float: right">98</span></div>--%>
+<%--                                </div>--%>
+<%--                                <div class="content">--%>
+<%--                                    我为大家做了模拟评论功能！还有，这个评论功能也可以改成和留言一样，但是目前没改，有兴趣可以自己改--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                         </li>
                     </ul>
                 </div>

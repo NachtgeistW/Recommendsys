@@ -33,8 +33,10 @@
             commentDisLike(index);
         });
         getData(ID);
+        var count = restaurantData.msg.split(",");
         setImg(restaurantData.data[0].resturantImage);
-        fillData(restaurantData);
+        setStar(count[0]);
+        fillData(restaurantData,count[1]);
         fillComment(ID);
     });
 
@@ -79,14 +81,14 @@
     }
 
     //页面数据填充
-    function fillData(res) {
+    function fillData(res,num) {
         var restaurantName = document.getElementById("restaurantName");
         var commentNumber = document.getElementById("commentNumber");
         var addressID = document.getElementById("addressID");
         var restaurant_intro = document.getElementById("restaurant_intro");
         var commentReason = document.getElementById("commentReason");
         restaurantName.innerHTML = res.data[0].name;
-        commentNumber.innerHTML = res.data.comment_num;
+        commentNumber.innerHTML = num;
         addressID.innerHTML = res.data[0].address;
         restaurant_intro.innerHTML = res.data[0].intro;
         commentReason.innerHTML = res.data[0].recommandReason;
@@ -99,25 +101,26 @@
             // type : 'POST',
             // url : "",
             type: "get",
-            url: "_comment.json",
+            url: contextPath+"/Comment/resComent",
             dataType: "json",
-            success: function (data) {
+            data: {"resId":ID},
+            success: function (res) {
                 // var comment =document.getElementById("comment");
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < res.data.length; i++) {
                     var newHtml = '<li>\n' +
                         '                            <div class="comment-parent">\n' +
                         '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
                         '                                <div class="info">\n' +
-                        '                                    <span class="username">' + data[i].userName + '</span>\n' +
-                        '                                    评分：<span class="score">' + data[i].score + '</span>\n' +
-                        '                                    <span class="time">' + data[i].time + '</span>\n' +
+                        '                                    <span class="username">' + res.data[i].user.userName + '</span>\n' +
+                        '                                    评分：<span class="score">' + res.data[i].score + '分</span>\n' +
+                        '                                    <span class="time">' + res.data[i].time + '</span>\n' +
                         '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
                         '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
                         '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
                         '                                             style="display: none">\n' +
-                        '                                        <span class="commentNum" style="float: right">' + data[i].like + '</span></div>\n' +
+                        '                                        <span class="commentNum" style="float: right">' + res.data[i].numLike + '</span></div>\n' +
                         '                                </div>\n' +
-                        '                                <div class="content">\n' + data[i].context +
+                        '                                <div class="content">\n' + res.data[i].context +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </li>';
@@ -133,16 +136,19 @@
         tool: ['face', '|', 'left', 'center', 'right'],
     });
     //显示评价星星
-    rate.render({
-        elem: '#gradeStar'
-        , value: 3.5
-        , half: true
-        , text: true
-        , readonly: true
-        , setText: function (value) { //自定义文本的回调
-            this.span.text(value + "分");
-        }
-    });
+    function setStar(score){
+        rate.render({
+            elem: '#gradeStar'
+            , value: parseFloat(score)
+            , half: true
+            , text: true
+            , readonly: true
+            , setText: function (value) { //自定义文本的回调
+                this.span.text(value + "分");
+            }
+        });
+    }
+
     //星星评分
     rate.render({
         elem: '#star'

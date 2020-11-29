@@ -3,6 +3,7 @@ package cn.iwyu.controller;/**
  */
 
 import cn.iwyu.domain.*;
+import cn.iwyu.service.CommentService;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
 import cn.iwyu.utils.StringToList;
@@ -34,6 +35,8 @@ import java.util.stream.Collectors;
 public class RestaurantController {
     @Resource
     private RestaurantService service;
+    @Resource
+    private CommentService commentService;
 
     @RequestMapping("/findAll")
     @ResponseBody
@@ -80,7 +83,8 @@ public class RestaurantController {
         System.out.println(restaurant);
         List<Restaurant> list = new ArrayList<>();
         list.add(restaurant);
-        return Msg.succeed().add(list,list.size());
+        String score = commentService.getScore(idRestaurant);
+        return Msg.succeed(score).add(list,list.size());
     }
     /**
     *@Description 修改餐馆信息

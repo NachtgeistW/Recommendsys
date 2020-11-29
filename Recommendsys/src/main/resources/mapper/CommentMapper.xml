@@ -9,19 +9,19 @@
     <result column="id_comment_reply" jdbcType="INTEGER" property="idCommentReply" />
     <result column="num_like" jdbcType="INTEGER" property="numLike" />
     <result column="context" jdbcType="VARCHAR" property="context" />
-    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from comment
     where id_comment = #{idComment,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.iwyu.domain.Comment">
-    insert into comment (id_comment, id_restaurant, time, 
-      id_user, id_comment_reply, num_like, 
+    insert into comment (id_comment, id_restaurant, time,
+      id_user, id_comment_reply, num_like,
       context, score)
-    values (#{idComment,jdbcType=INTEGER}, #{idRestaurant,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{idUser,jdbcType=INTEGER}, #{idCommentReply,jdbcType=INTEGER}, #{numLike,jdbcType=INTEGER}, 
-      #{context,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER})
+    values (#{idComment,jdbcType=INTEGER}, #{idRestaurant,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
+      #{idUser,jdbcType=INTEGER}, #{idCommentReply,jdbcType=INTEGER}, #{numLike,jdbcType=INTEGER},
+      #{context,jdbcType=VARCHAR}, #{score,jdbcType=DOUBLE})
   </insert>
   <update id="updateByPrimaryKey" parameterType="cn.iwyu.domain.Comment">
     update comment
@@ -31,17 +31,17 @@
       id_comment_reply = #{idCommentReply,jdbcType=INTEGER},
       num_like = #{numLike,jdbcType=INTEGER},
       context = #{context,jdbcType=VARCHAR},
-      score = #{score,jdbcType=INTEGER}
+      score = #{score,jdbcType=DOUBLE}
     where id_comment = #{idComment,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id_comment, id_restaurant, time, id_user, id_comment_reply, num_like, context, 
+    select id_comment, id_restaurant, time, id_user, id_comment_reply, num_like, context,
     score
     from comment
     where id_comment = #{idComment,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id_comment, id_restaurant, time, id_user, id_comment_reply, num_like, context, 
+    select id_comment, id_restaurant, time, id_user, id_comment_reply, num_like, context,
     score
     from comment
   </select>

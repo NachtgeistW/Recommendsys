@@ -12,6 +12,7 @@
         <result column="id_comment_reply" jdbcType="INTEGER" property="idCommentReply" />
         <result column="num_like" jdbcType="INTEGER" property="numLike" />
         <result column="context" jdbcType="VARCHAR" property="context" />
+        <result column="score" jdbcType="DOUBLE" property="score" />
         <association property="user" javaType="cn.iwyu.domain.User">
             <id column="id_user" property="idUser"></id>
             <result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -95,5 +96,11 @@
         *
         from COMMENT
         where id_restaurant = #{res_id} and id_user = #{user_id}
+    </select>
+    <select id="getScore" resultMap="BaseResultMap" parameterType="Integer">
+        select
+        *
+        from COMMENT
+        where id_restaurant = #{res_id} and score !=0
     </select>
 </mapper>

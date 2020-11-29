@@ -22,6 +22,8 @@ public interface CommentCustomMapper {
     List<CommentCustom> findAll();
     //查询通过餐馆id查询评论，应该返回一个集合
     List<CommentCustom> findByResId(Integer resId);
+    //查询通过餐馆id查询评分
+    List<CommentCustom> getScore(Integer resId);
     //通过用户id查询评论，应该返回一个集合
     List<CommentCustom> findByUserId(Integer userId);
     //条件模糊查询

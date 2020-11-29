@@ -38,7 +38,22 @@ public class CommentController {
         }
         return Msg.fail("数据库中暂无数据");
     }
-
+/**
+*@Description 通过餐馆ID获取评论
+*@Author XiaoMao
+*@Date 29/11/2020 下午4:46
+*@Param [resId]
+*Return cn.iwyu.domain.Msg
+**/
+    @RequestMapping("/resComent")
+    @ResponseBody
+    public  Msg resComent(Integer resId){
+        List<CommentCustom> commentCustoms= service.findByResId(resId);
+        if(commentCustoms!=null){
+            return Msg.succeed().add(commentCustoms,commentCustoms.size());
+        }
+        return Msg.fail("没有评论");
+    }
     @RequestMapping("/findByExample")
     @ResponseBody
     public Msg findByExample(CommentExample example){

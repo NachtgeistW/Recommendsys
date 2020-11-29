@@ -37,4 +37,6 @@ public interface CommentService {
     public Integer batchDelete(List<Integer> ids);
     //完成评分
     Integer scoreRestaurant(Comment comment);
+    //获取评分
+    String  getScore(Integer resId);
 }

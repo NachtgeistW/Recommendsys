@@ -89,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
     public Integer scoreRestaurant(Comment comment) {
         Integer user_id = comment.getIdUser();
         Integer res_id = comment.getIdRestaurant();
-        Integer score = comment.getScore();
+        Double score = comment.getScore();
         List<CommentCustom> commentCustoms = commentCustomMapper.findScore(user_id,res_id);
         //查到用户是否评论过这个餐馆，评论过就看是否已经评分过，评分过不能再次评分
         if(commentCustoms!=null){
@@ -105,5 +105,28 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment findById(Integer comment_id) {
         return commentMapper.selectByPrimaryKey(comment_id);
+    }
+/**
+*@Description 用逗号隔开分数与评论的数量
+*@Author XiaoMao
+*@Date 29/11/2020 下午4:21
+*@Param [resId]
+*Return java.lang.String
+**/
+    @Override
+    public String getScore(Integer resId) {
+        String str = "";
+        List<CommentCustom> commentCustoms = commentCustomMapper.getScore(resId);
+        Double count = 0d;
+        Double score = 0d;
+        if(commentCustoms.size()!=0){
+            for (CommentCustom commentCustom :commentCustoms) {
+                count = count + commentCustom.getScore();
+            }
+            score = count/commentCustoms.size();
+            str = score + "," + commentCustoms.size();
+            return str;
+        }
+        return "0,0";
     }
 }

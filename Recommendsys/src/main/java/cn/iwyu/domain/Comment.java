@@ -10,7 +10,7 @@ public class Comment implements Serializable {
 
     private Integer idRestaurant;
     @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss",
+            pattern = "yyyy-MM-dd",
             timezone = "GMT+8"
     )
     private Date time;
@@ -23,7 +23,7 @@ public class Comment implements Serializable {
 
     private String context;
 
-    private Integer score;
+    private Double score;
 
     private static final long serialVersionUID = 1L;
 
@@ -83,11 +83,11 @@ public class Comment implements Serializable {
         this.context = context == null ? null : context.trim();
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
