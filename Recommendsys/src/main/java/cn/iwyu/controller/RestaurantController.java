@@ -3,8 +3,11 @@ package cn.iwyu.controller;/**
  */
 
 import cn.iwyu.domain.*;
+import cn.iwyu.service.CommentService;
 import cn.iwyu.service.RestaurantService;
 import cn.iwyu.utils.Imgupload;
+import cn.iwyu.utils.StringToList;
+import cn.iwyu.utils.UrlImgUtil;
 import net.sf.json.JSONObject;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,8 @@ import java.util.stream.Collectors;
 public class RestaurantController {
     @Resource
     private RestaurantService service;
+    @Resource
+    private CommentService commentService;
 
     @RequestMapping("/findAll")
     @ResponseBody
@@ -40,7 +45,7 @@ public class RestaurantController {
         if(restaurants.size()>0){
             return Msg.succeed().add(restaurants,restaurants.size());
         }
-        return Msg.fail();
+        return Msg.fail("无数据");
     }
     /**
     *@Description 查询所有未审核通过的餐馆（审核属性值为0的）
@@ -56,7 +61,7 @@ public class RestaurantController {
         if(restaurantCustoms.size()>0){
             return Msg.succeed().add(restaurantCustoms,restaurantCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("全部餐馆均审核通过");
     }
     @RequestMapping("/findByExample")
     @ResponseBody
@@ -65,7 +70,20 @@ public class RestaurantController {
         if(restaurantCustoms.size()>0){
             return Msg.succeed().add(restaurantCustoms,restaurantCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("数据库中无该数据");
+    }
+    @RequestMapping("/findById")
+    @ResponseBody
+    public Msg findById(Integer idRestaurant){
+        Restaurant restaurant = service.findById(idRestaurant);
+        if(restaurant==null){
+            return Msg.fail("获取数据失败");
+        }
+        restaurant.setResturantImage(UrlImgUtil.change(restaurant.getResturantImage()));
+        List<Restaurant> list = new ArrayList<>();
+        list.add(restaurant);
+        String score = commentService.getScore(idRestaurant);
+        return Msg.succeed(score).add(list,list.size());
     }
     /**
     *@Description 修改餐馆信息
@@ -98,7 +116,7 @@ public class RestaurantController {
         if(flag==1){
             return Msg.succeed();
         }
-        return Msg.fail();
+        return Msg.fail("数据更新失败");
     }
 
     @RequestMapping(value = "/uploadImg" ,produces="application/json;charset=utf-8")
@@ -142,9 +160,7 @@ public class RestaurantController {
     @RequestMapping(value = "/save" ,produces="application/json;charset=utf-8")
     @ResponseBody
     public Msg save(@RequestBody Restaurant restaurant, HttpSession session) throws Exception {
-        System.out.println("asdf");
         Date date = new Date();
-        System.out.println(date);
         if(restaurant.getName() == null){
 
             return Msg.fail("添加失败");
@@ -153,14 +169,12 @@ public class RestaurantController {
 
 
         restaurant.setRecommendTime(date);
-//        restaurant.setIdRecommandedUser((Integer) session.getAttribute("userID"));
-        restaurant.setIdRecommandedUser(1);
+        restaurant.setIdRecommandedUser((Integer) session.getAttribute("userID"));
         if(session.getAttribute("role")=="1"){
             restaurant.setIsAuditPassed(1);
         }else {
             restaurant.setIsAuditPassed(0);
         }
-        System.out.println("ok");
         Integer flag = service.save(restaurant);
         if(flag==0){
             return Msg.fail();
@@ -186,10 +200,7 @@ public class RestaurantController {
     @RequestMapping("/pass")
     @ResponseBody
     public Msg pass(Integer idRestaurant,HttpSession session){
-        Integer userID = 1;
-        /*
-            Integer userID = session.getAttribute("userID");
-        **/
+        Integer userID = (Integer) session.getAttribute("userID");
         System.out.println(idRestaurant);
         Restaurant restaurant = service.findById(idRestaurant);
         if(restaurant==null){
@@ -212,17 +223,26 @@ public class RestaurantController {
     @RequestMapping("/batchDelete")
     @ResponseBody
     public Msg batchDelete(String ids){
-        List<Integer> list1 = new ArrayList<Integer>();
-        if (ids!=null &&!ids.equals("")) {
-            String[] idsStrings = ids.split(",");//转成String数组
-            int[] array = Arrays.stream(idsStrings).mapToInt(Integer::parseInt).toArray();//转int数组
-            list1 = Arrays.stream(array).boxed().collect(Collectors.toList());//转List<Integer>
-            System.out.println("到达");
-            Integer flag = service.batchDelete(list1);
+        List<Integer> list = StringToList.change(ids);
+        if(list!=null){
+            Integer flag = service.batchDelete(list);
             if(flag>0){
-                return Msg.succeed();
+                return Msg.succeed("删除成功");
             }
         }
-        return  Msg.fail();
+        return  Msg.fail("删除失败");
+    }
+
+    @RequestMapping("/recommend")
+    @ResponseBody
+    public Msg recommend(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        List<RecommendRes> recommendRes = new ArrayList<>();
+        if(userId==null){
+            recommendRes = service.passRecommend(10);
+            return Msg.succeed().add(recommendRes,recommendRes.size());
+        }
+
+        return Msg.fail("推荐失败");
     }
 }

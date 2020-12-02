@@ -29,8 +29,8 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
     ComplainRecordCustomMapper complainRecordCustomMapper;
 
     @Override
-    public void save(ComplainRecord complainRecord) {
-        complainRecordMapper.insert(complainRecord);
+    public int save(ComplainRecord complainRecord) {
+        return complainRecordMapper.insert(complainRecord);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
 
     @Override
     public List<ComplainRecordCustom> checkRecord() {
-        List<ComplainRecordCustom> complainRecordCustoms = complainRecordCustomMapper.findAll();
+        List<ComplainRecordCustom> complainRecordCustoms = complainRecordCustomMapper.checkRecord();
         for (ComplainRecordCustom c:complainRecordCustoms
         ) {
             c.setUserName(c.getUser().getUserName());

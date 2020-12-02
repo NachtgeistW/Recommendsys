@@ -34,7 +34,7 @@ public class CommentTest {
         comment.setNumLike(1);
         comment.setContext("无敌");
         comment.setIdCommentReply(3);
-        comment.setScore(5);
+        comment.setScore(5d);
         commentService.save(comment);
     }
 

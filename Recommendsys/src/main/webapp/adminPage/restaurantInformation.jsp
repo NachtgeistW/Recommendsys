@@ -11,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/table.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/table.css">
     <%
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -261,7 +261,7 @@
 </div>
 <!-- 添加和修改的弹出层结束 -->
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script type="text/javascript">
     function dateToString(time) {
         var datetime = new Date();
@@ -453,7 +453,6 @@
                         "typeOfCuisine": $("#data_cuisine").val(),
                         "address": $("#data_address").val()
                     };
-                    alert(JSON.stringify(data1));
                     // var data1={"address":$("#data_address").val()};
                     $.ajax({
                         type: "POST",
@@ -461,24 +460,6 @@
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
                         data: data1,
-                        // data:{
-                        // "idRestaurant": idRestaurant,
-                        // "name": $("#data_name").val(),
-                        // "intro":  $("#data_introduction").val(),
-                        // "typeOfCuisine": encodeURI($("#data_cuisine").val()),
-                        // "address": $("#data_address").val(),
-                        // "idRecommandedUser": idRecommandedUser,
-                        // "recommandReason": recommandReason,
-                        // "isAuditPassed": "1",
-                        // "comment": comment,
-                        // "resturantImage": "sss",
-                        // "recommendTime": recommendTime,
-                        //     、
-                        //
-                        // },
-                        // data:'{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}',
-                        // data:JSON.stringify('{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}'),
-                        // data:'{"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()}',
                         success: function (data) {
                             console.log("1111111111111");
                         },
@@ -507,7 +488,6 @@
                 if (layEvent === 'del') { //删除
                     layer.msg("删除");
                     layer.confirm('真的删除行么', function (index) {
-                        // alert(data.idRestaurant);
                         var id = data.idRestaurant;
                         $.ajax({
 
@@ -685,13 +665,11 @@
                 //获取选中数量
                 data = checkStatus.data;
                 var ids = "";
-                alert(data.length);
                 if (data.length > 0) {
 
                     for (var i = 0; i < data.length; i++) {
                         ids = ids + data[i].idRestaurant + ",";
                     }
-                    alert(ids);
                     layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
                         $.ajax({
                             type: 'post',
@@ -705,7 +683,7 @@
                         });
                         tableIns.reload();
                         layer.close(index);
-
+                        location.reload();
                     })
                 } else {
                     layer.msg("请选择需要删除的用户");
@@ -728,7 +706,6 @@
             //     }
             // });
             form.on("submit(doSearch)", function (data) {
-                // alert(JSON.stringify(data.field));
                 var r_name = data.field.r_name;
                 var r_address = data.field.r_address;
                 var r_cuisine = data.field.r_cuisine;

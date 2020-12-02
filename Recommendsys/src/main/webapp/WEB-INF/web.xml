@@ -38,6 +38,13 @@
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>dispatcherServlet</servlet-name>-->
+<!--    <url-pattern>/login.jsp</url-pattern>-->
+<!--  </servlet-mapping>-->
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
   <!--配置解决中文乱码问题的过滤器-->
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
@@ -54,6 +61,17 @@
   <filter-mapping>
     <filter-name>characterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>cn.iwyu.fliter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionFilter</filter-name>
+    <!-- 所有的管理页面需要登录后才能访问 -->
+    <url-pattern>/userPage/*</url-pattern>
+    <url-pattern>/adminPage/*</url-pattern>
+<!--    <url-pattern>/login</url-pattern>-->
   </filter-mapping>
 
 </web-app>

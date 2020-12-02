@@ -18,8 +18,10 @@ import java.util.List;
 
 public interface RestaurantCustomMapper {
     List<RestaurantCustom> findAllRecommender();
-    //查询为审核的店铺
+    //查询未审核的店铺
     List<RestaurantCustom> checkRecommend();
+    //查询通过了的店铺
+    List<RestaurantCustom> passRecommend();
     //通过条件查询
     List<RestaurantCustom> findByExample(RestaurantExample example);
     //更新图片

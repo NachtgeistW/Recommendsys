@@ -19,7 +19,7 @@
     <div class="login-background">
         <div class="layui-form login-form"
              id="loginDiv">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="" id="login_form">
                 <div class="layui-form-item logo-title">
                     <h1>找铺子-登录</h1>
                 </div>
@@ -146,7 +146,7 @@
                 "email": email,
                 "password": password
             };
-             alert(email);
+
             $.ajax({
                 type: 'post',
                 async:false,
@@ -157,20 +157,22 @@
                 data: data1,
                 success: function (data) {
                     console.log(data);
-                    // var tes = data.responseText;
-                    // var obj = JSON.parse(tes);
-                    // console.log(obj);
-                   if(data.code=="1"){
-                       layer.msg(data.msg);
-                       window.location.href = "AdminIndex.jsp";
+                   if(data.msg=="1"){
+                       layer.msg("管理员登录成功");
+                       window.location.href = "adminPage/AdminIndex.jsp";
+                   }else if(data.msg=="0"){
+                       layer.msg("用户登录成功");
+                       window.location.href = "userPage/home.jsp";
                    }
                    else{
-                       layer.msg(data.msg);
-                       window.location.href = "login.jsp";
+                       layer.msg("账号或密码错误");
+                       $("#login_form")[0].reset();
+                       layui.form.render();
                    }
                 },
-                error: function () {
-                    layer.msg("登陆失败");
+                error: function (res) {
+                    layer.msg('1');
+                    // window.location.href = "login.jsp";
                 }
             })
         });
@@ -249,7 +251,6 @@
                     , layer = layui.layer;
                 //进行更改密码操作
                 form.on('submit(fPasswordBtn)', function (data) {
-                    alert(JSON.stringify(data.field));
                     if (data.field.FEmailCaptcha == "") {
                         layer.msg('验证码不能为空');
                     }else{
@@ -270,7 +271,7 @@
                             },
                         })
                     }
-                        alert(3);
+
                     });
                 //验证操作
                 form.verify({
@@ -283,7 +284,7 @@
                 //获取验证码
                 $('#getFCaptcha').click(function () {
                     var address = $('#fEmail').val();
-                    alert(address);
+
                         $.ajax({
                             url:"${pageContext.request.contextPath}/sendEmail",
                             contentType: "application/json",

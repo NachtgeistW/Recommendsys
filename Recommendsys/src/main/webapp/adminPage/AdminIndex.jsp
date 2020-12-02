@@ -12,13 +12,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/common-style.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/common-style.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <a data-url="${pageContext.request.contextPath}/homePage.jsp" data-id="homePage" data-title="首页" class="site-demo-active"  href="javascript:;" data-type="tabAdd"><div class="layui-logo">找铺子-后台管理</div></a>
+        <a data-url="${pageContext.request.contextPath}/adminPage/homePage.jsp" data-id="homePage" data-title="首页" class="site-demo-active"  href="javascript:;" data-type="tabAdd"><div class="layui-logo">找铺子-后台管理</div></a>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <!--        <ul class="layui-nav layui-layout-left">-->
         <!--            <li class="layui-nav-item"><a href="">控制台</a></li>-->
@@ -37,7 +37,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601458538542&di=82f07cfd0ca8dc4b782a3adc6884ff25&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201603%2F06%2F20160306204517_i4Se8.jpeg" class="layui-nav-img">
-                    管理员A
+                    ${userName}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -55,19 +55,19 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">店铺管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a data-url="${pageContext.request.contextPath}/restaurantCheck.jsp" data-id="restaurantCheck" data-title="店铺审核" class="site-demo-active"  href="javascript:;" data-type="tabAdd">店铺审核</a></dd>
-                        <dd><a data-url="${pageContext.request.contextPath}/restaurantInformation.jsp" data-id="restaurantInformation" data-title="店铺信息" class="site-demo-active"  href="javascript:;" data-type="tabAdd">店铺信息</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath}/adminPage/restaurantCheck.jsp" data-id="restaurantCheck" data-title="店铺审核" class="site-demo-active"  href="javascript:;" data-type="tabAdd">店铺审核</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath}/adminPage/restaurantInformation.jsp" data-id="restaurantInformation" data-title="店铺信息" class="site-demo-active"  href="javascript:;" data-type="tabAdd">店铺信息</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">举报管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a data-url="${pageContext.request.contextPath}/recordCheck.jsp" data-id="recordCheck" data-title="举报处理" class="site-demo-active"  href="javascript:;" data-type="tabAdd">举报处理</a></dd>
-                        <dd><a data-url="${pageContext.request.contextPath}/recordInformation.jsp" data-id="recordInformation" data-title="记录信息" class="site-demo-active"  href="javascript:;" data-type="tabAdd">记录管理</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath}/adminPage/recordCheck.jsp" data-id="recordCheck" data-title="举报处理" class="site-demo-active"  href="javascript:;" data-type="tabAdd">举报处理</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath}/adminPage/recordInformation.jsp" data-id="recordInformation" data-title="记录信息" class="site-demo-active"  href="javascript:;" data-type="tabAdd">记录管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath}/userInformation.jsp" data-id="userInformation" data-title="用户信息" data-type="tabAdd"  class="site-demo-active" >用户管理</a></li>
-                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath}/commentInformation.jsp" data-id="commentInformation" data-title="评价信息"  href="javascript:;" data-type="tabAdd"  class="site-demo-active" >评价信息</a></li>
+                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath}/adminPage/userInformation.jsp" data-id="userInformation" data-title="用户信息" data-type="tabAdd"  class="site-demo-active" >用户管理</a></li>
+                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath}/adminPage/commentInformation.jsp" data-id="commentInformation" data-title="评价信息"  href="javascript:;" data-type="tabAdd"  class="site-demo-active" >评价信息</a></li>
             </ul>
         </div>
     </div>
@@ -92,7 +92,7 @@
         © layui.com - 底部固定区域
     </div>
 </div>
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {

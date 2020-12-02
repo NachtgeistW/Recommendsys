@@ -5,7 +5,10 @@ package cn.iwyu.controller;/**
 import cn.iwyu.domain.Msg;
 import cn.iwyu.domain.User;
 import cn.iwyu.service.UserService;
+import cn.iwyu.utils.StringToList;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +35,7 @@ public class UserController {
     @ResponseBody
     public Msg findAll(){
         List<User> users = service.findAll();
+//        System.out.println(users.get(0));
         if(users.size()>0){
             return Msg.succeed().add(users,users.size());
         }
@@ -47,14 +51,15 @@ public class UserController {
     @RequestMapping("/findByExample")
     @ResponseBody
     public Msg findByExample(User example){
+        System.out.println(example);
         List<User> users = service.findByExample(example);
         if(users.size()>0){
             return Msg.succeed().add(users,users.size());
         }
-        return Msg.fail();
+        return Msg.fail("没有查询到相关的数据");
     }
 
-    @RequestMapping("/save")
+    @GetMapping("/saveOrUpdate")
     @ResponseBody
     public Msg save(User user){
         Integer flag = service.save(user);
@@ -66,11 +71,13 @@ public class UserController {
     @RequestMapping("/delete")
     @ResponseBody
     public Msg delete(Integer idUser){
-        Integer flag = service.delete(idUser);
-        if(flag>0){
-            return Msg.succeed();
+        if(idUser!=null){
+            Integer flag = service.delete(idUser);
+            if(flag>0){
+                return Msg.succeed("删除成功");
+            }
         }
-        return Msg.fail();
+        return Msg.fail("删除失败");
     }
     /**
     *@Description 用户端的修改：用户名
@@ -79,7 +86,7 @@ public class UserController {
     *@Param [user]
     *Return cn.iwyu.domain.Msg
     **/
-    @RequestMapping("/updateUser")
+    @PostMapping("/saveOrUpdate")
     @ResponseBody
     public Msg updateUser(String userName, HttpSession session){
         User user = service.findById((Integer)session.getAttribute("userID"));
@@ -118,11 +125,14 @@ public class UserController {
     **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Integer> ids){
-        Integer flag = service.batchDelete(ids);
-        if(flag>0){
-            return Msg.succeed();
+    public Msg batchDelete(String ids){
+        List<Integer> list = StringToList.change(ids);
+        if(list!=null){
+            Integer flag = service.batchDelete(list);
+            if(flag>0){
+                return Msg.succeed("批量删除成功");
+            }
         }
-        return Msg.fail();
+        return Msg.fail("批量删除失败");
     }
 }

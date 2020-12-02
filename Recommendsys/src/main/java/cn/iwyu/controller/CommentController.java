@@ -7,6 +7,7 @@ import cn.iwyu.domain.CommentCustom;
 import cn.iwyu.domain.CommentExample;
 import cn.iwyu.domain.Msg;
 import cn.iwyu.service.CommentService;
+import cn.iwyu.utils.StringToList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,27 +36,43 @@ public class CommentController {
         if(commentCustoms.size()>0){
             return Msg.succeed().add(commentCustoms,commentCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("数据库中暂无数据");
     }
-
+/**
+*@Description 通过餐馆ID获取评论
+*@Author XiaoMao
+*@Date 29/11/2020 下午4:46
+*@Param [resId]
+*Return cn.iwyu.domain.Msg
+**/
+    @RequestMapping("/resComent")
+    @ResponseBody
+    public  Msg resComent(Integer resId){
+        List<CommentCustom> commentCustoms= service.findByResId(resId);
+        if(commentCustoms!=null){
+            return Msg.succeed().add(commentCustoms,commentCustoms.size());
+        }
+        return Msg.fail("没有评论");
+    }
     @RequestMapping("/findByExample")
     @ResponseBody
     public Msg findByExample(CommentExample example){
+        System.out.println(example);
         List<CommentCustom> commentCustoms = service.findByExample(example);
         Integer count = commentCustoms.size();
         if(count>0){
             return Msg.succeed().add(commentCustoms,count);
         }
-        return Msg.fail();
+        return Msg.fail("没有找到拥有该条件的数据");
     }
     @RequestMapping("/delete")
     @ResponseBody
     public Msg delete(Integer idComment){
         Integer flag = service.delete(idComment);
         if(flag>0){
-            return  Msg.succeed();
+            return  Msg.succeed("删除成功");
         }
-        return Msg.fail();
+        return Msg.fail("删除失败");
     }
 /**
 *@Description 批量删除
@@ -66,12 +83,16 @@ public class CommentController {
 **/
     @RequestMapping("/batchDelete")
     @ResponseBody
-    public Msg batchDelete(List<Integer> ids){
-        Integer flag = service.batchDelete(ids);
-        if(flag>0){
-            return Msg.succeed();
+    public Msg batchDelete(String ids){
+        List<Integer> list = StringToList.change(ids);
+        if (list != null) {
+            Integer flag = service.batchDelete(list);
+            if(flag>0){
+                return Msg.succeed("批量删除成功");
+            }
         }
-        return  Msg.fail();
+
+        return  Msg.fail("批量删除失败");
     }
     /**
     *@Description 评分
@@ -87,6 +108,9 @@ public class CommentController {
         comment.setTime(date);
         comment.setNumLike(0);
         Integer flag = 0;
+        if(comment.getIdUser()==null){
+            return -1;
+        }
         //评分不能为回复信息
         if(comment.getIdCommentReply()!=null){
             return flag;
@@ -105,16 +129,17 @@ public class CommentController {
     @ResponseBody
     public Integer restaueant(Comment comment){
         //单纯的评论不能带评分
+        System.out.println(comment);
         if(comment.getScore()!=null){
-            return 0;
-        }
-        //回复的原评论需要存在
-        if(service.findById(comment.getIdCommentReply())==null){
             return 0;
         }
         Date date = new Date();
         comment.setTime(date);
         comment.setNumLike(0);
-        return service.save(comment);
+        int flag = service.save(comment);
+        if(flag==0){
+            return 0;
+        }
+        return 1;
     }
 }

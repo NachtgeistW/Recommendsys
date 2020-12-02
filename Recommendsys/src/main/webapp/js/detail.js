@@ -20,7 +20,7 @@
         $("#shopPhoto").click(function () {
             var windowPhoto = document.getElementById("windowPhoto");
             windowPhoto.style.display = "block";
-            playCarousel();
+            playCarousel(restaurantData.data[0].resturantImage);
         });
         //给评论点赞
         $("#comment").on("click", ".commentHeart1", function () {
@@ -32,11 +32,69 @@
             var index = $('.commentHeart2').index($(this));
             commentDisLike(index);
         });
-
         getData(ID);
-        fillData(restaurantData);
+        var count = restaurantData.msg.split(",");
+        setImg(restaurantData.data[0].resturantImage);
+        setStar(count[0]);
+        fillData(restaurantData,count[1]);
         fillComment(ID);
     });
+
+    function setImg(res){
+        var str = res.split(",");
+        var $img = $("#resImg");
+        $img.attr("src","../"+str[0]);
+
+    }
+//举报信息
+    function opencomplain(data) {
+        mainIndex = layer.open({
+            type: 1,
+            title: "举报信息",
+            content: $("#complainDiv"),
+            area: 'auto',
+            success: function (index) {
+                form.val("complainFrm", data);
+            }
+        });
+        form.on("submit(edit-save)", function (obj) {
+            var userId = $("#userID").attr("data");
+            var resId = getSearchString('productId', search);
+            var data1 = {
+                "idRestaurant":resId ,
+                "idUser": userId,
+                "reason": $("#data_reson").val(),
+            };
+            console.log(data1);
+            // var data1={"address":$("#data_address").val()};
+            $.ajax({
+                type: "POST",
+                url: contextPath+'/Complain/add',
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: JSON.stringify(data1),
+                success: function (data) {
+                    layer.msg("举报成功");
+                    //关闭弹出层
+                    layer.close(mainIndex);
+                    //刷新页面
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log("22222222222222");
+                }
+            });
+            //关闭弹出层
+            layer.close(mainIndex);
+            //刷新页面
+            // window.location.reload();
+            // })
+        });
+    }
+
+    $("#complain").on("click",function (){
+        opencomplain();
+    })
 
     function getData(ID) {
         $.ajax({
@@ -45,7 +103,8 @@
             // type : 'POST',
             // url : "",
             type: "get",
-            url: "_detail.json",
+            url: contextPath+"/restaurant/findById",
+            data:{"idRestaurant":ID},
             dataType: "json",
             success: function (data) {
                 restaurantData = data;
@@ -70,17 +129,17 @@
     }
 
     //页面数据填充
-    function fillData(data) {
+    function fillData(res,num) {
         var restaurantName = document.getElementById("restaurantName");
         var commentNumber = document.getElementById("commentNumber");
         var addressID = document.getElementById("addressID");
         var restaurant_intro = document.getElementById("restaurant_intro");
         var commentReason = document.getElementById("commentReason");
-        restaurantName.innerHTML = data.name;
-        commentNumber.innerHTML = data.comment_num;
-        addressID.innerHTML = data.address;
-        restaurant_intro.innerHTML = data.intro;
-        commentReason.innerHTML = data.recommand_reason;
+        restaurantName.innerHTML = res.data[0].name;
+        commentNumber.innerHTML = num;
+        addressID.innerHTML = res.data[0].address;
+        restaurant_intro.innerHTML = res.data[0].intro;
+        commentReason.innerHTML = res.data[0].recommandReason;
     }
 
     function fillComment(ID) {
@@ -90,25 +149,31 @@
             // type : 'POST',
             // url : "",
             type: "get",
-            url: "_comment.json",
+            url: contextPath+"/Comment/resComent",
             dataType: "json",
-            success: function (data) {
+            data: {"resId":ID},
+            success: function (res) {
                 // var comment =document.getElementById("comment");
-                for (var i = 0; i < data.length; i++) {
+
+                for (var i = 0; i < res.data.length; i++) {
+                    var score = " ";
+                    if(res.data[i].score!=0&&res.data[i].score!=null){
+                        score = "评分："+res.data[i].score + " 分";
+                    }
                     var newHtml = '<li>\n' +
                         '                            <div class="comment-parent">\n' +
                         '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
                         '                                <div class="info">\n' +
-                        '                                    <span class="username">' + data[i].userName + '</span>\n' +
-                        '                                    评分：<span class="score">' + data[i].score + '</span>\n' +
-                        '                                    <span class="time">' + data[i].time + '</span>\n' +
+                        '                                    <span class="username">' + res.data[i].user.userName + '</span>\n' +
+                        '                                    <span class="score">' + score + '</span>\n' +
+                        '                                    <span class="time">' + res.data[i].time + '</span>\n' +
                         '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
                         '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
                         '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
                         '                                             style="display: none">\n' +
-                        '                                        <span class="commentNum" style="float: right">' + data[i].like + '</span></div>\n' +
+                        '                                        <span class="commentNum" style="float: right">' + res.data[i].numLike + '</span></div>\n' +
                         '                                </div>\n' +
-                        '                                <div class="content">\n' + data[i].context +
+                        '                                <div class="content">\n' + res.data[i].context +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </li>';
@@ -124,16 +189,19 @@
         tool: ['face', '|', 'left', 'center', 'right'],
     });
     //显示评价星星
-    rate.render({
-        elem: '#gradeStar'
-        , value: 3.5
-        , half: true
-        , text: true
-        , readonly: true
-        , setText: function (value) { //自定义文本的回调
-            this.span.text(value + "分");
-        }
-    });
+    function setStar(score){
+        rate.render({
+            elem: '#gradeStar'
+            , value: parseFloat(score)
+            , half: true
+            , text: true
+            , readonly: true
+            , setText: function (value) { //自定义文本的回调
+                this.span.text(value + "分");
+            }
+        });
+    }
+
     //星星评分
     rate.render({
         elem: '#star'
@@ -169,54 +237,73 @@
         return t;
 
     };
-
     //监听评论提交
+    form.on('submit(onlyformRemark)', function (data) {
+        var index = layer.load(1);
+        var userId = $("#userID").attr("data");
+        setTimeout(function () {
+            layer.close(index);
+            var content = data.field.editorContent;
+            $.ajax({
+                type:"post",
+                url:contextPath+"/Comment/restaueant",
+                dataType:'json',
+                data:{
+                    "idRestaurant":ID,
+                    "idUser":userId,
+                    "context":content
+                },
+                success:function (flag){
+                    console.log(flag);
+                    if(flag!="0"){
+                        layer.msg("评论成功");
+                        window.location.reload();
+                    }else {
+                        layer.msg("评论失败，请稍后再尝试");
+                    }
+
+                }
+
+            });
+            $('#remarkEditor').val('');
+            editIndex = layui.layedit.build('remarkEditor', {
+                height: 150,
+                tool: ['face', '|', 'left', 'center', 'right'],
+            });
+
+        }, 500);
+        return false;
+    });
+    //监听评分提交
     form.on('submit(formRemark)', function (data) {
         var index = layer.load(1);
-
+        var userId = $("#userID").attr("data");
         setTimeout(function () {
             layer.close(index);
             var content = data.field.editorContent;
             var star = Number(document.querySelector("#star>span").innerText);
-            //模拟评论提交start
-            var html = '<li>\n' +
-                '                            <div class="comment-parent">\n' +
-                '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
-                '                                <div class="info">\n' +
-                '                                    <span class="username">老辣鸡</span>\n' +
-                '                                    评分：<span class="score">' + star + '</span>\n' +
-                '                                    <span class="time">' + commentTime() + '</span>\n' +
-                '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
-                '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
-                '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
-                '                                             style="display: none">\n' +
-                '                                        <span class="commentNum" style="float: right">0</span></div>\n' +
-                '                                </div>\n' +
-                '                                <div class="content">\n' + content +
-                '                                </div>\n' +
-                '                            </div>\n' +
-                '                        </li>';
-            $('#comment').append(html);
-            //模拟评论提交end
-            // var data1 = {
-            //     "context": content,
-            //     "score": star
-            // };
-            // $.ajax({
-            //     type: 'post',
-            //     async: false,
-            //     cache: false,
-            //     url: '',
-            //     dataType: "json",
-            //     data: data1,
-            //     success: function (data) {
-            //         layer.msg("评论成功", {icon: 1});
-            //
-            //     },
-            //     error: function () {
-            //         layer.msg("评论失败", {icon: 2});
-            //     }
-            // })
+            $.ajax({
+                type:"post",
+                url:contextPath+"/Comment/scoreRestaurant",
+                dataType:'json',
+                data:{
+                    "idRestaurant":ID,
+                    "idUser":userId,
+                    "score":star,
+                    "context":content
+                },
+                success:function (flag){
+                    console.log(flag);
+                    if(flag!="0"){
+                        layer.msg("评分成功");
+                        window.location.reload()
+                    }else {
+                        layer.msg("评分失败，您已经对该店铺做出过评分");
+                    }
+
+                }
+
+            });
             $('#remarkEditor').val('');
             editIndex = layui.layedit.build('remarkEditor', {
                 height: 150,
@@ -269,13 +356,8 @@
     }
 
     // 打开图片弹窗
-    function playCarousel() {
-        $.ajax({
-            type: "post",
-            url: "_carousal.json",
-            async: false,
-            dataType: "json",
-            success: function (data) {
+    function playCarousel(res) {
+        var str = res.split(",");
                 var W = document.body.clientWidth;
                 var H = document.body.clientHeight;
                 if (W > 500) {
@@ -283,13 +365,13 @@
                         type: 1,
                         area: ["400px", "700px"],
                         // area:"auto",
-                        title: "地图显示",
+                        title: "图片",
                         scrollbar: false,
                         offset: ['0px', '35%'],
                         content: $("#windowPhoto")
                         , success: function () {
-                            for (var i = 0; i < data.length; i++) {
-                                var newHtml = '<div><img src=' + data[i].src + ' class="pic" width="100%"></div>';
+                            for (var i = 0; i < str.length-1; i++) {
+                                var newHtml = '<div><img src=' +"../"+ str[i] + ' class="pic" width="100%"></div>';
                                 $("#carousel").append(newHtml);
                             }
                             carousel.render({
@@ -311,13 +393,13 @@
                         type: 1,
                         area: ["400px", "700px"],
                         // area:"auto",
-                        title: "地图显示",
+                        title: "图片显示",
                         scrollbar: false,
                         offset: ['0px', '6px'],
                         content: $("#windowPhoto")
                         , success: function () {
-                            for (var i = 0; i < data.length; i++) {
-                                var newHtml = '<div><img src=' + data[i].src + ' class="pic" width="100%"></div>';
+                            for (var i = 0; i < str.length-1; i++) {
+                                var newHtml = '<div><img src=' +"../"+ str[i] + ' class="pic" width="100%"></div>';
                                 $("#carousel").append(newHtml);
                             }
                             carousel.render({
@@ -335,10 +417,6 @@
                         }
                     });
                 }
-
-
-            },
-        });
     }
 
     //打开地图弹窗

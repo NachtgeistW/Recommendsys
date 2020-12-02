@@ -13,16 +13,25 @@ import java.io.Serializable;
  **/
 
 public class ComplainExample implements Serializable {
-    private String usesrName;
+    private String userName;
     private String resName;
     private String result;
 
-    public String getUsesrName() {
-        return usesrName;
+    @Override
+    public String toString() {
+        return "ComplainExample{" +
+                "userName='" + userName + '\'' +
+                ", resName='" + resName + '\'' +
+                ", result='" + result + '\'' +
+                '}';
     }
 
-    public void setUsesrName(String usesrName) {
-        this.usesrName = usesrName;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getResName() {

@@ -23,7 +23,7 @@
     function showHotRestaurant() {
         $.ajax({
             type: "get",
-            url: "_hotRestaurant.json",
+            url: "hotRestaurant.json",
             dataType: "json",
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -39,30 +39,34 @@
     function showRestaurant() {
         $.ajax({
             type: "get",
-            url: "_restaurant.json",
+            url: contextPath+'/restaurant/recommend',
             dataType: "json",
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var newHtml = '<div class="blog-main-left">\n' +
+            success: function (res) {
+                // var a = JSON.stringify(res);
+                // console.log(data[1].recommand_reason);
+                console.log(res.data[2].idRestaurant);
+                for (var i = 0; i < res.data.length; i++) {
+                    var newHtml =
+                        '<div class="blog-main-left">\n' +
                         '                <div class="article shadow">\n' +
                         '                    <div class="article-left">\n' +
-                        '                        <img src="../' + data[i].resturant_image + '" alt="店铺图片" class="imgRestaurant"/>\n' +
+                        '                        <img src= ' + "../"+res.data[i].resturantImage+ " "+'alt="店铺图片" class="imgRestaurant"/>\n' +
                         '                    </div>\n' +
                         '                    <div class="article-right">\n' +
                         '                        <div class="article-title">\n' +
-                        '                            <a href="detail.html?productId=' + data[i].id_restaurant + '">' + data[i].name + '</a>\n' +
+                        '                            <a href="detail.jsp?productId='+res.data[i].idRestaurant+'">' + res.data[i].name + '</a>\n' +
                         '                        </div>\n' +
                         '                        <div class="article-abstract">\n' +
-                        '                            '+data[i].intro+'\n' +
+                        '                            '+res.data[i].intro+'\n' +
                         '                        </div>\n' +
                         '                        <div class="article-abstract article-abstract-low">\n' +
-                        '                            推荐理由：'+data[i].recommand_reason+'\n' +
+                        '                            推荐理由：'+res.data[i].recommandReason+'\n' +
                         '                        </div>' +
                         '                    </div>'+
                         '                    <div class="clear"></div>\n' +
                         '                    <div class="article-footer">\n' +
-                        '                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">'+data[i].type_of_cuisine+'</a></span>\n' +
-                        '                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;'+data[i].comment_num+'</span>\n' +
+                        '                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">'+res.data[i].type_of_cuisine+'</a></span>\n' +
+                        '                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;'+res.data[i].comment_num+'</span>\n' +
                         '                    </div>\n' +
                         '                </div>\n' +
                         '            </div>';

@@ -87,8 +87,8 @@
         ( complain_record c LEFT JOIN USER u ON c.id_user = u.id_user )
         LEFT JOIN restaurant r ON c.id_restaurant = r.id_restaurant
         <where>
-            <if test="usesrName != null and usesrName != ''">
-                AND u.user_name LIKE CONCAT ( '%', #{usesrName}, '%' )
+            <if test="userName != null and userName != ''">
+                AND u.user_name LIKE CONCAT ( '%', #{userName}, '%' )
             </if>
             <if test="resName != null and resName != ''">
                 AND r.name LIKE CONCAT( '%', #{resName}, '%' )

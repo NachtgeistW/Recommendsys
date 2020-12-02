@@ -11,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
-    <link rel="stylesheet" href="css/admin/table.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/admin/table.css">
 
 </head>
 <body>
@@ -77,8 +77,8 @@
 </div>
 <!-- 添加和修改的弹出层结束 -->
 
-<script src="js/jquery.min.js"></script>
-<script src="plug/layui/layui.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script>
     layui.use(['table', 'jquery', 'layer', 'form',], function () {
         var table = layui.table;
@@ -106,7 +106,20 @@
                 , {fixed: 'right', title: '详情', toolbar: '#barDemo'}
                 , {fixed: 'right', title: '是否通过', minWidth: 100, templet: '#checkboxTpl', unresize: true}
             ]]
-            , page: true
+            , page: true //是否启用分页
+            , limit: 10
+            , limits: [3, 5, 10, 12]
+            , parseData: function (res) {
+                var result;
+                if(res.data!=null){
+                    if (this.page.curr) {
+                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                    } else {
+                        result = res.data.slice(0, this.limit);
+                    }
+                }
+                return {"code": res.code, "msg": res.msg, "count": res.count, "data": result};
+            }
         });
 
 
@@ -152,6 +165,7 @@
                 content: $("#detailsDiv"),
                 area: ['325px', '350px'],
                 success: function (layero,index) {
+
                     form.val("dataFrm", data);
 
                 }

@@ -61,9 +61,11 @@
             <if test="r_address!=null and r_address!=''">
                 AND r.address LIKE CONCAT( '%', #{r_address}, '%' )
             </if>
-            <if test="startTime!=null and startTime != '' and endTime != null and endTime!=''">
-                AND r.recommend_time BETWEEN #{startTime}
-                AND #{endTime}
+            <if test="startTime!=null and startTime != ''">
+                AND r.recommend_time > #{startTime}
+            </if>
+            <if test="endTime != null and endTime!=''">
+                AND #{endTime} > r.recommend_time
             </if>
         </where>
 
@@ -83,4 +85,15 @@
           #{recommandReason,jdbcType=VARCHAR}, #{isAuditPassed,jdbcType=TINYINT}, #{comment,jdbcType=VARCHAR},
           #{resturantImage,jdbcType=VARCHAR}, #{recommendTime,jdbcType=DATE})
     </insert>
+
+    <select id="passRecommend" resultMap="BaseResultMap">
+        SELECT
+            u.*,
+            r.*
+        FROM
+            restaurant r
+            LEFT JOIN USER u ON r.id_recommanded_user = u.id_user
+        WHERE
+            r.is_audit_passed != 0
+    </select>
 </mapper>

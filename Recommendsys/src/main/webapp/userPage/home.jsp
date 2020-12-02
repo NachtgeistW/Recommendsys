@@ -1,13 +1,25 @@
-﻿<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: WX_78
+  Date: 28/11/2020
+  Time: 下午3:29
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
+    <script>
+        var contextPath = "${contextPath}";
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-<!--    <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">-->
-<!--    <meta http-equiv="Content-Language" content="zh-CN">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>-->
+    <!--    <meta http-equiv="Content-Type" content="text/html; Charset=gb2312">-->
+    <!--    <meta http-equiv="Content-Language" content="zh-CN">-->
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>-->
     <title>找铺子</title>
     <link rel="shortcut icon" href="../images/Logo_40.png" type="image/x-icon">
     <!--Layui-->
@@ -21,6 +33,7 @@
 </head>
 <body>
 <!-- 导航 -->
+
 <nav class="blog-nav layui-header">
     <div class="blog-container">
         <!-- QQ互联登陆 -->
@@ -31,11 +44,11 @@
             <img src="../images/Absolutely.jpg" alt="Absolutely" title="Absolutely"/>
         </a>
         <!-- 找铺子 -->
-        <a class="blog-logo" href="home.html">找铺子</a>
+        <a class="blog-logo" href="home.jsp">找铺子</a>
         <!-- 导航菜单 -->
         <ul class="layui-nav" lay-filter="nav">
             <li class="layui-nav-item layui-this">
-                <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+                <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
             </li>
             <li class="layui-nav-item">
                 <a href="upLoad.jsp"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>
@@ -56,7 +69,6 @@
         </a>
     </div>
 </nav>
-
 <!-- 主体（一般只改变这里的内容） -->
 <div class="blog-body">
 
@@ -82,27 +94,27 @@
             </div>
             <!--左边文章列表-->
             <div class="blog-main-left" id="content">
-                <div class="article shadow">
-                    <div class="article-left">
-                        <img src="../images/download.jpg" alt="店铺图片"/>
-                    </div>
-                    <div class="article-right">
-                        <div class="article-title">
-                            <a href="detail.html?productId=1">关东小店</a>
-                        </div>
-                        <div class="article-abstract">
-                            一个菜式普通、但味道很好的店。回锅肉令人印象深刻
-                        </div>
-                        <div class="article-abstract article-abstract-low">
-                            推荐理由：一个菜式普通、但味道很好的店。回锅肉令人印象深刻，酸菜鱼亦是十分美味。
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="article-footer">
-                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">Web前端</a></span>
-                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;4</span>
-                    </div>
-                </div>
+<%--                <div class="article shadow">--%>
+<%--&lt;%&ndash;                    <div class="article-left">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <img src="../images/download.jpg" alt="店铺图片"/>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    <div class="article-right">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-title">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            <a href="detail.html?productId=1">关东小店</a>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-abstract">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            一个菜式普通、但味道很好的店。回锅肉令人印象深刻&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <div class="article-abstract article-abstract-low">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            推荐理由：一个菜式普通、但味道很好的店。回锅肉令人印象深刻，酸菜鱼亦是十分美味。&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        </div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
+<%--                    <div class="clear"></div>--%>
+<%--                    <div class="article-footer">--%>
+<%--                        <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">Web前端</a></span>--%>
+<%--                        <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;4</span>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
             </div>
             <!--右边小栏目-->
             <div class="blog-main-right">
@@ -163,7 +175,7 @@
 <!--侧边导航-->
 <ul class="layui-nav layui-nav-tree layui-nav-side blog-nav-left layui-hide" lay-filter="nav">
     <li class="layui-nav-item layui-this">
-        <a href="home.html"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
+        <a href="home.jsp"><i class="fa fa-home fa-fw"></i>&nbsp;查看店铺</a>
     </li>
     <li class="layui-nav-item">
         <a href="upLoad.jsp"><i class="fa fa-file-text fa-fw"></i>&nbsp;上传店铺</a>

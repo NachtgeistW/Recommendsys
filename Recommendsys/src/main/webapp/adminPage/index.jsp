@@ -9,15 +9,15 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="plug/layui/css/layui.css">
+    <link rel="stylesheet" href="../../plug/layui/css/layui.css">
 </head>
 <body>
 <a href="userInformation.jsp">测试页面显示</a>
 <a href="user/findAll">测试json具体数据</a>
 <a href="AdminIndex.jsp">测试首页</a>
-<a href="userPage/home.html">测试用户页面</a>
+<a href="../../userPage/home.html">测试用户页面</a>
 <p/>
-<a href="login.jsp">测试登录</a>
+<a href="../login.jsp">测试登录</a>
 <a href="admin/AdminIndex.html">测试首页html</a>
 <a href="restaurant/findAll">测试餐馆json</a>
 <a href="complain/findAll">测试举报json</a>
@@ -42,7 +42,7 @@
         <%--            <button type="button" class="layui-btn" id="testListAction">开始上传</button>--%>
     </div>
 </div>
-<script src="plug/layui/layui.js"></script>
+<script src="../../plug/layui/layui.js"></script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'layer', 'form', 'laydate', 'upload'],
         function () {
