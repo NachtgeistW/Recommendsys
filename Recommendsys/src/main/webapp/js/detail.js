@@ -46,7 +46,55 @@
         $img.attr("src","../"+str[0]);
 
     }
+//举报信息
+    function opencomplain(data) {
+        mainIndex = layer.open({
+            type: 1,
+            title: "举报信息",
+            content: $("#complainDiv"),
+            area: 'auto',
+            success: function (index) {
+                form.val("complainFrm", data);
+            }
+        });
+        form.on("submit(edit-save)", function (obj) {
+            var userId = $("#userID").attr("data");
+            var resId = getSearchString('productId', search);
+            var data1 = {
+                "idRestaurant":resId ,
+                "idUser": userId,
+                "reason": $("#data_reson").val(),
+            };
+            console.log(data1);
+            // var data1={"address":$("#data_address").val()};
+            $.ajax({
+                type: "POST",
+                url: contextPath+'/Complain/add',
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                data: JSON.stringify(data1),
+                success: function (data) {
+                    layer.msg("举报成功");
+                    //关闭弹出层
+                    layer.close(mainIndex);
+                    //刷新页面
+                    window.location.reload();
+                },
+                error: function (data) {
+                    console.log("22222222222222");
+                }
+            });
+            //关闭弹出层
+            layer.close(mainIndex);
+            //刷新页面
+            // window.location.reload();
+            // })
+        });
+    }
 
+    $("#complain").on("click",function (){
+        opencomplain();
+    })
 
     function getData(ID) {
         $.ajax({
@@ -109,7 +157,7 @@
 
                 for (var i = 0; i < res.data.length; i++) {
                     var score = " ";
-                    if(res.data[i].score!=0){
+                    if(res.data[i].score!=0&&res.data[i].score!=null){
                         score = "评分："+res.data[i].score + " 分";
                     }
                     var newHtml = '<li>\n' +
@@ -189,8 +237,44 @@
         return t;
 
     };
-
     //监听评论提交
+    form.on('submit(onlyformRemark)', function (data) {
+        var index = layer.load(1);
+        var userId = $("#userID").attr("data");
+        setTimeout(function () {
+            layer.close(index);
+            var content = data.field.editorContent;
+            $.ajax({
+                type:"post",
+                url:contextPath+"/Comment/restaueant",
+                dataType:'json',
+                data:{
+                    "idRestaurant":ID,
+                    "idUser":userId,
+                    "context":content
+                },
+                success:function (flag){
+                    console.log(flag);
+                    if(flag!="0"){
+                        layer.msg("评论成功");
+                        window.location.reload();
+                    }else {
+                        layer.msg("评论失败，请稍后再尝试");
+                    }
+
+                }
+
+            });
+            $('#remarkEditor').val('');
+            editIndex = layui.layedit.build('remarkEditor', {
+                height: 150,
+                tool: ['face', '|', 'left', 'center', 'right'],
+            });
+
+        }, 500);
+        return false;
+    });
+    //监听评分提交
     form.on('submit(formRemark)', function (data) {
         var index = layer.load(1);
         var userId = $("#userID").attr("data");
@@ -214,51 +298,12 @@
                         layer.msg("评分成功");
                         window.location.reload()
                     }else {
-                        layer.msg("您已经对该店铺做出过评分");
+                        layer.msg("评分失败，您已经对该店铺做出过评分");
                     }
 
                 }
 
             });
-            //模拟评论提交start
-            // var html = '<li>\n' +
-            //     '                            <div class="comment-parent">\n' +
-            //     '                                <img src="../images/Absolutely.jpg" alt="absolutely"/>\n' +
-            //     '                                <div class="info">\n' +
-            //     '                                    <span class="username">老辣鸡</span>\n' +
-            //     '                                    评分：<span class="score">' + star + '</span>\n' +
-            //     '                                    <span class="time">' + commentTime() + '</span>\n' +
-            //     '                                    <div style="float: right"><img src="../images/heart.svg" width="16px"\n' +
-            //     '                                                                   class="commentHeart1" style="display: inline-block;">\n' +
-            //     '                                        <img src="../images/heart.png" width="16px" class="commentHeart2"\n' +
-            //     '                                             style="display: none">\n' +
-            //     '                                        <span class="commentNum" style="float: right">0</span></div>\n' +
-            //     '                                </div>\n' +
-            //     '                                <div class="content">\n' + content +
-            //     '                                </div>\n' +
-            //     '                            </div>\n' +
-            //     '                        </li>';
-            // $('#comment').append(html);
-            //模拟评论提交end
-            // var data1 = {
-            //     "context": content,
-            //     "score": star
-            // };
-            // $.ajax({
-            //     type: 'post',
-            //     async: false,
-            //     cache: false,
-            //     url: '',
-            //     dataType: "json",
-            //     data: data1,
-            //     success: function (data) {
-            //         layer.msg("评论成功", {icon: 1});
-            //
-            //     },
-            //     error: function () {
-            //         layer.msg("评论失败", {icon: 2});
-            //     }
-            // })
             $('#remarkEditor').val('');
             editIndex = layui.layedit.build('remarkEditor', {
                 height: 150,

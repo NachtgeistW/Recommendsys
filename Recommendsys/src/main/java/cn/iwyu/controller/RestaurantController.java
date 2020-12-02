@@ -61,7 +61,7 @@ public class RestaurantController {
         if(restaurantCustoms.size()>0){
             return Msg.succeed().add(restaurantCustoms,restaurantCustoms.size());
         }
-        return Msg.fail();
+        return Msg.fail("全部餐馆均审核通过");
     }
     @RequestMapping("/findByExample")
     @ResponseBody
@@ -80,7 +80,6 @@ public class RestaurantController {
             return Msg.fail("获取数据失败");
         }
         restaurant.setResturantImage(UrlImgUtil.change(restaurant.getResturantImage()));
-        System.out.println(restaurant);
         List<Restaurant> list = new ArrayList<>();
         list.add(restaurant);
         String score = commentService.getScore(idRestaurant);
@@ -162,7 +161,6 @@ public class RestaurantController {
     @ResponseBody
     public Msg save(@RequestBody Restaurant restaurant, HttpSession session) throws Exception {
         Date date = new Date();
-        System.out.println(date);
         if(restaurant.getName() == null){
 
             return Msg.fail("添加失败");
@@ -171,14 +169,12 @@ public class RestaurantController {
 
 
         restaurant.setRecommendTime(date);
-//        restaurant.setIdRecommandedUser((Integer) session.getAttribute("userID"));
-        restaurant.setIdRecommandedUser(1);
+        restaurant.setIdRecommandedUser((Integer) session.getAttribute("userID"));
         if(session.getAttribute("role")=="1"){
             restaurant.setIsAuditPassed(1);
         }else {
             restaurant.setIsAuditPassed(0);
         }
-        System.out.println("ok");
         Integer flag = service.save(restaurant);
         if(flag==0){
             return Msg.fail();

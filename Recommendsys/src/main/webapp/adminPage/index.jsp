@@ -17,7 +17,7 @@
 <a href="AdminIndex.jsp">测试首页</a>
 <a href="../../userPage/home.html">测试用户页面</a>
 <p/>
-<a href="login.jsp">测试登录</a>
+<a href="../login.jsp">测试登录</a>
 <a href="admin/AdminIndex.html">测试首页html</a>
 <a href="restaurant/findAll">测试餐馆json</a>
 <a href="complain/findAll">测试举报json</a>

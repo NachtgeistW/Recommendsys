@@ -40,7 +40,6 @@ public class LoginController {
         user.setEmail(email);
         user.setPassword(password);
         user = service.checkPwd(user);
-        System.out.println(user);
         if(user!=null) {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("userID", user.getIdUser());

@@ -460,24 +460,6 @@
                         contentType: "application/json;charset=UTF-8",
                         dataType: "json",
                         data: data1,
-                        // data:{
-                        // "idRestaurant": idRestaurant,
-                        // "name": $("#data_name").val(),
-                        // "intro":  $("#data_introduction").val(),
-                        // "typeOfCuisine": encodeURI($("#data_cuisine").val()),
-                        // "address": $("#data_address").val(),
-                        // "idRecommandedUser": idRecommandedUser,
-                        // "recommandReason": recommandReason,
-                        // "isAuditPassed": "1",
-                        // "comment": comment,
-                        // "resturantImage": "sss",
-                        // "recommendTime": recommendTime,
-                        //     、
-                        //
-                        // },
-                        // data:'{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}',
-                        // data:JSON.stringify('{"idRestaurant": idRestaurant,"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val(),"idRecommandedUser":idRecommandedUser,"recommandReason":recommandReason,"isAuditPassed":1,"comment": comment,"resturantImage": "sss","recommendTime": recommendTime}'),
-                        // data:'{"name": $("#data_name").val(),"intro":$("#data_introduction").val(),"typeOfCuisine":$("#data_cuisine").val(),"address":$("#data_address").val()}',
                         success: function (data) {
                             console.log("1111111111111");
                         },

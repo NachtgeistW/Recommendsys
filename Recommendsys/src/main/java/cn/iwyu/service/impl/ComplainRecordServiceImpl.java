@@ -29,8 +29,8 @@ public class ComplainRecordServiceImpl implements ComplainRecordService{
     ComplainRecordCustomMapper complainRecordCustomMapper;
 
     @Override
-    public void save(ComplainRecord complainRecord) {
-        complainRecordMapper.insert(complainRecord);
+    public int save(ComplainRecord complainRecord) {
+        return complainRecordMapper.insert(complainRecord);
     }
 
     @Override

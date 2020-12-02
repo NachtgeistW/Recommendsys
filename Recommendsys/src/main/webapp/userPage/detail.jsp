@@ -106,6 +106,7 @@
                     </div>
                     <div class="shop-detail-text">
                         <h1 class="shop-detail-text-name" id="restaurantName"></h1>
+                        <button class="layui-btn" lay-submit="complain_formRemark" lay-filter="complain_formRemark" id="complain"style="float:right" >举报</button>
                         <div>
                             <div class="layui-inline">
                                 <div id="gradeStar"></div>
@@ -147,7 +148,9 @@
                                               placeholder="请输入内容" class="layui-textarea layui-hide"></textarea>
                                 </div>
                                 <div class="layui-form-item">
-                                    <button class="layui-btn" lay-submit="formRemark" lay-filter="formRemark">提交评论
+                                    <button class="layui-btn" lay-submit="formRemark" lay-filter="formRemark">评分并提交评论
+                                    </button>
+                                    <button class="layui-btn" lay-submit="onlyformRemark" lay-filter="onlyformRemark" id="push_comment">仅评论
                                     </button>
                                 </div>
                             </form>
@@ -231,6 +234,32 @@
             <div class="clear"></div>
         </div>
     </div>
+</div>
+<div style="display: none; padding: 20px" class="pop-box" id="complainDiv">
+    <form class="layui-form " action="" lay-filter="complainFrm" id="complainFrm">
+        <div class="layui-inline">
+            <label class="layui-form-label">举报原因</label>
+            <div class="layui-input-inline">
+                <textarea name="data_reson" class="layui-textarea" autocomplete="off"
+                          id="data_reson"></textarea>
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <div class="layui-input-block">
+                <button
+                        class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-heart-fill" id="edit-save"
+                        type="button" lay-filter="edit-save" lay-submit="">保存
+                </button>
+                <button
+                        class="layui-btn layui-btn-warm layui-btn-sm layui-icon layui-icon-heart"
+                        type="reset">重置
+                </button>
+            </div>
+        </div>
+    </form>
+    <input type="hidden" id="isCoverSourceFile" name="isCoverSourceFile" value="">
+    <input type="hidden" id="schoolId" name="schoolId" value="">
 </div>
 <!-- 底部 -->
 <footer class="blog-footer">

@@ -18,7 +18,7 @@ import java.util.List;
 
 public interface ComplainRecordService {
     //添加举报信息
-    public void save(ComplainRecord complainRecord);
+    int save(ComplainRecord complainRecord);
     //查询全部举报信息
     public List<ComplainRecordCustom> findAll();
     //通过id查询

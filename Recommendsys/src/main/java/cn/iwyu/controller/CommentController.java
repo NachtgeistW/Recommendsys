@@ -129,16 +129,17 @@ public class CommentController {
     @ResponseBody
     public Integer restaueant(Comment comment){
         //单纯的评论不能带评分
+        System.out.println(comment);
         if(comment.getScore()!=null){
-            return 0;
-        }
-        //回复的原评论需要存在
-        if(service.findById(comment.getIdCommentReply())==null){
             return 0;
         }
         Date date = new Date();
         comment.setTime(date);
         comment.setNumLike(0);
-        return service.save(comment);
+        int flag = service.save(comment);
+        if(flag==0){
+            return 0;
+        }
+        return 1;
     }
 }

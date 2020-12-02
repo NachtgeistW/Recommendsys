@@ -115,4 +115,16 @@ public class ComplainRecordController {
         }
         return Msg.fail("批量删除失败");
     }
+    @RequestMapping("/add")
+    @ResponseBody
+    public Msg addComplain(@RequestBody ComplainRecord complainRecord){
+        Byte temp = 0;
+        complainRecord.setIsProcessed(temp);
+        System.out.println(complainRecord);
+        int flag = service.save(complainRecord);
+        if(flag!=0){
+            return Msg.succeed("举报成功");
+        }
+        return Msg.fail();
+    }
 }

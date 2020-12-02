@@ -159,7 +159,7 @@
                     console.log(data);
                    if(data.msg=="1"){
                        layer.msg("管理员登录成功");
-                       window.location.href = "AdminIndex.jsp";
+                       window.location.href = "adminPage/AdminIndex.jsp";
                    }else if(data.msg=="0"){
                        layer.msg("用户登录成功");
                        window.location.href = "userPage/home.jsp";
@@ -167,7 +167,6 @@
                    else{
                        layer.msg("账号或密码错误");
                        $("#login_form")[0].reset();
-                       //TODO：重设验证码
                        layui.form.render();
                    }
                 },
